@@ -44,9 +44,15 @@ static int cmd_n(char *args) {
 }
 static int cmd_info(char *args) {
 	int i = 0;
-	for (;i < 8; i++) {
-		printf("%s:%x\t", regsl[i], cpu.gpr[i]._32);
-	}
+	for (;i < 8; i++) 
+		printf("%s:%x  ", regsl[i], cpu.gpr[i]._32);
+	printf("\n");
+	for (i = 0; i < 8; i++)
+		printf("%s:%x  ", regsw[i], cpu.gpr[i]._16);
+	printf("\n");
+	for (i = 0; i < 8; i++)
+		printf("%s;%x  ", regsb[i], reg_b(i));
+	printf("\n");
 	return 0;
 }
 
