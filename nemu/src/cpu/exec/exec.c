@@ -92,7 +92,7 @@ make_group(group7,
 
 
 /* TODO: Add more instructions!!! */
-
+//array of function pointer
 helper_fun opcode_table [256] = {
 /* 0x00 */	inv, inv, inv, inv,
 /* 0x04 */	inv, inv, inv, inv,
@@ -228,7 +228,7 @@ helper_fun _2byte_opcode_table [256] = {
 };
 
 make_helper(exec) {
-	ops_decoded.opcode = instr_fetch(eip, 1);
+	ops_decoded.opcode = instr_fetch(eip, 1);//fetch the instruction from memory
 	return opcode_table[ ops_decoded.opcode ](eip);
 }
 

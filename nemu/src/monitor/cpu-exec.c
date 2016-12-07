@@ -46,7 +46,7 @@ void cpu_exec(volatile uint32_t n) {
 	volatile uint32_t n_temp = n;
 #endif
 
-	setjmp(jbuf);
+	setjmp(jbuf);//set the point jump into
 
 	for(; n > 0; n --) {
 #ifdef DEBUG
