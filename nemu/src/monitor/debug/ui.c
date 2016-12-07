@@ -45,7 +45,7 @@ static int cmd_n(char *args) {
 static int cmd_info(char *args) {
 	int i = 0;
 	for (;i < 8; i++) {
-		printf("%s\n", regsl[i]);
+		printf("%s:%x\t", regsl[i], cpu.gpr[i]._32);
 	}
 	return 0;
 }
