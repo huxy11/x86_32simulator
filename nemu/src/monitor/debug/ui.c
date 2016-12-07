@@ -8,6 +8,8 @@
 #include <readline/history.h>
 
 void cpu_exec(uint32_t);
+CPU_state cpu;
+
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -27,20 +29,26 @@ char* rl_gets() {
 	return line_read;
 }
 
+static int cmd_help(char *args);
 static int cmd_c(char *args) {
 	cpu_exec(-1);
 	return 0;
+}
+static int cmd_q(char *args) {
+	return -1;
 }
 //TODO:implement multiple executions
 static int cmd_n(char *args) {
 	cpu_exec(1);
 	return 0;
 }
-static int cmd_q(char *args) {
-	return -1;
+static int cmd_info(char *args) {
+	int i = 0;
+	for (;i < 8; i++) {
+		printf("%s\n", regsl[i]);
+	}
+	return 0;
 }
-
-static int cmd_help(char *args);
 
 static struct {
 	char *name;
@@ -51,6 +59,7 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
 	{ "n", "Next step", cmd_n },
+	{ "info", "Show register", cmd_info}
 
 	/* TODO: Add more commands */
 
