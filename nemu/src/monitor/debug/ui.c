@@ -85,7 +85,7 @@ static int cmd_x(char *args) {
 	printf("%s\t\t%s\n", count, ptr);
 	//int cnt = htoi(count);
 	int add = htoi(ptr);
-	printf("add:%d\n", add);
+	printf("add:%x\n", add);
 	return 0;
 }
 
