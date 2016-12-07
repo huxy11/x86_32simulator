@@ -10,6 +10,28 @@
 void cpu_exec(uint32_t);
 CPU_state cpu;
 
+int tolower_f(int c)
+{
+	c |= 32; 
+	return c;
+}	
+
+int htoi(char *h)
+{
+	int n = 0;
+	int i;
+	if (h[0] == '0' && h[1] == 'x') 
+		i = 2;
+	else
+	   	i = 0;
+	for (;(h[i] >= '0' && h[i] <= '9') || (h[i] >= 'a' && h[i] <= 'z') || (h[i] >= 'A' && h[i] <= 'Z');i++) {
+		if (tolower_f(h[i]) > '9')
+			n = 16 * n + (10 + tolower_f(h[i]) - 'a');
+		else 
+			n = 16 * n + (tolower_f(h[i]) - '0');
+	}
+	return n;
+}
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -61,6 +83,9 @@ static int cmd_x(char *args) {
 	printf("%s\n", count);
 	ptr = strtok(NULL, " ");
 	printf("%s\t\t%s\n", count, ptr);
+	//int cnt = htoi(count);
+	int add = htoi(ptr);
+	printf("add:%d\n", add);
 	return 0;
 }
 
