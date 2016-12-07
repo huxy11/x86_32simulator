@@ -54,6 +54,13 @@ static int cmd_info(char *args) {
 		printf("%s:%#-8x\t", regsb[i], reg_b(i));
 	printf("\n");
 	return 0;
+} 
+static int cmd_x(char *args) {
+	char *count, *ptr;
+	count = strtok(args, " ");
+	ptr = strtok(args, " ");	
+	printf("%s\t\t%s\n", count, ptr);
+	return 0;
 }
 
 static struct {
@@ -65,7 +72,8 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
 	{ "n", "Next step", cmd_n },
-	{ "info", "Show register", cmd_info}
+	{ "info", "Show register", cmd_info},
+	{ "x", "examine memory", cmd_x}
 
 	/* TODO: Add more commands */
 
