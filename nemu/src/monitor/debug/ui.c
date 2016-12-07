@@ -51,7 +51,7 @@ static int cmd_info(char *args) {
 		printf("%s:%x\t", regsw[i], cpu.gpr[i]._16);
 	printf("\n");
 	for (i = 0; i < 8; i++)
-		printf("%s;%x\t", regsb[i], reg_b(i));
+		printf("%s:%x\t", regsb[i], reg_b(i));
 	printf("\n");
 	return 0;
 }
