@@ -56,10 +56,12 @@ static int cmd_info(char *args) {
 	return 0;
 } 
 static int cmd_x(char *args) {
-	char *count, *ptr;
-	count = strtok(args, " ");
-	ptr = strtok(args, " ");	
-	printf("%s\t\t%s\n", count, ptr);
+//	char *count, *ptr;
+	args = strtok(NULL, " ");
+	printf("%s\n", args);
+	args = strtok(NULL, " ");
+//	ptr = strtok(args, " ");	
+//	printf("%s\t\t%s\n", count, ptr);
 	return 0;
 }
 
