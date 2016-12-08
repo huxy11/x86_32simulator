@@ -58,13 +58,15 @@ static int cmd_info(char *args) {
 	return 0;
 } 
 static int cmd_x(char *args) {
-	char *count, *ptr;
-	count = strtok(args, " ");
-	printf("%s\n", count);
-	ptr = strtok(NULL, " ");
-	printf("%s\t\t%s\n", count, ptr);
-	//int cnt = htoi(count);
-	int add = htoi(ptr);
+	char *str;
+	/* extract count */
+	str = strtok(args, " ");
+	assert(str);
+	int count = atoi(str);
+	printf("%d\n", count);
+	/* extract address */
+	str = strtok(NULL, " ");
+	int add = htoi(str);
 	printf("add:%x\n", add);
 
 	add = 0x10001f;
