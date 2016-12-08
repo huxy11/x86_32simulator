@@ -86,6 +86,12 @@ static int cmd_x(char *args) {
 	//int cnt = htoi(count);
 	int add = htoi(ptr);
 	printf("add:%x\n", add);
+
+	add = 0x100000;
+	int cnt = 4;
+	int re;
+	re = swaddr_read(add, cnt);
+	printf("%d\n", re);
 	return 0;
 }
 
