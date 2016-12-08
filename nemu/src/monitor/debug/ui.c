@@ -90,8 +90,10 @@ static int cmd_x(char *args) {
 	add = 0x100000;
 	int cnt = 4;
 	int re;
-	re = swaddr_read(add, cnt);
-	printf("%d\n", re);
+	for (cnt = 0; cnt < 12; cnt++) {
+		re = swaddr_read(add, cnt);
+		printf("%x\n", re);
+	}
 	return 0;
 }
 
