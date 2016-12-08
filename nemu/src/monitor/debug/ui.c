@@ -74,7 +74,7 @@ static int cmd_x(char *args) {
 	}int add = htoi(str);
 	printf("add:%x\n", add);
 
-	for(; cnt >= 0; cnt--, add++) 
+	for(; cnt >= 0; cnt--, add+= 4) 
 		printf("add:%x->val:%x\n", add, swaddr_read(add, 4));
 	return 0;	
 	add = 0x10001f;
