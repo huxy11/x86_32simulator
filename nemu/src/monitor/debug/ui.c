@@ -12,7 +12,6 @@ void cpu_exec(uint32_t);
 CPU_state cpu;
 
 
-
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
 	static char *line_read = NULL;
@@ -61,16 +60,21 @@ static int cmd_x(char *args) {
 	char *str;
 	/* extract count */
 	str = strtok(args, " ");
-	assert(str);
-	int count = atoi(str);
-	printf("%d\n", count);
+	if (!str) {
+		printf("Wrong input arguments!\n");
+		return 0;
+	}
+	int cnt = atoi(str);
+	printf("%d\n", cnt);
 	/* extract address */
 	str = strtok(NULL, " ");
-	int add = htoi(str);
+	if (!str) {
+		printf("Wrong input arguments!\n");
+		return 0;
+	}int add = htoi(str);
 	printf("add:%x\n", add);
 
 	add = 0x10001f;
-	int cnt = 4;
 	int re;
 	re = swaddr_read(add, cnt);
 	printf("%x\n", re);
@@ -93,7 +97,7 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 	{ "n", "Next step", cmd_n },
 	{ "info", "Show register", cmd_info},
-	{ "x", "examine memory", cmd_x}
+	{ "x", "Examine memory", cmd_x}
 
 	/* TODO: Add more commands */
 
