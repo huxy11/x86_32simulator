@@ -2,6 +2,7 @@
 #include "monitor/expr.h"
 #include "monitor/watchpoint.h"
 #include "nemu.h"
+#include "myfunc.h"
 
 #include <stdlib.h>
 #include <readline/readline.h>
@@ -57,6 +58,7 @@ static int cmd_c(char *args) {
 	return 0;
 }
 static int cmd_q(char *args) {
+	my_test();
 	return -1;
 }
 //TODO:implement multiple executions
