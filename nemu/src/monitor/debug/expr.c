@@ -63,6 +63,8 @@ typedef struct token {
 Token tokens[32];
 int nr_token;
 
+int eval(int p,int q);
+
 bool make_token(char *e) {
 	int position = 0;
 	int i;
@@ -102,10 +104,12 @@ bool make_token(char *e) {
 			return false;
 		}
 	}
-
+	
+	//test
+	Log("eval = %d\n", eval(0,0));
 	return true; 
 }
-int eval(p, q)
+int eval(int p, int q)
 {
 	if (p > q)
 		panic("bad expression!");
