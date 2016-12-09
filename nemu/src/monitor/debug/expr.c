@@ -56,7 +56,7 @@ typedef struct token {
 Token tokens[32];
 int nr_token;
 
-static bool make_token(char *e) {
+bool make_token(char *e) {
 	int position = 0;
 	int i;
 	regmatch_t pmatch;//store start end position
