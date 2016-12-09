@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ
+	NOTYPE = 256, EQ, NUM
 
 	/* TODO: Add more token types */
 
@@ -69,9 +69,14 @@ bool make_token(char *e) {
 			if(regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
 				char *substr_start = e + position;
 				int substr_len = pmatch.rm_eo;
+				char *substr = malloc(substr_len+1);
+				strncpy(substr, substr_start, substr_len);
+				substr[substr_len+1] = '\0';
+				Log("substr = %s\n", substr_start);
 
 				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
+				strcpy(tokens[nr_token].str, rules[i].regex);
 
 				/* TODO: Now a new token is recognized with rules[i]. Add codes
 				 * to record the token in the array `tokens'. For certain types
@@ -79,7 +84,10 @@ bool make_token(char *e) {
 				 */
 
 				switch(rules[i].token_type) {
-					default: panic("please implement me");
+				case NUM:
+					
+					break;
+				default: panic("please implement me");
 				}
 
 				break;
