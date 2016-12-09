@@ -90,7 +90,7 @@ static int cmd_x(char *args) {
 	return 0;
 }
 static int cmd_test(char *args){
-	make_token("    2+45645");	
+	make_token("+-*/()");	
 	return 0;
 }
 static struct {
