@@ -5,6 +5,7 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#include <stdlib.h>
 
 enum {
 	NOTYPE = 256, EQ, NUM
@@ -84,19 +85,14 @@ bool make_token(char *e) {
 				position += substr_len;
 
 				tokens[nr_token].type = rules[i].token_type;
-					
-				/* TODO: Now a new token is recognized with rules[i]. Add codes
-				 * to record the token in the array `tokens'. For certain types
-				 * of tokens, some extra actions should be performed.
-				 */
-
 				switch(rules[i].token_type) {
 				case NUM:
 					strcpy(tokens[nr_token].str, substr); 
 					break;
-				default: Log("Nothing have to do for this type:%s\n", substr);
+				default: 
+					//Log("Nothing have to do for this type:%s\n", substr);
+					break;
 				}
-
 				break;
 			}
 		}
@@ -108,6 +104,16 @@ bool make_token(char *e) {
 	}
 
 	return true; 
+}
+int eval(p, q)
+{
+	if (p > q)
+		panic("bad expression!");
+	if (p == q)
+		return atoi(tokens[p].str); 
+	return 0; 
+		
+
 }
 
 uint32_t expr(char *e, bool *success) {
