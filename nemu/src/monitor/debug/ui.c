@@ -74,7 +74,7 @@ static int cmd_x(char *args) {
 	}int add = htoi(str);
 	printf("add:%x\n", add);
 
-	for(; cnt >= 0; cnt--, add+= 4) 
+	for(; cnt >= 0; cnt--, add++) 
 		printf("add:%x->val:%x\n", add, swaddr_read(add, 4));
 	return 0;	
 	add = 0x10001f;
@@ -89,7 +89,10 @@ static int cmd_x(char *args) {
 	printf("%x\n", re);
 	return 0;
 }
-
+static int cmd_test(char *args){
+	make_token("21312+45645");	
+	return 0;
+}
 static struct {
 	char *name;
 	char *description;
@@ -100,19 +103,18 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 	{ "n", "Next step", cmd_n },
 	{ "info", "Show register", cmd_info},
-	{ "x", "Examine memory", cmd_x}
-
+	{ "x", "Examine memory", cmd_x},
+	{ "test", "Test examples", cmd_test},
 	/* TODO: Add more commands */
 
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
-
 static int cmd_help(char *args) {
 	/* extract the first argument */
 	char *arg = strtok(NULL, " ");
 	int i;
-
+ 
 	if(arg == NULL) {
 		/* no argument given */
 		for(i = 0; i < NR_CMD; i ++) {
@@ -130,6 +132,7 @@ static int cmd_help(char *args) {
 	}
 	return 0;
 }
+
 
 void ui_mainloop() {
 	while(1) {

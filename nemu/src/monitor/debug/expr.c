@@ -32,7 +32,7 @@ static struct rule {
 static regex_t re[NR_REGEX];
 
 /* Rules are used for many times.
- * Therefore we compile them only once before any usage.
+ * Therefore we compile them(by using regcomp) only once before any usage.
  */
 void init_regex() {
 	int i;
@@ -59,7 +59,7 @@ int nr_token;
 static bool make_token(char *e) {
 	int position = 0;
 	int i;
-	regmatch_t pmatch;
+	regmatch_t pmatch;//store start end position
 	
 	nr_token = 0;
 
