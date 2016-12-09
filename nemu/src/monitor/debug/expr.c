@@ -72,7 +72,7 @@ bool make_token(char *e) {
 				char *substr = malloc(substr_len+1);
 				strncpy(substr, substr_start, substr_len);
 				substr[substr_len+1] = 0;
-				Log("substr = %s\n", substr);
+				Log("substr = %s\n, %d\n", substr, substr_len);
 
 				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
