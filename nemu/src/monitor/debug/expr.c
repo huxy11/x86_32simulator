@@ -185,6 +185,7 @@ int eval(int p, int q)
 				else if (tokens[i].type == ')')
 					cnt--;
 			}
+			Log("i = %d\n", i);
 			break;
 		}
 	Log("dominant operator is %c, p = %d, q = %d, r = %d\n", dmnt_op, p, q, r);
