@@ -114,14 +114,22 @@ bool make_token(char *e) {
 bool check_parentheses(int p, int q) 
 {
 	/* exam the expression */
-	int cnt = 0;
+	int cnt = 1;
 	int i;
 	for (i = p; i <= q; i++) {
-		if (tokens[i].type == '(')
-			cnt ++;
+		if (tokens[i].type == '(') {
+			int j = i+1;
+			for (;j <=q; j++) {
+				if (tokens[j].type == '(')
+					cnt ++;
+				else if (tokens[j].type == ')')
+					cnt --;
+				Assert((cnt >= 0) || (j == q),"Bad expression(parenthesis), %d, %d", i, q);
+			}
+			break;	
+		}
 		else if (tokens[i].type == ')')
-			cnt --;
-		Assert((cnt > 0) || (i == q) || (i == p),"Bad expression(parenthesis), %d, %d", i, q);
+			panic("Bad expression: ) shown before (");
 	}	
 	//if ((tokens[p].type != '(') && (tokens[q].type != ')'))
 		return true;
