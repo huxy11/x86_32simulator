@@ -106,6 +106,8 @@ bool make_token(char *e) {
 	}
 	
 	//test
+	for (i = 0; i <= nr_token; i++)
+		Log("tokens[%d] = %d\n", i, tokens[i].type);
 	Log("eval = %d\n", eval(0,0));
 	return true; 
 }
@@ -115,9 +117,8 @@ int eval(int p, int q)
 		panic("bad expression!");
 	if (p == q)
 		return atoi(tokens[p].str); 
-	return 0; 
-		
 
+	return 0; 
 }
 
 uint32_t expr(char *e, bool *success) {

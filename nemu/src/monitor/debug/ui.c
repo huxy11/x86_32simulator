@@ -138,8 +138,6 @@ void ui_mainloop() {
 	while(1) {
 		char *str = rl_gets();//get and save the cmd to log.txt by readline()
 		char *str_end = str + strlen(str);
-		//printf("str = %p   %s\n", str, str);
-
 		/* extract the first token as the command */
 		char *cmd = strtok(str, " ");
 		if(cmd == NULL) { continue; }
