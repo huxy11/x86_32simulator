@@ -87,6 +87,7 @@ bool make_token(char *e) {
 				position += substr_len;
 
 				tokens[nr_token].type = rules[i].token_type;
+				nr_token++;
 				switch(rules[i].token_type) {
 				case NUM:
 					strcpy(tokens[nr_token].str, substr); 
