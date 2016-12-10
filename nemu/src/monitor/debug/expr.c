@@ -122,8 +122,15 @@ bool check_parentheses(int p, int q)
 		return true;//surrounded by parentheses
 	} else {
 		int i = p;
-		for (; i <=q ; i++)
-			Assert((tokens[i].type != '(') && (tokens[i].type != ')'), "Bad expression:parenthesis not show first"); 
+		int cnt = 0;
+		for (; i <= q ; i++) {
+			if (tokens[i].type == '(')
+				cnt ++;
+			else if (tokens[i].type == ')')
+				cnt --;
+		Assert(cnt >= 0,"Bad expression:parenthesis can't match"); 
+		}
+		//Assert((tokens[i].type != '(') && (tokens[i].type != ')'), "Bad expression:parenthesis not show first"); 
 		return false;//not surrounded by parentheses
 	}
 	//if ((tokens[p].type != '(') && (tokens[q].type != ')'))
