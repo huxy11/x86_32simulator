@@ -82,8 +82,8 @@ bool make_token(char *e) {
 				char *substr = malloc(substr_len+1);
 				strncpy(substr, substr_start, substr_len);
 				substr[substr_len] = 0;
-				Log("str = %s substr = %s\n", e, substr);
-				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
+//				Log("str = %s substr = %s\n", e, substr);
+				Log("%s match rules[%d] = \"%s\" at position %d with len %d: %.*s", e, i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
 				nr_token++;
 				tokens[nr_token].type = rules[i].token_type;
@@ -104,11 +104,6 @@ bool make_token(char *e) {
 			return false;
 		}
 	}
-	
-	//test
-	for (i = 0; i <= nr_token; i++)
-		Log("tokens[%d] = %d\n", i, tokens[i].type);
-	Log("eval = %d\n", eval(0,0));
 	return true; 
 }
 bool check_parentheses(int p, int q) 
@@ -146,17 +141,20 @@ int eval(int p, int q)
 		q--;
 	}	
 	/* locate the dominant operator */
-	int dmnt_op = 0, i = p, cnt;
+	int r = 0,dmnt_op = 0, i = p, cnt;
 	for (; i <= q; i++) 
 		switch (tokens[i].type) {
 		case '+':
 		case '-':
 			dmnt_op = tokens[i].type;
+			r = i;
 			break;
 		case '*':
 		case '/':
-			if ((dmnt_op != '+') && (dmnt_op != '-'))
+			if ((dmnt_op != '+') && (dmnt_op != '-')) {
 				dmnt_op = tokens[i].type;
+				r = i;
+			}
 			break;
 		case '(':
 		   	cnt	= 1;
@@ -169,6 +167,17 @@ int eval(int p, int q)
 			break;
 		}
 	Log("dominant operator is %c\n", dmnt_op);
+
+	switch (dmnt_op) {
+	case '+':
+		return eval(p, r-1) + eval(r+1, q);
+	case '-':
+		return eval(p, r-1) - eval(r+1, q);
+	case '*':
+		return eval(p, r-1) * eval(r+1, q);
+	case '/':
+		return eval(p, r-1) / eval(r+1, q);
+	}
 	return 0; 
 }
 
