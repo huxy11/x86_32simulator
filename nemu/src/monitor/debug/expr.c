@@ -108,6 +108,20 @@ bool make_token(char *e) {
 }
 bool check_parentheses(int p, int q) 
 {
+	/* exam the parentheses */
+	int cnt = 0;
+	int i = p;
+	bool re = true;
+	for (; i <= q; i++) {
+		if (tokens[i].type == '(') 
+			cnt++;
+		else if (tokens[i].type == ')')
+			cnt--;
+		Assert(cnt >= 0, "Bad expression:parentheses can't match");
+		if ((cnt == 0) && (i != q))	
+			re = false;
+	}
+	return re;
 	/* exam the expression */
 	if (tokens[p].type == '('){
 		int cnt = 1;
