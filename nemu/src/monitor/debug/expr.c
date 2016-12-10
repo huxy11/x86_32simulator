@@ -124,25 +124,51 @@ bool check_parentheses(int p, int q)
 				cnt --;
 		Assert((cnt > 0) || (i == q),"Bad expression:parenthesis can't match"); 
 		}	
+		return true;//surrounded by parentheses
 	} else {
 		int i = p;
 		for (; i <=q ; i++)
 			Assert((tokens[i].type != '(') && (tokens[i].type != ')'), "Bad expression:parenthesis not show first"); 
-		
+		return false;//not surrounded by parentheses
 	}
 	//if ((tokens[p].type != '(') && (tokens[q].type != ')'))
-		return true;
 }
 int eval(int p, int q)
 {
 	//int i;
 	if (p > q)
-		panic("Bad expression!");
+		panic("Bad expression:positon p > q");
 	if (p == q)
 		return atoi(tokens[p].str); 
 	if (check_parentheses(p, q)) {
-
+		/* throw the parentheses away */
+		p++;
+		q--;
+	}	
+	/* locate the dominant operator */
+	int dmnt_op = 0, i = p, cnt;
+	for (; i <= q; i++) 
+		switch (tokens[i].type) {
+		case '+':
+		case '-':
+			dmnt_op = tokens[i].type;
+			break;
+		case '*':
+		case '/':
+			if ((dmnt_op != '+') && (dmnt_op != '-'))
+				dmnt_op = tokens[i].type;
+			break;
+		case '(':
+		   	cnt	= 1;
+			for(i++ ; cnt > 0; i++) {
+				if (tokens[i].type == '(')
+					cnt++;
+				else if (tokens[i].type == ')')
+					cnt--;
 			}
+			break;
+		}
+	Log("dominant operator is %c\n", dmnt_op);
 	return 0; 
 }
 
