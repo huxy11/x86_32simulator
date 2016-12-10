@@ -186,6 +186,7 @@ int eval(int p, int q)
 					cnt--;
 			}
 			Log("i = %d\n", i);
+			i--;
 			break;
 		}
 	Log("dominant operator is %c, p = %d, q = %d, r = %d\n", dmnt_op, p, q, r);
