@@ -71,7 +71,7 @@ bool make_token(char *e) {
 	regmatch_t pmatch;//store start end position
 	
 	nr_token = -1;
-
+	Log("str = %s", e);
 	while(e[position] != '\0') {
 		/* Try all rules one by one. */
 		for(i = 0; i < NR_REGEX; i ++) {
