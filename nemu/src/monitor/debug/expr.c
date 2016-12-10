@@ -114,23 +114,22 @@ bool make_token(char *e) {
 bool check_parentheses(int p, int q) 
 {
 	/* exam the expression */
-	int cnt = 1;
-	int i;
-	for (i = p; i <= q; i++) {
-		if (tokens[i].type == '(') {
-			int j = i+1;
-			for (;j <=q; j++) {
-				if (tokens[j].type == '(')
-					cnt ++;
-				else if (tokens[j].type == ')')
-					cnt --;
-				Assert((cnt >= 0) || (j == q),"Bad expression(parenthesis), %d, %d", i, q);
-			}
-			break;	
-		}
-		else if (tokens[i].type == ')')
-			panic("Bad expression: ) shown before (");
-	}	
+	if (tokens[p].type == '('){
+		int cnt = 1;
+		int i = p + 1;
+		for (; i <= q; i++) {
+			if (tokens[i].type == '(')
+				cnt ++;
+			else if (tokens[i].type == ')')
+				cnt --;
+		Assert((cnt > 0) || (i == q),"Bad expression:parenthesis can't match, %d, %d", i, q);
+		}	
+	} else {
+		int i = p;
+		for (; i <=q ; i++)
+			Assert((tokens[i].type != '(') && (tokens[i].type != ')'), "Bad expression:parenthesis not show first"); 
+		
+	}
 	//if ((tokens[p].type != '(') && (tokens[q].type != ')'))
 		return true;
 }
@@ -155,7 +154,7 @@ uint32_t expr(char *e, bool *success) {
 	eval(0, nr_token);
 
 	/* TODO: Insert codes to evaluate the expression. */
-//	panic("please implement me");
+	panic("please implement me");
 	return 0;
 }
 
