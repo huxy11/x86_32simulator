@@ -83,7 +83,7 @@ bool make_token(char *e) {
 				strncpy(substr, substr_start, substr_len);
 				substr[substr_len] = 0;
 //				Log("str = %s substr = %s\n", e, substr);
-				Log("%s match rules[%d] = \"%s\" at position %d with len %d: %.*s", e, i, rules[i].regex, position, substr_len, substr_len, substr_start);
+				//Log("%s match rules[%d] = \"%s\" at position %d with len %d: %.*s", e, i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
 				nr_token++;
 				tokens[nr_token].type = rules[i].token_type;
@@ -166,7 +166,7 @@ int eval(int p, int q)
 			}
 			break;
 		}
-	Log("dominant operator is %c\n", dmnt_op);
+	Log("dominant operator is %c, p = %d, q = %d, r = %d\n", dmnt_op, p, q, r);
 
 	switch (dmnt_op) {
 	case '+':
