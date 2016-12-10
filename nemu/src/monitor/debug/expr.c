@@ -70,7 +70,7 @@ bool make_token(char *e) {
 	int i;
 	regmatch_t pmatch;//store start end position
 	
-	nr_token = 0;
+	nr_token = -1;
 
 	while(e[position] != '\0') {
 		/* Try all rules one by one. */
@@ -85,9 +85,8 @@ bool make_token(char *e) {
 				Log("str = %s substr = %s\n", e, substr);
 				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
-
-				tokens[nr_token].type = rules[i].token_type;
 				nr_token++;
+				tokens[nr_token].type = rules[i].token_type;
 				switch(rules[i].token_type) {
 				case NUM:
 					strcpy(tokens[nr_token].str, substr); 
