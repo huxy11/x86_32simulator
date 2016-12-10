@@ -121,7 +121,7 @@ bool check_parentheses(int p, int q)
 			cnt ++;
 		else if (tokens[i].type == ')')
 			cnt --;
-		Assert((cnt > 0) || (i == q),"Bad expression(parenthesis), %d, %d", i, q);
+		Assert((cnt > 0) || (i == q) || (i == p),"Bad expression(parenthesis), %d, %d", i, q);
 	}	
 	//if ((tokens[p].type != '(') && (tokens[q].type != ')'))
 		return true;
