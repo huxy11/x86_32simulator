@@ -122,7 +122,7 @@ bool check_parentheses(int p, int q)
 				cnt ++;
 			else if (tokens[i].type == ')')
 				cnt --;
-		Assert((cnt > 0) || (i == q),"Bad expression:parenthesis can't match, %d, %d", i, q);
+		Assert((cnt > 0) || (i == q),"Bad expression:parenthesis can't match"); 
 		}	
 	} else {
 		int i = p;
