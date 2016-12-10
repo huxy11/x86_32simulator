@@ -90,7 +90,11 @@ static int cmd_x(char *args) {
 	return 0;
 }
 static int cmd_test(char *args){
-	make_token("12+13*(1325/4)");	
+	bool *success = malloc(1);
+	expr("12+13*(1325/4)", success);	
+	expr("(2-1)", success);
+	expr("(4+3*(2-1))", success);
+	expr("4+3*(2-1)", success);
 	return 0;
 }
 static struct {

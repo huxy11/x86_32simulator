@@ -111,13 +111,31 @@ bool make_token(char *e) {
 	Log("eval = %d\n", eval(0,0));
 	return true; 
 }
+bool check_parentheses(int p, int q) 
+{
+	/* exam the expression */
+	int cnt = 0;
+	int i;
+	for (i = p; i <= q; i++) {
+		if (tokens[i].type == '(')
+			cnt ++;
+		else if (tokens[i].type == ')')
+			cnt --;
+		Assert((cnt > 0) || (i == q),"Bad expression(parenthesis)");
+	}	
+	//if ((tokens[p].type != '(') && (tokens[q].type != ')'))
+		return true;
+}
 int eval(int p, int q)
 {
+	//int i;
 	if (p > q)
-		panic("bad expression!");
+		panic("Bad expression!");
 	if (p == q)
 		return atoi(tokens[p].str); 
+	if (check_parentheses(p, q)) {
 
+			}
 	return 0; 
 }
 
@@ -126,6 +144,7 @@ uint32_t expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
+	eval(0, nr_token);
 
 	/* TODO: Insert codes to evaluate the expression. */
 	panic("please implement me");
