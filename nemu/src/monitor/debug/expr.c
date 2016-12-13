@@ -83,10 +83,13 @@ bool make_token(char *e) {
 				int substr_len = pmatch.rm_eo;
 				Log("%s match rules[%d] = \"%s\" at position %d with len %d: %.*s", e, i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
-				nr_token++;
-				if ((rules[i].token_type == '-') && (tokens[nr_token - 1].type != NUM)) 
-					tokens[nr_token].type = NEG;
-				else tokens[nr_token].type = rules[i].token_type;
+				//nr_token++;
+				/* detect the negative */
+				if ((rules[i].token_type == '-') && (tokens[nr_token].type != NUM)) 
+					tokens[++nr_token].type = NEG;
+				else if ((rules[i].token_type == '*') && (tokens[nr_token].type != NUM))
+				   tokens[++nr_token].type = DRF;	
+				else tokens[++nr_token].type = rules[i].token_type;
 				switch(rules[i].token_type) {
 				case NUM:
 					strncpy(tokens[nr_token].str, substr_start, substr_len);
