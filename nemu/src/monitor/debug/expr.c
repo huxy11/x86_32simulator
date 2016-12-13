@@ -187,6 +187,7 @@ int eval(int p, int q)
 				r = i;
 				level =2;
 			}	
+			break;
 		case '(':
 		   	cnt	= 1;
 			for(i++ ; cnt > 0; i++) {
