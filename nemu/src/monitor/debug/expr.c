@@ -83,7 +83,7 @@ bool make_token(char *e) {
 				Log("%s match rules[%d] = \"%s\" at position %d with len %d: %.*s", e, i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
 				nr_token++;
-				if ((rules[i].token_type == '-') && (tokens[nr_token].type != NUM)) 
+				if ((rules[i].token_type == '-') && (tokens[nr_token - 1].type != NUM)) 
 					tokens[nr_token].type = NEG;
 				else tokens[nr_token].type = rules[i].token_type;
 				switch(rules[i].token_type) {
