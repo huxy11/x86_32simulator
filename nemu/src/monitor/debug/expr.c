@@ -104,9 +104,8 @@ bool make_token(char *e) {
 			return false;
 		}
 	}
-	for (i = 0; i <= nr_token; i++) 
-		Log("%c ",tokens[i].type);
-	Log("\n");
+	for (i = 0; i < nr_token; i++) 
+		Log("%d ",tokens[i].type);
 	return true; 
 }
 bool check_parentheses(int p, int q) 
@@ -154,7 +153,7 @@ bool check_parentheses(int p, int q)
 }
 int eval(int p, int q)
 {
-	//int i;
+	int level = -1;
 	if (p > q)
 		panic("Bad expression:positon p > q");
 	if (p == q)
@@ -163,7 +162,7 @@ int eval(int p, int q)
 		/* throw the parentheses away */
 		p++;
 		q--;
-	}	
+	}
 	/* locate the dominant operator */
 	int r = 0,dmnt_op = 0, i = p, cnt;
 	for (; i <= q; i++) 
@@ -172,14 +171,22 @@ int eval(int p, int q)
 		case '-':
 			dmnt_op = tokens[i].type;
 			r = i;
+			level = 4;
 			break;
 		case '*':
 		case '/':
-			if ((dmnt_op != '+') && (dmnt_op != '-')) {
+			if (level < 4) {
 				dmnt_op = tokens[i].type;
 				r = i;
+				level = 3;
 			}
 			break;
+		case NEG:
+			if (level < 3) {
+				dmnt_op = tokens[i].type;
+				r = i;
+				level =2;
+			}	
 		case '(':
 		   	cnt	= 1;
 			for(i++ ; cnt > 0; i++) {
@@ -203,6 +210,8 @@ int eval(int p, int q)
 		return eval(p, r-1) * eval(r+1, q);
 	case '/':
 		return eval(p, r-1) / eval(r+1, q);
+	case NEG:
+		return -eval(p+1, q);	
 	}
 	return 0; 
 }
