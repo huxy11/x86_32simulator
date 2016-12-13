@@ -32,7 +32,7 @@ static struct rule {
 	{"\\(", '('},
 	{"\\)", ')'},
 	{"[0-9]+", NUM},
-	{"", NEG},
+	{"this is the only choice", NEG},
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
