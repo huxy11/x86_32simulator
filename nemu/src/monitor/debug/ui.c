@@ -94,7 +94,7 @@ static int cmd_test(char *args){
 	expr("(2-1)", success);
 	expr("(4+3*(2-1))", success);
 	expr("(4+3)*(2-1)", success);
-	expr("6*--+--65--75", success);
+	expr("6*+1", success);
 	return 0;
 }
 static struct {
