@@ -106,6 +106,9 @@ bool make_token(char *e) {
 			return false;
 		}
 	}
+	for (i = 0; i <= nr_token; i++) 
+		Log("%c ",tokens[i].type);
+	Log("\n");
 	return true; 
 }
 bool check_parentheses(int p, int q) 
