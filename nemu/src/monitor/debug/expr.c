@@ -189,13 +189,13 @@ int eval(int p, int q)
 			}
 			break;
 		case NEG:
+		case DRF:
 			if (level < 3) {
 				dmnt_op = tokens[i].type;
 				r = i;
 				level =2;
-			}	
+			}
 			break;
-
 		case '(':
 		   	cnt	= 1;
 			for(i++ ; cnt > 0; i++) {
@@ -220,7 +220,7 @@ int eval(int p, int q)
 	case '/':
 		return eval(p, r-1) / eval(r+1, q);
 	case NEG:
-		return -eval(p+1, q);	
+		return -eval(p + 1, q);	
 	}
 	return 0; 
 }
