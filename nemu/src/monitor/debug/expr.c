@@ -160,8 +160,11 @@ int eval(int p, int q)
 	int level = -1;
 	if (p > q)
 		panic("Bad expression:positon p > q");
-	if (p == q)
-		return atoi(tokens[p].str); 
+	if (p == q) {
+		if (tokens[p].type == NUM)
+			return atoi(tokens[p].str); 
+		else panic("Bad expression no-NUM token left");
+	}
 	if (check_parentheses(p, q)) {
 		/* throw the parentheses away */
 		p++;
@@ -223,7 +226,7 @@ int eval(int p, int q)
 }
 
 uint32_t expr(char *e, bool *success) {
-	if(!make_token(e)) {
+	if (!make_token(e)) {
 		*success = false;
 		return 0;
 	}
