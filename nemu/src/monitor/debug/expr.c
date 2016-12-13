@@ -80,7 +80,7 @@ bool make_token(char *e) {
 				/* match a rule, extract the substr */
 				char *substr_start = e + position;
 				int substr_len = pmatch.rm_eo;
-				//Log("%s match rules[%d] = \"%s\" at position %d with len %d: %.*s", e, i, rules[i].regex, position, substr_len, substr_len, substr_start);
+				Log("%s match rules[%d] = \"%s\" at position %d with len %d: %.*s", e, i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
 				nr_token++;
 				if ((rules[i].token_type == '-') && (tokens[nr_token].type != NUM)) 
