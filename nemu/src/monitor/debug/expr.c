@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 enum {
-	NOTYPE = 256, EQ, NUM
+	NOTYPE = 256, EQ, NUM, NEG,
 
 	/* TODO: Add more token types */
 
@@ -32,6 +32,7 @@ static struct rule {
 	{"\\(", '('},
 	{"\\)", ')'},
 	{"[0-9]+", NUM},
+	{"", NEG},
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -81,13 +82,10 @@ bool make_token(char *e) {
 				int substr_len = pmatch.rm_eo;
 				//Log("%s match rules[%d] = \"%s\" at position %d with len %d: %.*s", e, i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
-				if ((rules[i].token_type == '-') && (tokens[nr_token].type != NUM)) {
-					nr_token++;
-					tokens[nr_token].type = NUM;
-					strcpy(tokens[nr_token].str, "0");
-				}
 				nr_token++;
-				tokens[nr_token].type = rules[i].token_type;
+				if ((rules[i].token_type == '-') && (tokens[nr_token].type != NUM)) 
+					tokens[nr_token].type = NEG;
+				else tokens[nr_token].type = rules[i].token_type;
 				switch(rules[i].token_type) {
 				case NUM:
 					strncpy(tokens[nr_token].str, substr_start, substr_len);
