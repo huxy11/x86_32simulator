@@ -32,7 +32,7 @@ static struct rule {
 	{"\\(", '('},
 	{"\\)", ')'},
 	{"[0-9]+", NUM},
-	{"", NEG},
+	{"[^0-9)] *\\-", NEG},
 	{"", DRF},
 };
 
@@ -222,6 +222,7 @@ int eval(int p, int q)
 		return eval(p, r-1) / eval(r+1, q);
 	case NEG:
 		return -eval(p + 1, q);	
+	
 	}
 	return 0; 
 }
