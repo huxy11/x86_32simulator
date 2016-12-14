@@ -36,7 +36,7 @@ static struct rule {
 	{"", DRF},
 };
 
-#define NR_REGEX (sizeof(rules) / sizeof(rules[0]) ) 
+#define NR_REGEX (sizeof(rules) / sizeof(rules[0]) ) - 1  
 
 static regex_t re[NR_REGEX];
 
