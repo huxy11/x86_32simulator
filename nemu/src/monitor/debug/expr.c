@@ -26,17 +26,17 @@ static struct rule {
 	{" +",	NOTYPE},				// spaces
 	{"\\+", '+'},					// plus
 	{"==", EQ},						// equal
-	{"[^0-9)] *\\-", NEG},
 	{"\\-", '-'},
 	{"\\*", '*'},
 	{"\\/", '/'},
 	{"\\(", '('},
 	{"\\)", ')'},
 	{"[0-9]+", NUM},
+	{"", NEG},
 	{"", DRF},
 };
 
-#define NR_REGEX (sizeof(rules) / sizeof(rules[0]) ) - 1  
+#define NR_REGEX (sizeof(rules) / sizeof(rules[0]) ) - 2
 
 static regex_t re[NR_REGEX];
 
@@ -191,7 +191,7 @@ int eval(int p, int q)
 			break;
 		case NEG:
 		case DRF:
-			if (level < 3) {
+			if (level < 2) {
 				dmnt_op = tokens[i].type;
 				r = i;
 				level =2;
@@ -222,7 +222,8 @@ int eval(int p, int q)
 		return eval(p, r-1) / eval(r+1, q);
 	case NEG:
 		return -eval(p + 1, q);	
-	
+	case DRF:
+		return swaddr_read(eval(p+1, q), 4);
 	}
 	return 0; 
 }
