@@ -90,12 +90,11 @@ static int cmd_x(char *args) {
 	return 0;
 }
 static int cmd_test(char *args){
-	bool *success = malloc(1);
-	expr("(2-1)", success);
-	expr("(4+3*(2-1))", success);
-	expr("(4+3)*(2-1)", success);
-	expr("6---1", success);
-	expr("*1048607", success);
+	WP *wp;
+	init_wp_pool();
+	show_all_wp();
+	wp = new_wp();
+	printf("wp->NO = %d\n", wp->NO);
 	return 0;
 }
 static struct {

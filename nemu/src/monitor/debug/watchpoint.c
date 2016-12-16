@@ -6,7 +6,7 @@
 static WP wp_pool[NR_WP];
 static WP *head, *free_;
 
-void init_wp_pool() {
+void init_wp_pool(void) {
 	int i;
 	for(i = 0; i < NR_WP; i ++) {
 		wp_pool[i].NO = i;
@@ -19,5 +19,39 @@ void init_wp_pool() {
 }
 
 /* TODO: Implement the functionality of watchpoint */
+WP* new_wp(void)
+{
+	WP **ins;
+	for (ins = &head; *ins; ins = &(*ins)->next);
+	*ins = free_;
+	if (free_->next)
+		free_ = free_->next;
+	else panic("Not enough watch points");
+	(*ins)->next = NULL;
+	return *ins;
+}
 
+void free_wp(WP *wp)
+{
+	WP **del;
+	for (del = &head; *del;)
+		if (*del == wp) {
+			*del = wp->next;
+			wp->next = free_;
+			free_ = wp;
+			break;
+		}
+		else del = &(*del)->next;
+}
 
+void show_all_wp(void)
+{
+	WP **node;
+	printf("head:");
+	for (node = &head; *node; node = &(*node)->next)
+		printf("\t%d", (*node)->NO);
+	printf("\nfree:");
+	for (node = &free_; *node; node = &(*node)->next)
+		printf("\t%d", (*node)->NO);
+	printf("\n");
+}
