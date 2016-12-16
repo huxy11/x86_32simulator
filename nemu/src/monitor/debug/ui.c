@@ -100,6 +100,8 @@ static int cmd_test(char *args){
 	wp = new_wp();
 	printf("wp->NO = %d\n", wp->NO);
 	show_all_wp();
+	free_wp(wp);
+	show_all_wp();
 	return 0;
 }
 static struct {
