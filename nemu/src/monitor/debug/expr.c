@@ -170,7 +170,7 @@ static int eval(int p, int q)
 		case HEX:
 			return htoi(tokens[p].str);
 		case REG:
-			return 0;
+			return regtoi(tokens[p].str);
 		}
 		if (tokens[p].type == NUM)
 			return atoi(tokens[p].str); 
@@ -243,11 +243,10 @@ uint32_t expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
-	Log("nr_token = %d\n", nr_token);
-	printf("the result is %d\n", eval(0, nr_token));
-
-	/* TODO: Insert codes to evaluate the expression. */
-//	panic("please implement me");
-	return 0;
+	//Log("nr_token = %d\n", nr_token);
+	int re = eval(0, nr_token);
+	printf("the result is %d\n", re);
+	*success = true;
+	return re;
 }
 

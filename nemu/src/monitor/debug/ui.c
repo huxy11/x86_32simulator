@@ -90,6 +90,11 @@ static int cmd_x(char *args) {
 	return 0;
 }
 static int cmd_test(char *args){
+	bool success;
+	char e[32] = "0xFF + 32 * 7";
+	expr(e, &success);	
+	
+	return 0;
 	WP *wp;
 	init_wp_pool();
 	show_all_wp();

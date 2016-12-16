@@ -30,6 +30,20 @@ int htoi(char *h)
 	}
 	return n;
 }
+int regtoi(char *reg)
+{
+	int i = 0;
+	for (;i < 8; i++) {
+		if (!strcmp(reg, regsl[i]))
+			return reg_l(i);
+		if (!strcmp(reg, regsw[i]))
+			return reg_w(i);
+		if (!strcmp(reg, regsb[i]))
+			return reg_b(i);
+	}
+	panic("Wrong register name!");
+	return 0;
+}
 /*
 int str2x(char *s)
 {
