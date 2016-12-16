@@ -23,7 +23,6 @@ static struct rule {
 	 * Pay attention to the precedence level of different rules.
 	 */
 
-	{"0[xX][0-9a-fA-F]+", HEX}, 
 	{" +",	NOTYPE},				// spaces
 	{"\\+", '+'},					// plus
 	{"==", EQ},						// equal
@@ -32,6 +31,7 @@ static struct rule {
 	{"\\/", '/'},
 	{"\\(", '('},
 	{"\\)", ')'},
+	{"0[xX][0-9a-fA-F]+", HEX}, 
 	{"$[a-z]+", REG},
 	{"[0-9]+", NUM},
 	{"", NEG},
