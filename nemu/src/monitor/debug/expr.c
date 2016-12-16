@@ -169,6 +169,7 @@ static int eval(int p, int q)
 		case NUM:
 			return atoi(tokens[p].str);
 		case HEX:
+			Log("%d\n", htoi(tokens[p].str));
 			return htoi(tokens[p].str);
 		case REG:
 			return regtoi(tokens[p].str);

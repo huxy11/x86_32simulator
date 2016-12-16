@@ -18,6 +18,7 @@ int htoi(char *h)
 {
 	int n = 0;
 	int i;
+
 	if (h[0] == '0' && h[1] == 'x') 
 		i = 2;
 	else
