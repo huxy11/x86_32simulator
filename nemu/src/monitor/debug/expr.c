@@ -96,6 +96,8 @@ static bool make_token(char *e) {
 				else tokens[++nr_token].type = rules[i].token_type;
 				switch(rules[i].token_type) {
 				case NUM:
+				case HEX:
+				case REG:
 					strncpy(tokens[nr_token].str, substr_start, substr_len);
 					tokens[nr_token].str[substr_len] = 0;
 					break;
