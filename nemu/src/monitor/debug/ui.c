@@ -95,6 +95,11 @@ static int cmd_test(char *args){
 	show_all_wp();
 	wp = new_wp();
 	printf("wp->NO = %d\n", wp->NO);
+	wp = new_wp();
+	printf("wp->NO = %d\n", wp->NO);
+	wp = new_wp();
+	printf("wp->NO = %d\n", wp->NO);
+	show_all_wp();
 	return 0;
 }
 static struct {
