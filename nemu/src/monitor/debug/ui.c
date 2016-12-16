@@ -94,7 +94,7 @@ static int cmd_test(char *args){
 	char e[32] = "0xFF + 32 * 7";
 	expr(e, &success);	
 
-	char e2[32] = "$esp + 1";
+	char e2[32] = "$al + 1";
 	expr(e2, &success);	
 	return 0;
 	WP *wp;
