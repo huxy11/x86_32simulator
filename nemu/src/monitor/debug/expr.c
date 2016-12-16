@@ -87,10 +87,10 @@ static bool make_token(char *e) {
 				position += substr_len;
 				//nr_token++;
 				/* detect the negative */
-				if ((rules[i].token_type == '-') && (tokens[nr_token].type != NUM) && (tokens[nr_token].type != ')'))
+				if ((rules[i].token_type == '-') && (tokens[nr_token].type != REG) && (tokens[nr_token].type != HEX) && (tokens[nr_token].type != NUM) && (tokens[nr_token].type != ')'))
 					tokens[++nr_token].type = NEG;
 				/* detect the dereference */
-				else if ((rules[i].token_type == '*') && (tokens[nr_token].type != NUM) && (tokens[nr_token].type != ')'))
+				else if ((rules[i].token_type == '*') && (tokens[nr_token].type != REG) && (tokens[nr_token].type != HEX) && (tokens[nr_token].type != NUM) && (tokens[nr_token].type != ')'))
 					tokens[++nr_token].type = DRF;	
 				else tokens[++nr_token].type = rules[i].token_type;
 				switch(rules[i].token_type) {
