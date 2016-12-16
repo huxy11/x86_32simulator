@@ -33,6 +33,7 @@ int htoi(char *h)
 }
 int regtoi(char *reg)
 {
+	reg++;
 	int i = 0;
 	for (;i < 8; i++) {
 		if (!strcmp(reg, regsl[i]))
