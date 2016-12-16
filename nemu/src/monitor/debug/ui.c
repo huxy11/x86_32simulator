@@ -93,7 +93,9 @@ static int cmd_test(char *args){
 	bool success;
 	char e[32] = "0xFF + 32 * 7";
 	expr(e, &success);	
-	
+
+	char e2[32] = "$esp + 1";
+	expr(e2, &success);	
 	return 0;
 	WP *wp;
 	init_wp_pool();
