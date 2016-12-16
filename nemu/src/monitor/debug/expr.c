@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 enum {
-	NOTYPE = 256, EQ, NUM, NEG, DRF,
+	NOTYPE = 256, EQ, NUM, NEG, DRF, HEX, REG
 
 	/* TODO: Add more token types */
 
@@ -32,6 +32,8 @@ static struct rule {
 	{"\\(", '('},
 	{"\\)", ')'},
 	{"[0-9]+", NUM},
+	{"(0x|0X)[0-9]+", HEX}, 
+	{"$[a-z]+", REG},
 	{"", NEG},
 	{"", DRF},
 };
@@ -65,9 +67,9 @@ typedef struct token {
 Token tokens[32];
 int nr_token;
 
-int eval(int p,int q);
+static int eval(int p,int q);
 
-bool make_token(char *e) {
+static bool make_token(char *e) {
 	int position = 0;
 	int i;
 	regmatch_t pmatch;//store start end position
@@ -113,7 +115,7 @@ bool make_token(char *e) {
 		Log("%d ",tokens[i].type);
 	return true; 
 }
-bool check_parentheses(int p, int q) 
+static bool check_parentheses(int p, int q) 
 {
 	/* exam the parentheses */
 	int cnt = 0;
@@ -156,12 +158,20 @@ bool check_parentheses(int p, int q)
 	}
 	//if ((tokens[p].type != '(') && (tokens[q].type != ')'))
 }
-int eval(int p, int q)
+static int eval(int p, int q)
 {
 	int level = -1;
 	if (p > q)
 		panic("Bad expression:positon p > q");
 	if (p == q) {
+		switch (tokens[p].type) {
+		case NUM:
+			return atoi(tokens[p].str);
+		case HEX:
+			return htoi(tokens[p].str);
+		case REG:
+			return 0;
+		}
 		if (tokens[p].type == NUM)
 			return atoi(tokens[p].str); 
 		else panic("Bad expression no-NUM token left");
