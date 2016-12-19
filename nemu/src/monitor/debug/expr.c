@@ -75,7 +75,9 @@ static bool make_token(char *e) {
 	regmatch_t pmatch;//store start end position
 	
 	nr_token = -1;
-	Log("str = %s", e);
+	//Log("str = %s", e);
+	
+	
 	while(e[position] != '\0') {
 		/* Try all rules one by one. */
 		for(i = 0; i < NR_REGEX; i ++) {
@@ -83,7 +85,7 @@ static bool make_token(char *e) {
 				/* match a rule, extract the substr */
 				char *substr_start = e + position;
 				int substr_len = pmatch.rm_eo;
-				Log("%s match rules[%d] = \"%s\" at position %d with len %d: %.*s", e, i, rules[i].regex, position, substr_len, substr_len, substr_start);
+				//Log("%s match rules[%d] = \"%s\" at position %d with len %d: %.*s", e, i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
 				if (rules[i].token_type == NOTYPE)
 					break;
@@ -114,8 +116,8 @@ static bool make_token(char *e) {
 			return false;
 		}
 	}
-	for (i = 0; i <= nr_token; i++) 
-		Log("%d ",tokens[i].type);
+//	for (i = 0; i <= nr_token; i++) 
+//		Log("%d ",tokens[i].type);
 	return true; 
 }
 static bool check_parentheses(int p, int q) 

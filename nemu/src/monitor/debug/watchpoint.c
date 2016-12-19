@@ -22,6 +22,11 @@ WP* new_wp(char *e)
 {
 	WP **ins;
 	bool success;
+	int value = expr(e, &success);
+	if (!success) {
+		printf("\33[1;31m[expression parsing failed!\n]");
+		return NULL;
+	}
 	for (ins = &head; *ins; ins = &(*ins)->next);
 	*ins = free_;
 	if (free_->next)
@@ -29,8 +34,8 @@ WP* new_wp(char *e)
 	else panic("Not enough watch points");
 	(*ins)->next = NULL;
 	strcpy((*ins)->expr, e);
-	(*ins)->old = expr(e, &success);
-	Assert(success, "Watch point expr failed!");
+	(*ins)->old = value;
+	//Assert(success, "Watch point expr failed!");
 	return *ins;
 }
 
