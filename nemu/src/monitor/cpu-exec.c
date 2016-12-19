@@ -72,7 +72,6 @@ void cpu_exec(volatile uint32_t n) {
 			printf("%s\n", asm_buf);
 		}
 #endif
-
 		/* TODO: check watchpoints here. */
 
 

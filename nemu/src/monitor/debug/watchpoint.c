@@ -18,16 +18,19 @@ void init_wp_pool(void) {
 }
 
 /* TODO: Implement the functionality of watchpoint */
-WP* new_wp(void)
+WP* new_wp(char *e)
 {
 	WP **ins;
+	bool success;
 	for (ins = &head; *ins; ins = &(*ins)->next);
 	*ins = free_;
 	if (free_->next)
 		free_ = free_->next;
 	else panic("Not enough watch points");
 	(*ins)->next = NULL;
-	memset((*ins)->expr, 0, 32);
+	strcpy((*ins)->expr, e);
+	(*ins)->old = expr(e, &success);
+	Assert(success, "Watch point expr failed!");
 	return *ins;
 }
 
@@ -54,4 +57,14 @@ void show_all_wp(void)
 	for (node = &free_; *node; node = &(*node)->next)
 		printf("\t%d:%s", (*node)->NO, (*node)->expr);
 	printf("\n");
+}
+
+bool check_wp(void)
+{
+	bool success, re = false;
+	WP *node;
+	for (node = head; node; node = node->next) {
+		expr(node->expr, &success);
+	}
+	return re;
 }
