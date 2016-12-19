@@ -89,7 +89,11 @@ static int cmd_x(char *args) {
 	printf("%x\n", re);
 	return 0;
 }
-static int cmd_test(char *args){
+static int cmd_w(char *args) {
+	new_wp(args);
+	return 0;	
+}
+static int cmd_test(char *args) {
 	bool success;
 #if 0
 	char e[32] = "0xFF + 32 * 7";
@@ -129,6 +133,7 @@ static struct {
 	{ "info", "Show register", cmd_info},
 	{ "x", "Examine memory", cmd_x},
 	{ "test", "Test examples", cmd_test},
+	{ "w", "Set watch point", cmd_w},
 	/* TODO: Add more commands */
 
 };
