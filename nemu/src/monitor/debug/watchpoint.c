@@ -43,7 +43,6 @@ void del_wp(char *e)
 			*del = wp->next;
 			wp->next = free_;
 			free_ = wp;
-			break;
 		}
 		else del = &(*del)->next;
 }
