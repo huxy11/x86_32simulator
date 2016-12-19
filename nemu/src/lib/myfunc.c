@@ -42,7 +42,7 @@ int regtoi(char *reg)
 			return reg_w(i);
 		if (!strcmp(reg, regsb[i]))
 			return reg_b(i);
-		Log("%s\t%s\t%s\t%s\n", reg, regsl[i], regsw[i], regsb[i]);
+		//Log("%s\t%s\t%s\t%s\n", reg, regsl[i], regsw[i], regsb[i]);
 	}
 	panic("Wrong register name!");
 	return 0;
