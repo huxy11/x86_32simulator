@@ -45,15 +45,25 @@ static int cmd_n(char *args) {
 }
 static int cmd_info(char *args) {
 	int i = 0;
-	for (;i < 8; i++) 
-		printf("%s:%#-8x\t", regsl[i], cpu.gpr[i]._32);
-	printf("\n");
-	for (i = 0; i < 8; i++)
-		printf("%s:%#-8x\t", regsw[i], cpu.gpr[i]._16);
-	printf("\n");
-	for (i = 0; i < 8; i++)
-		printf("%s:%#-8x\t", regsb[i], reg_b(i));
-	printf("\n");
+	switch (args[0]) {
+	case 'r':
+		for (;i < 8; i++) 
+			printf("%s:%#-8x\t", regsl[i], cpu.gpr[i]._32);
+		printf("\n");
+		for (i = 0; i < 8; i++)
+			printf("%s:%#-8x\t", regsw[i], cpu.gpr[i]._16);
+		printf("\n");
+		for (i = 0; i < 8; i++)
+			printf("%s:%#-8x\t", regsb[i], reg_b(i));
+		printf("\n");
+		break;
+	case 'w':
+		show_all_wp();
+		break;
+	default:
+		printf("Wrong info argument\n");
+		return -1;
+	}
 	return 0;
 } 
 static int cmd_x(char *args) {
