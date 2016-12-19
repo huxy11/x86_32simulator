@@ -93,6 +93,10 @@ static int cmd_w(char *args) {
 	new_wp(args);
 	return 0;	
 }
+static int cmd_d(char *args) {
+
+	return 0;
+}
 static int cmd_test(char *args) {
 	bool success;
 #if 0
@@ -134,6 +138,7 @@ static struct {
 	{ "x", "Examine memory", cmd_x},
 	{ "test", "Test examples", cmd_test},
 	{ "w", "Set watch point", cmd_w},
+	{ "d", "Delete watch point", cmd_d},
 	/* TODO: Add more commands */
 
 };

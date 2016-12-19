@@ -34,6 +34,20 @@ WP* new_wp(char *e)
 	return *ins;
 }
 
+void del_wp(char *e)
+{
+	WP **del;
+	for (del = &head; *del;)
+		if (!strcmp((*del)->expr, e)) {
+			WP *wp = *del;
+			*del = wp->next;
+			wp->next = free_;
+			free_ = wp;
+			break;
+		}
+		else del = &(*del)->next;
+}
+
 void free_wp(WP *wp)
 {
 	WP **del;
