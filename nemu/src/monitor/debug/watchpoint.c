@@ -50,7 +50,7 @@ void show_all_wp(void)
 	WP **node;
 	printf("head:");
 	for (node = &head; *node; node = &(*node)->next)
-		printf("\t%d", (*node)->NO);
+		printf("\t%d:%s", (*node)->NO, (*node)->expr);
 	printf("\nfree:");
 	for (node = &free_; *node; node = &(*node)->next)
 		printf("\t%d", (*node)->NO);
