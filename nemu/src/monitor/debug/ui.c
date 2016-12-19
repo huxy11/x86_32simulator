@@ -62,7 +62,6 @@ static int cmd_info(char *args) {
 		break;
 	default:
 		printf("Wrong info argument\n");
-		return -1;
 	}
 	return 0;
 } 
