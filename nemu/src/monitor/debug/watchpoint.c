@@ -26,7 +26,7 @@ WP* new_wp(char *e)
 	int value = expr(e, &success);
 	if (!success) {
 		printf("\33[1;31 mexpression parsing failed!\33[0m\n");
-		Log("expression parse failed!\n");
+		//Warn("expression parse failed!\n");
 		return NULL;
 	}
 	for (ins = &head; *ins; ins = &(*ins)->next);
