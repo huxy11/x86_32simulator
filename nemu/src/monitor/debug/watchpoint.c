@@ -28,6 +28,7 @@ WP* new_wp(void)
 		free_ = free_->next;
 	else panic("Not enough watch points");
 	(*ins)->next = NULL;
+	memset((*ins)->expr, 0, 32);
 	return *ins;
 }
 
