@@ -5,7 +5,6 @@
 
 static WP wp_pool[NR_WP];
 static WP *head, *free_;
-
 void init_wp_pool(void) {
 	int i;
 	for(i = 0; i < NR_WP; i ++) {
@@ -53,6 +52,6 @@ void show_all_wp(void)
 		printf("\t%d:%s", (*node)->NO, (*node)->expr);
 	printf("\nfree:");
 	for (node = &free_; *node; node = &(*node)->next)
-		printf("\t%d", (*node)->NO);
+		printf("\t%d:%s", (*node)->NO, (*node)->expr);
 	printf("\n");
 }

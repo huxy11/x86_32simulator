@@ -103,13 +103,16 @@ static int cmd_test(char *args){
 	init_wp_pool();
 	show_all_wp();
 	wp = new_wp();
+	strcpy(wp->expr, "1+213");
 	show_all_wp();
 	free_wp(wp);
 	show_all_wp();
 	printf("\n\n");
 	wp = new_wp();
+	strcpy(wp->expr, "2+213");
 	printf("wp->NO = %d\n", wp->NO);
 	wp = new_wp();
+	strcpy(wp->expr, "3+213");
 	printf("wp->NO = %d\n", wp->NO);
 	show_all_wp();
 	free_wp(wp);
