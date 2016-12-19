@@ -63,8 +63,13 @@ bool check_wp(void)
 {
 	bool success, re = false;
 	WP *node;
+	int tmp;
 	for (node = head; node; node = node->next) {
-		expr(node->expr, &success);
+		tmp = expr(node->expr, &success);
+		if (tmp != node->old) {
+			node->old = tmp;
+			re = true;
+		}
 	}
 	return re;
 }

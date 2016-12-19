@@ -1,4 +1,5 @@
 #include "monitor/monitor.h"
+#include "monitor/watchpoint.h"
 #include "cpu/helper.h"
 #include <setjmp.h>
 
@@ -72,6 +73,10 @@ void cpu_exec(volatile uint32_t n) {
 			printf("%s\n", asm_buf);
 		}
 #endif
+		bool wp_change;
+		wp_change = check_wp();
+		if (wp_change) nemu_state = STOP;
+
 		/* TODO: check watchpoints here. */
 
 
