@@ -67,6 +67,7 @@ bool check_wp(void)
 	for (node = head; node; node = node->next) {
 		tmp = expr(node->expr, &success);
 		if (tmp != node->old) {
+			printf("expression:%s has been changed\n", node->expr);
 			node->old = tmp;
 			re = true;
 		}
