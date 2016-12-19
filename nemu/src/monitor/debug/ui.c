@@ -121,7 +121,7 @@ static int cmd_test(char *args) {
 	wp = new_wp("3+213");
 	printf("wp->NO = %d\n", wp->NO);
 	show_all_wp();
-	free_wp(wp);
+	del_wp("2+213");
 	show_all_wp();
 	return 0;
 }
