@@ -52,10 +52,10 @@ void show_all_wp(void)
 	WP **node;
 	printf("head:");
 	for (node = &head; *node; node = &(*node)->next)
-		printf("\t%d:%s", (*node)->NO, (*node)->expr);
+		printf("\t%d:%s=%d", (*node)->NO, (*node)->expr, (*node)->old);
 	printf("\nfree:");
 	for (node = &free_; *node; node = &(*node)->next)
-		printf("\t%d:%s", (*node)->NO, (*node)->expr);
+		printf("\t%d:%s=%d", (*node)->NO, (*node)->expr, (*node)->old);
 	printf("\n");
 }
 
