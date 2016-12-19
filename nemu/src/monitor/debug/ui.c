@@ -90,8 +90,8 @@ static int cmd_x(char *args) {
 	return 0;
 }
 static int cmd_test(char *args){
-#if 0
 	bool success;
+#if 0
 	char e[32] = "0xFF + 32 * 7";
 	expr(e, &success);	
 
@@ -104,6 +104,7 @@ static int cmd_test(char *args){
 	show_all_wp();
 	wp = new_wp();
 	strcpy(wp->expr, "1+213");
+	Log("expr = %d\n", expr(wp->expr, &success));
 	show_all_wp();
 	free_wp(wp);
 	show_all_wp();
