@@ -73,12 +73,10 @@ void cpu_exec(volatile uint32_t n) {
 			printf("%s\n", asm_buf);
 		}
 #endif
+		/* check watch points */
 		bool wp_change;
 		wp_change = check_wp();
 		if (wp_change) nemu_state = STOP;
-
-		/* TODO: check watchpoints here. */
-
 
 #ifdef HAS_DEVICE
 		extern void device_update();

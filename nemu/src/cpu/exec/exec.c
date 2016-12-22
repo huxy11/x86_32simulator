@@ -230,8 +230,6 @@ helper_fun _2byte_opcode_table [256] = {
 make_helper(exec) {
 	ops_decoded.opcode = instr_fetch(eip, 1);//fetch the instruction from memory
 	Log("opcode = %d\n", ops_decoded.opcode);
-#define PRINT_MACRO(x) #x
-#pragma message(PRINT_MACRO(make_helper_v(mov_i2r)))
 	return opcode_table[ ops_decoded.opcode ](eip);
 }
 
