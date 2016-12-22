@@ -15,7 +15,7 @@ LIBC := $(LIBC_LIB_DIR)/libc.a
 include config/Makefile.git
 include config/Makefile.build
 
-all: nemu -D DEBUG
+all: nemu 
 
 
 ##### rules for building the project #####
