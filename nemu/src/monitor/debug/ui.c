@@ -108,7 +108,7 @@ static int cmd_d(char *args) {
 }
 static int cmd_test(char *args) {
 	bool success;
-#ifdef DEBUG
+#ifdef DEBUGHUXY
 	printf("debug!!!!\n");
 #endif
 #if 0
