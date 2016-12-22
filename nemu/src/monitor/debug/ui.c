@@ -108,6 +108,9 @@ static int cmd_d(char *args) {
 }
 static int cmd_test(char *args) {
 	bool success;
+#ifdef DEBUG
+	printf("debug!!!!\n");
+#endif
 #if 0
 	char e[32] = "0xFF + 32 * 7";
 	expr(e, &success);	
