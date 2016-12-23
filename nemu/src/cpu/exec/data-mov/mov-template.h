@@ -17,6 +17,7 @@ make_helper(concat(mov_a2moffs_, SUFFIX)) {
 	MEM_W(addr, REG(R_EAX));
 
 	Log("%s\n", str(mov_a2moffs));
+	Log("mov" str(SUFFIX) " %%%s,0x%x", REG_NAME(R_EAX), addr);
 	print_asm("mov" str(SUFFIX) " %%%s,0x%x", REG_NAME(R_EAX), addr);
 	return 5;
 }
