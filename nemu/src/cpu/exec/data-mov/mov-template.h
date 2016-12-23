@@ -16,7 +16,7 @@ make_helper(concat(mov_a2moffs_, SUFFIX)) {
 	swaddr_t addr = instr_fetch(eip + 1, 4);
 	MEM_W(addr, REG(R_EAX));
 
-	Log("%s\n", str(SUFFIX));
+	Log("%s\n", str(mov_a2moffs));
 	print_asm("mov" str(SUFFIX) " %%%s,0x%x", REG_NAME(R_EAX), addr);
 	return 5;
 }
