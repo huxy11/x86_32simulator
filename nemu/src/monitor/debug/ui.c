@@ -150,7 +150,7 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
 	{ "n", "Next step", cmd_n },
-	{ "info", "Show register", cmd_info},
+	{ "info", "Show w:watchpoints r:registers", cmd_info},
 	{ "x", "Examine memory", cmd_x},
 	{ "test", "Test examples", cmd_test},
 	{ "w", "Set watch point", cmd_w},
