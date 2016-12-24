@@ -4,10 +4,10 @@
 #define DATA_BYTE 4
 int push_decode(swaddr_t eip) {
 	int tmp;
-	tmp = instr_fetch(eip + 1, 22);
+	tmp = instr_fetch(eip + 1, 4);
 	
 	printf("decode imm = 0x%x\n", tmp);
-	return 3;
+	return 5;
 }
 void push_do(void) {
 	printf("do!\n");
