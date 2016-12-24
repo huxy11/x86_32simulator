@@ -115,6 +115,7 @@ make_helper(concat(decode_i_rm2r_, SUFFIX)) {
  */
 make_helper(concat(decode_i2rm_, SUFFIX)) {
 	int len = decode_rm_internal(eip, op_dest, op_src2);		/* op_src2 not use here */
+	Redp("op_dest = %d  op_src2 = %d\n", op_dest->imm, op_src2->imm);
 	len += decode_i(eip + len);
 	return len;
 }
