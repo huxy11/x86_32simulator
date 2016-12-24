@@ -2,6 +2,7 @@
 
 .globl _start
 _start:
+	push %eax
 	movl $0, %eax
 	movl $0, %ebx
 	movl $0, %ecx
