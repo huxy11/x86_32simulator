@@ -66,7 +66,7 @@ static int cmd_info(char *args) {
 		show_all_wp();
 		break;
 	default:
-		printf("Wrong info argument\n");
+		Warn("Wrong info argument\n");
 	}
 	return 0;
 } 
@@ -75,7 +75,7 @@ static int cmd_x(char *args) {
 	/* extract count */
 	str = strtok(args, " ");
 	if (!str) {
-		printf("Wrong input arguments!\n");
+		Warn("Wrong input arguments!\n");
 		return 0;
 	}
 	int cnt = atoi(str);
@@ -83,7 +83,7 @@ static int cmd_x(char *args) {
 	/* extract address */
 	str = strtok(NULL, " ");
 	if (!str) {
-		printf("Wrong input arguments!\n");
+		Warn("Wrong input arguments!\n");
 		return 0;
 	}int add = htoi(str);
 	printf("add:%x\n", add);
@@ -177,13 +177,13 @@ static int cmd_help(char *args) {
 	if(arg == NULL) {
 		/* no argument given */
 		for(i = 0; i < NR_CMD; i ++) {
-			printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
+			Greenp("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
 		}
 	}
 	else {
 		for(i = 0; i < NR_CMD; i ++) {
 			if(strcmp(arg, cmd_table[i].name) == 0) {
-				printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
+				Greenp("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
 				return 0;
 			}
 		}

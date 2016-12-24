@@ -14,7 +14,7 @@ extern FILE* log_fp;
 
 
 #define Redp(format, ...) \
-	printf("\33[1;5;31m" format "\33[0m\n", ## __VA_ARGS__)
+	printf("\33[1;31m" format "\33[0m\n", ## __VA_ARGS__)
 
 #define Greenp(format, ...) \
 	printf("\33[1;32m" format "\33[0m\n", ## __VA_ARGS__)
@@ -26,7 +26,7 @@ extern FILE* log_fp;
 	printf("\33[1;34m" format "\33[0m\n", ## __VA_ARGS__)
 
 #define Warn(format, ...) \
-	printf("\33[1;31m" format "\33[0m\n", ## __VA_ARGS__)
+	printf("\33[1;33m" format "\33[0m\n", ## __VA_ARGS__)
 
 #define Log(format, ...) \
 	do { \
