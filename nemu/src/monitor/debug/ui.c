@@ -47,7 +47,7 @@ static int cmd_n(char *args) {
 static int cmd_info(char *args) {
 	int i = 0;
 	if(!args) {
-		printf("No info argument!\nw:watchpoints r:registers\n");
+		Warn("No info argument!\nw:watchpoints r:registers\n");
 		return 0;
 	}
 	switch (args[0]) {
@@ -118,9 +118,6 @@ static int cmd_r(char *args) {
 }
 static int cmd_test(char *args) {
 	bool success;
-#ifdef DEBUGHUXY
-	printf("debug!!!!\n");
-#endif
 #if 0
 	char e[32] = "0xFF + 32 * 7";
 	expr(e, &success);	
@@ -145,6 +142,7 @@ static int cmd_test(char *args) {
 	show_all_wp();
 	del_wp("2+213");
 	show_all_wp();
+	Warn("111111!!!!!!!!!!!!!\n");
 	Log("1111111!!!!!!!!!!!\n");
 	return 0;
 }

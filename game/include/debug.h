@@ -6,12 +6,11 @@
 
 #define GAME_LABEL " {game} "
 
+
 #define Log(format, ...) \
 	printf("\33[1;35m[%s,%d,%s]" GAME_LABEL format "\33[0m\n", \
 			__FILE__, __LINE__, __func__, ## __VA_ARGS__)
 
-#define Warn(format, ...) \
-	printf("\33[1;31m" GAME_LABEL format "\33[0m\n", ## __VA_ARGS__)
 
 #define panic(format, ...) \
 do { \

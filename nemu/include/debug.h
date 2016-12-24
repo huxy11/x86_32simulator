@@ -12,6 +12,9 @@ extern FILE* log_fp;
 #	define Log_write(format, ...)
 #endif
 
+#define Warn(format, ...) \
+	printf("\33[1;31m" format "\33[0m\n", ## __VA_ARGS__)
+
 #define Log(format, ...) \
 	do { \
 		fprintf(stdout, "\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
