@@ -6,6 +6,7 @@ _start:
 	push %ebx
 	push %ecx
 	push %edx
+	push %ax
 
 	movl $0, %eax
 	movw $2, %ax
