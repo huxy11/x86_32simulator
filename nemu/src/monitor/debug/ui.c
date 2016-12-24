@@ -117,6 +117,11 @@ static int cmd_r(char *args) {
 	return 0;
 }
 static int cmd_test(char *args) {
+	/* colorful print */
+	Redp("this is red!\n");
+	Greenp("this is green!\n");
+	Yellowp("this is yellow!\n");
+	Bluep("this is blue\n");
 	bool success;
 #if 0
 	char e[32] = "0xFF + 32 * 7";
@@ -142,8 +147,6 @@ static int cmd_test(char *args) {
 	show_all_wp();
 	del_wp("2+213");
 	show_all_wp();
-	Warn("111111!!!!!!!!!!!!!\n");
-	Log("1111111!!!!!!!!!!!\n");
 	return 0;
 }
 static struct {
