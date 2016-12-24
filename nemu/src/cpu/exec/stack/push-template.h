@@ -4,9 +4,9 @@
 
 static void do_execute() {
 	//TODO
-	Log("type = %d val = %d\n", op_src->type, op_src->imm);
+	Log("type = %d val = %d\n", op_src->type, op_src->val);
 }
 
-make_inster_helper(r)
+make_instr_helper(r)
 
 #include "cpu/exec/template-end.h"
