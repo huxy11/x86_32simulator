@@ -27,6 +27,7 @@ char* rl_gets() {
 		add_history(line_read);
 	}
 
+
 	return line_read;
 }
 
@@ -144,6 +145,7 @@ static int cmd_test(char *args) {
 	show_all_wp();
 	del_wp("2+213");
 	show_all_wp();
+	Log("1111111!!!!!!!!!!!\n");
 	return 0;
 }
 static struct {
