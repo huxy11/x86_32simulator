@@ -45,6 +45,10 @@ static int cmd_n(char *args) {
 }
 static int cmd_info(char *args) {
 	int i = 0;
+	if(!args[0]) {
+		printf("No info argument!\n");
+		return 0;
+	}
 	switch (args[0]) {
 	case 'r':
 		for (;i < 8; i++) 
