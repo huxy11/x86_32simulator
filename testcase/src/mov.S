@@ -2,6 +2,11 @@
 
 .globl _start
 _start:
+	push %eax
+	push %ebx
+	push %ecx
+	push %edx
+	push %ax
 
 	movl $0, %eax
 	movw $2, %ax
@@ -182,10 +187,5 @@ _start:
 	movw 8192(%ecx, %ebx, 4), %dx
 	movb 8192(%ecx, %ebx, 4), %dh
 
-	push %eax
-	push %ebx
-	push %ecx
-	push %edx
-	push %ax
 	HIT_GOOD_TRAP
 
