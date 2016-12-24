@@ -71,7 +71,6 @@ static int concat3(decode_rm_, SUFFIX, _internal) (swaddr_t eip, Operand *rm, Op
 	rm->size = DATA_BYTE;
 	int len = read_ModR_M(eip, rm, reg);
 	reg->val = REG(reg->reg);
-	Redp("decode_rm invoked!");
 
 #ifdef DEBUG
 	snprintf(reg->str, OP_STR_SIZE, "%%%s", REG_NAME(reg->reg));
@@ -116,7 +115,6 @@ make_helper(concat(decode_i_rm2r_, SUFFIX)) {
  */
 make_helper(concat(decode_i2rm_, SUFFIX)) {
 	int len = decode_rm_internal(eip, op_dest, op_src2);		/* op_src2 not use here */
-	Redp("fundaddr = %p  op_dest = %x op_src2 = %x\n", concat(decode_i2rm_, SUFFIX), op_dest->imm, op_src2->imm);
 	len += decode_i(eip + len);
 	return len;
 }
