@@ -229,7 +229,7 @@ helper_fun _2byte_opcode_table [256] = {
 
 make_helper(exec) {
 	ops_decoded.opcode = instr_fetch(eip, 1);//fetch the instruction from memory
-	Log("exec eip = %d  opcode = %d\n", eip, ops_decoded.opcode);
+	Log("exec eip = 0x%x opcode = 0x%x\n", eip, ops_decoded.opcode);
 	Log("ops_decoded.is_operand_size_16 = %d\n", ops_decoded.is_operand_size_16);
 	return opcode_table[ ops_decoded.opcode ](eip);
 }
