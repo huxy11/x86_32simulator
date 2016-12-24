@@ -4,7 +4,7 @@
 
 static void do_execute() {
 	//TODO
-	Log("type = %d val = %d\n", op_src->type, op_src->val);
+	Log("type = %d\n\tsize = %d\n\tunion = %x\n\tval = %x\n\tstr = %s\n\t", op_src->type, op_src->size, op_src->imm, op_src->val, op_src->str);
 	print_asm_template2();
 }
 
