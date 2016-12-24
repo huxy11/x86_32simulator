@@ -2,7 +2,7 @@
 
 .globl _start
 _start:
-	push 0x8892 
+	push $0x8892 
 	movl $0, %eax
 	movl $0, %ebx
 	movl $0, %ecx
