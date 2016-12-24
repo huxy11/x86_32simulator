@@ -71,6 +71,7 @@ static int concat3(decode_rm_, SUFFIX, _internal) (swaddr_t eip, Operand *rm, Op
 	rm->size = DATA_BYTE;
 	int len = read_ModR_M(eip, rm, reg);
 	reg->val = REG(reg->reg);
+	Redp("decode_rm invoked!");
 
 #ifdef DEBUG
 	snprintf(reg->str, OP_STR_SIZE, "%%%s", REG_NAME(reg->reg));
