@@ -78,18 +78,16 @@ static int cmd_x(char *args) {
 		Warn("Wrong input arguments!\n");
 		return 0;
 	}
-	int cnt = atoi(str);
-	printf("%d\n", cnt);
+	int cnt = atoi(str) - 1;
 	/* extract address */
 	str = strtok(NULL, " ");
 	if (!str) {
 		Warn("Wrong input arguments!\n");
 		return 0;
 	}int add = htoi(str);
-	printf("add:%x\n", add);
 
 	for(; cnt >= 0; cnt--, add++) 
-		printf("add:%x->val:%x\n", add, swaddr_read(add, 4));
+		printf("add:%x->val:%x\n", add, swaddr_read(add, 1));
 	return 0;	
 	add = 0x10001f;
 	int re;
