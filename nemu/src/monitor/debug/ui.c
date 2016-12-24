@@ -87,7 +87,7 @@ static int cmd_x(char *args) {
 	}int add = htoi(str);
 
 	for(; cnt >= 0; cnt--, add++) 
-		printf("add:%x->val:%x\n", add, swaddr_read(add, 1));
+		printf("add:%x->val:%022x\n", add, swaddr_read(add, 1));
 	return 0;	
 	add = 0x10001f;
 	int re;
