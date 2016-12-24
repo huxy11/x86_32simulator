@@ -110,6 +110,11 @@ static int cmd_d(char *args) {
 	del_wp(args);
 	return 0;
 }
+static int cmd_r(char *args) {
+	if (!args) {
+	}
+	return 0;
+}
 static int cmd_test(char *args) {
 	bool success;
 #ifdef DEBUGHUXY
@@ -155,6 +160,7 @@ static struct {
 	{ "test", "Test examples", cmd_test},
 	{ "w", "Set watch point", cmd_w},
 	{ "d", "Delete watch point", cmd_d},
+	{ "r", "Check the specified register", cmd_r}
 	/* TODO: Add more commands */
 
 };
