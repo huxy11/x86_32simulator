@@ -23,11 +23,11 @@ typedef struct {
 		uint32_t eflags;
 		struct {
 			unsigned _cf:1;
-			unsigned unuse1;
+			unsigned unuse1:1;
 			unsigned _pf:1;
-			unsigned unuse2;
+			unsigned unuse2:1;
 			unsigned _af:1;
-			unsigned unuse3;
+			unsigned unuse3:1;
 			unsigned _zf:1;
 			unsigned _sf:1;
 			unsigned _tf:1;
@@ -36,7 +36,7 @@ typedef struct {
 			unsigned _of:1;
 			unsigned _iopl:2;
 			unsigned _nt:1;
-			unsigned unuse4;
+			unsigned unuse4:1;
 			unsigned _rf:1;
 			unsigned _vm:1;
 		};
