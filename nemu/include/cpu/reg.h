@@ -22,11 +22,11 @@ typedef struct {
 	union{
 		uint32_t eflags;
 		struct {
-			unsigned _cf:1;
+			unsigned _cf:1;//carry 
+			unsigned :1;//should be 1
+			unsigned _pf:1;//even or odd
 			unsigned :1;
-			unsigned _pf:1;
-			unsigned :1;
-			unsigned _af:1;
+			unsigned _af:1;//bit4
 			unsigned :1;
 			unsigned _zf:1;
 			unsigned _sf:1;

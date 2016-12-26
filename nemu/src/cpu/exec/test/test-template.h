@@ -9,11 +9,8 @@
 #endif
 
 static void do_execute() {
-	Log("src = %x\tstr = %s\n", op_src->val, op_src->str);
-	Log("src2 = %x\tstr = %s\n", op_src2->val, op_src2->str);
 	uint32_t tmp = 1,re = op_src->val & op_src2->val;
 	uint8_t i;
-	Log("re = %x\n", re);
 	cpu._of = 0;
 	cpu._cf = 0;
 	cpu._sf = re & MS;
@@ -29,6 +26,10 @@ static void do_execute() {
 		}
 		tmp <<= 1;
 	}
+	Log("src = %x\tstr = %s\n", op_src->val, op_src->str);
+	Log("src2 = %x\tstr = %s\n", op_src2->val, op_src2->str);
+	Log("re = %x\n", re);
+	Log("sf = %x\nzf = %x\npf = %x\n", cpu._sf, cpu._zf, cpu._pf);
 	print_asm_template2src();
 }
 
