@@ -6,10 +6,18 @@ _start:
 	movl $0x7fffff0, %esp
 	movl $0b11101110, %eax
 	movl $0b11111111, %ebx
+	test %eax, %ebx
 	
+	movl $0x0, %eax
+	movl $0x1, %ebx
+	test %eax, %ebx
+	
+	mov $0xffffffff, %eax
+	mov $0xffffffff, %ebx
+	test %eax, %ebx
+
 	#call 0x100015
 	test %eax, %eax
-	test %eax, %ebx
 	test %ebx, %eax
 
 	push %eax
