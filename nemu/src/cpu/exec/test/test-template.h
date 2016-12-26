@@ -24,7 +24,7 @@ static void do_execute() {
 	cpu._pf = 0;
 	for (i = 0; i < DATA_BYTE * 8; i++) {
 		if (tmp & re) {
-			Log("%d is even\n", i);
+			Log("%d is set\n", i);
 			cpu._pf = ~cpu._pf;
 		}
 		tmp <<= 1;
