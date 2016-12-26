@@ -2,24 +2,20 @@
 
 #define instr test
 
-#if DATA_BYTE == 4
-#define MS 0x8000
-#elif DATA_BYTE == 2
-#define MS 0x80
-#endif
-
 static void do_execute() {
 	uint32_t tmp = 1,re = op_src->val & op_src2->val;
 	uint8_t i;
 	cpu._of = 0;
 	cpu._cf = 0;
-	Log("%x\n", re & MS);
-	cpu._sf = (re & MS) >> (DATA_BYTE * 8 - 1);
+	//Log("%x\n", re & MS);
+	//cpu._sf = (re & MS) >> (DATA_BYTE * 8 - 1);
+	/*
 	if ((re & MS) == MS)
 		cpu._sf = 1;
 	else
 		cpu._sf = 0;
-
+	*/
+	check_sf(re);
 	if (re == 0)
 		cpu._zf = 1;
 	else 

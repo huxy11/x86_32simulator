@@ -5,18 +5,21 @@
 #define SUFFIX b
 #define DATA_TYPE uint8_t
 #define DATA_TYPE_S int8_t
+#define MOST_SIGNIFICANCE 0x8
 
 #elif DATA_BYTE == 2
 
 #define SUFFIX w
 #define DATA_TYPE uint16_t
 #define DATA_TYPE_S int16_t
+#define MOST_SIGNIFICANCE 0x80
 
 #elif DATA_BYTE == 4
 
 #define SUFFIX l
 #define DATA_TYPE uint32_t
 #define DATA_TYPE_S int32_t
+#define MOST_SIGNIFICANCE 0x8000
 
 #else
 
@@ -33,3 +36,10 @@
 #define OPERAND_W(op, src) concat(write_operand_, SUFFIX) (op, src)
 
 #define MSB(n) ((DATA_TYPE)(n) >> ((DATA_BYTE << 3) - 1))
+/* EFLAGS */
+#define check_sf(x) while (0) {												\
+						if((x & MOST_SIGNIFICANCE) == MOST_SIGNIFICANCE) 	\
+							cpu._sf = 1;									\
+						else												\
+							cpu._sf = 0;									\
+					}
