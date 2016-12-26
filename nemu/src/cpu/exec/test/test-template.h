@@ -7,6 +7,8 @@ static void do_execute() {
 	Log("src2 = %x\tstr = %s\n", op_src2->val, op_src2->str);
 	uint32_t re = op_src->val & op_src2->val;
 	Log("re = %x\n", re);
+	cpu._of = 0;
+	cpu._cf = 0;
 	print_asm_template2src();
 }
 
