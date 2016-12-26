@@ -13,12 +13,12 @@ static void do_execute() {
 	uint8_t i;
 	cpu._of = 0;
 	cpu._cf = 0;
-	cpu._sf = re & MS;
+	cpu._sf = (re & MS) << 1;
 	if (re == 0)
-		cpu._zf = 0;
-	else 
 		cpu._zf = 1;
-	cpu._pf = 0;
+	else 
+		cpu._zf = 0;
+	cpu._pf = 1;
 	for (i = 0; i < DATA_BYTE * 8; i++) {
 		if (tmp & re) {
 			Log("%d is set\n", i);
