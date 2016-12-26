@@ -15,10 +15,16 @@ static void do_execute() {
 	cpu._cf = 0;
 	Log("%x\n", re & MS);
 	cpu._sf = (re & MS) >> (DATA_BYTE * 8 - 1);
+	if ((re & MS) == MS)
+		cpu._sf = 1;
+	else
+		cpu._sf = 0;
+
 	if (re == 0)
 		cpu._zf = 1;
 	else 
 		cpu._zf = 0;
+
 	cpu._pf = 1;
 	for (i = 0; i < DATA_BYTE * 8; i++) {
 		if (tmp & re) {
