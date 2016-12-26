@@ -18,11 +18,28 @@ typedef struct {
 		struct {
 			uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 		};
-	};
-	
-	union {
+	};	
+	union{
 		uint32_t eflags;
-		
+		struct {
+			unsigned _cf:1;
+			unsigned unuse1;
+			unsigned _pf:1;
+			unsigned unuse2;
+			unsigned _af:1;
+			unsigned unuse3;
+			unsigned _zf:1;
+			unsigned _sf:1;
+			unsigned _tf:1;
+			unsigned _if:1;
+			unsigned _df:1;
+			unsigned _of:1;
+			unsigned _iopl:2;
+			unsigned _nt:1;
+			unsigned unuse4;
+			unsigned _rf:1;
+			unsigned _vm:1;
+		};
 	};
 
 	swaddr_t eip;
