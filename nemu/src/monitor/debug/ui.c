@@ -61,6 +61,7 @@ static int cmd_info(char *args) {
 		for (i = 0; i < 8; i++)
 			printf("%s:%#-8x\t", regsb[i], reg_b(i));
 		printf("\n");
+		printf("EFLAGS = %x\n", cpu.eflags);
 		break;
 	case 'w':
 		show_all_wp();

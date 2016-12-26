@@ -41,7 +41,6 @@ typedef struct {
 			unsigned _vm:1;
 		};
 	};
-
 	swaddr_t eip;
 } CPU_state;
 
