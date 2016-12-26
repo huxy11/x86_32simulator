@@ -7,6 +7,7 @@ _start:
 	movl $0b11101110, %eax
 	movl $0b11111111, %ebx
 	test %eax, %ebx
+	je 0x10006d
 	
 	movl $0x0, %eax
 	movl $0x1, %ebx
