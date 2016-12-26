@@ -4,6 +4,8 @@
 _start:
 	movl $0x00, %ebp
 	movl $0x7fffff0, %esp
+	movl $0b11101110, %eax
+	movl $0b11111111, %ebx
 	
 	#call 0x100015
 	test %eax, %eax
