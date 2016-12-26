@@ -3,8 +3,8 @@
 #define instr test
 
 static void do_execute() {
-	Log("src = %x\n", op_src->val);
-	Log("dest = %x\n", op_dest->val);
+	Log("src = %x\tstr = %s\n", op_src->val, op_src->str);
+	Log("dest = %x\tstr = %s\n", op_dest->val, op_src->str);
 	print_asm_template2();
 }
 
