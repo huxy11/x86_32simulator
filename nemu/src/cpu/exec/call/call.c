@@ -1,7 +1,11 @@
 #include "cpu/exec/helper.h"
 
-make_helper(call_rel32) {
-	uint32_t re = swaddr_read(eip + 1, 4);
-	Log("re = %x\n", re);
-	return 5;
-}
+#define DATA_BYTE 2
+#include "call-template.h"
+#undef DATA_BYTE
+
+#define DATA_BYTE 4
+#include "call-template.h"
+#undef DATA_BYTE
+
+make_helper_v(call_i)
