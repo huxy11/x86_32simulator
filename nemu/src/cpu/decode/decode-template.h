@@ -114,6 +114,7 @@ make_helper(concat(decode_i_rm2r_, SUFFIX)) {
  * Ev <- Iv
  */
 make_helper(concat(decode_i2rm_, SUFFIX)) {
+	Redp("reached here!\n");
 	int len = decode_rm_internal(eip, op_dest, op_src2);		/* op_src2 not use here */
 	len += decode_i(eip + len);
 	return len;
