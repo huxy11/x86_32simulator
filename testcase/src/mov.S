@@ -5,7 +5,11 @@ _start:
 	movl $0x00, %ebp
 	movl $0x7fffff0, %esp
 	
-	call 0x100015
+	#call 0x100015
+	test %eax, %eax
+	test %eax, %ebx
+	test %ebx, %eax
+
 	push %eax
 	push %ebx
 	push %ecx
