@@ -13,6 +13,7 @@ static void do_execute() {
 	uint8_t i;
 	cpu._of = 0;
 	cpu._cf = 0;
+	Log("%x\n", re & MS);
 	cpu._sf = (re & MS) >> (DATA_BYTE * 8 - 1);
 	if (re == 0)
 		cpu._zf = 1;
