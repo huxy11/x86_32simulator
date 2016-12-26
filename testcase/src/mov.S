@@ -2,9 +2,10 @@
 
 .globl _start
 _start:
-	call 0x100015
 	movl $0x00, %ebp
 	movl $0x7fffff0, %esp
+	
+	call 0x100015
 	push %eax
 	push %ebx
 	push %ecx
