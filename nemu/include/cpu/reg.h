@@ -14,10 +14,17 @@ typedef struct {
 			uint16_t _16;
 			uint8_t _8[2];
 		}gpr[8];
+
 		struct {
-		uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
+			uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 		};
 	};
+	
+	union {
+		uint32_t eflags;
+
+	};
+
 	swaddr_t eip;
 } CPU_state;
 
