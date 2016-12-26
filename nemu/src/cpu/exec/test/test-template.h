@@ -2,7 +2,7 @@
 
 #define instr test
 
-statci void do_execute() {
+static void do_execute() {
 	Log("src = %x\n", op_src->val);
 	Log("dest = %x\n", op_dest->val);
 	print_asm_template2();
