@@ -22,7 +22,7 @@ typedef struct {
 	
 	union {
 		uint32_t eflags;
-
+		
 	};
 
 	swaddr_t eip;
