@@ -15,6 +15,7 @@ _start:
 	movl $0x1, %eax
 	movl $0x1, %ebx
 	test %eax, %ebx
+	ret
 	
 	mov $0xffffffff, %eax
 	mov $0xffffffff, %ebx
