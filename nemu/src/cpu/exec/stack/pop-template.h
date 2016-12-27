@@ -7,10 +7,7 @@ static void do_execute() {
 	Log("op_src = %s re = %x", op_src->str, re);
 	REG(R_ESP) -= DATA_BYTE;
 	op_src->val = 1;
-	op_src->reg = 2;
-	Log("op_src = %x\n", op_src->val);
-	Log("op_src->reg = %x\n", op_src->reg);
-	Log("op_src.addr = %p\t eax.add = %p\n", op_src, &REG(R_EAX));
+	OPERAND_W(op_src, 1);
 	print_asm_template1();
 }
 
