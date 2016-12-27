@@ -7,7 +7,6 @@ _start:
 	cmp $0x1, %eax	
 	je 0x100018
 
-	call 0x100025
 
 	
 	movl $0b11101110, %eax
@@ -17,7 +16,6 @@ _start:
 	movl $0x1, %eax
 	movl $0x1, %ebx
 	test %eax, %ebx
-	ret
 	
 	mov $0xffffffff, %eax
 	mov $0xffffffff, %ebx
@@ -34,6 +32,11 @@ _start:
 	pop %ebx
 	pop %ecx
 	pop %eax
+
+
+
+	call 0x100025
+	ret
 
 
 
