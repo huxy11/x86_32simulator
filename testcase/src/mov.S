@@ -39,7 +39,7 @@ _start:
 	test %ebx, %eax
 
 	cmp $0x1, %eax	
-	je 0x6d
+	je 0x10052
 	movl $0, %eax
 	movw $2, %ax
 	movl $0, %ebx
