@@ -3,11 +3,9 @@
 #define instr call
 
 static void do_execute() {
-	//Log("op_src->val = %x\n", op_src->val);
-	//Log("esp = %x\n", REG(R_ESP));
 	Log("cpu.eip = %x\n", cpu.eip);
 	REG(R_ESP) += 4;
-	swaddr_write(REG(R_ESP), 4, cpu.eip);
+	swaddr_write(REG(R_ESP), 4, cpu.eip + DATA_BYTE + 1);
 	cpu.eip += op_src->val;
 	Log("cpu.eip = %x\n", cpu.eip);
 	print_asm_template1();
