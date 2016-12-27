@@ -61,6 +61,6 @@
 								Log("tmp = %x\n", tmp);						\
 								cpu._pf = ~cpu._pf;							\
 							}												\
-						}													\
 						tmp <<= 1;											\
+						}													\
 					} while(0)
