@@ -12,6 +12,7 @@ static void do_execute() {
 	check_pf(re);
 	check_sf(re);
 	check_zf(re);
+	check_cf(op_dest->val, op_src->val);
 	Log("\nof = %d\nsf = %d\nzf = %d\naf =%d\npf = %d\ncf =%d\n",		\
 		 cpu._of, cpu._sf, cpu._zf, cpu._af, cpu._pf, cpu._cf);
 	print_asm_template2();
