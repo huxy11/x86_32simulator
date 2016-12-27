@@ -30,6 +30,7 @@
 #include "stack/pop.h"
 
 #include "call/call.h"
+#include "call/ret.h"
 
 #include "test/test.h"
 
