@@ -35,6 +35,7 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	
 	op_src->type = OP_TYPE_IMM;
 	op_src->val = instr_fetch(eip, DATA_BYTE);
+	Log("op_src->val = %d  %x\n", op_src->val, op_src->val);
 	if (op_src->val < MOST_SIGNIFICANCE)
 		op_src->simm = op_src->val;
 	else
