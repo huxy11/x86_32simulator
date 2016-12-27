@@ -8,6 +8,7 @@ static void do_execute() {
 	REG(R_ESP) -= DATA_BYTE;
 	op_src->val = 1;
 	Log("op_src = %x\n", op_src->val);
+	Log("op_src->reg = %x\n", op_src->reg);
 	print_asm_template1();
 }
 
