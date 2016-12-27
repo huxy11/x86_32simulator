@@ -38,8 +38,7 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	Log("op_src->val = %d  %x\nMAX = %d\n", op_src->val, op_src->val, MOST_SIGNIFICANCE);
 
 	if (op_src->val < MOST_SIGNIFICANCE)
-		Log("!!!");
-		//op_src->simm = op_src->val;
+		op_src->simm = op_src->val;
 	else
 		op_src->simm = op_src->val - 2 * MOST_SIGNIFICANCE;	
 
