@@ -5,6 +5,7 @@
 static void do_execute() {
 	uint32_t re = swaddr_read(REG(R_ESP), DATA_BYTE);
 	OPERAND_W(op_src, re);
+	Log("re = %x\n", re);
 	REG(R_ESP) -= DATA_BYTE;
 	print_asm_template1();
 }
