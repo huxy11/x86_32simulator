@@ -7,6 +7,19 @@ _start:
 	
 	call 0x100015
 
+	
+	movl $0b11101110, %eax
+	movl $0b11111111, %ebx
+	test %eax, %ebx
+	
+	movl $0x1, %eax
+	movl $0x1, %ebx
+	test %eax, %ebx
+	
+	mov $0xffffffff, %eax
+	mov $0xffffffff, %ebx
+	test %eax, %ebx
+
 	push %eax
 	push %ebx
 	push %ecx
@@ -20,18 +33,6 @@ _start:
 	pop %eax
 
 
-	movl $0b11101110, %eax
-	movl $0b11111111, %ebx
-	test %eax, %ebx
-	
-	movl $0x1, %eax
-	movl $0x1, %ebx
-	test %eax, %ebx
-	
-	mov $0xffffffff, %eax
-	mov $0xffffffff, %ebx
-	test %eax, %ebx
-	
 
 	test %eax, %eax
 	test %ebx, %eax

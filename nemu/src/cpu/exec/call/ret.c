@@ -5,5 +5,6 @@ make_helper(ret) {
 	cpu.eip = re;
 	reg_l(R_ESP) -= 4;
 	print_asm_template1();
+	Log("cpu.eip = %x\n", cpu.eip);
 	return 0;
 }
