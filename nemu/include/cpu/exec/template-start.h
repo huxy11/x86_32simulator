@@ -6,6 +6,7 @@
 #define DATA_TYPE uint8_t
 #define DATA_TYPE_S int8_t
 #define MOST_SIGNIFICANCE 0x80
+#define MAX_UVAL 0xff
 
 #elif DATA_BYTE == 2
 
@@ -13,6 +14,7 @@
 #define DATA_TYPE uint16_t
 #define DATA_TYPE_S int16_t
 #define MOST_SIGNIFICANCE 0x8000
+#define MAX_UVAL 0xffff
 
 #elif DATA_BYTE == 4
 
@@ -20,6 +22,7 @@
 #define DATA_TYPE uint32_t
 #define DATA_TYPE_S int32_t
 #define MOST_SIGNIFICANCE 0x80000000
+#define MAX_UVAL 0xffffffff
 
 #else
 
@@ -62,7 +65,9 @@
 						}													\
 					} while(0)
 
-#define check_cf(src, dest) do {
-								
-									
-
+#define check_cf(src, dest) do {											\
+								if ((MAX_UVAL - src) < dest)				\
+									cpu._cf = 1;							\
+								else 										\
+									cpu._cf = 0;							\
+							} while(0)
