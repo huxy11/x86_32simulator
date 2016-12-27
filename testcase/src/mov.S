@@ -7,9 +7,6 @@ _start:
 	movl $0b11101110, %eax
 	movl $0b11111111, %ebx
 	test %eax, %ebx
-	cmp $0x1, %eax	
-	
-	je 0x10006d
 	
 	movl $0x0, %eax
 	movl $0x1, %ebx
@@ -23,6 +20,8 @@ _start:
 	test %eax, %eax
 	test %ebx, %eax
 
+	cmp $0x1, %eax	
+	je 0x10006d
 	push %eax
 	push %ebx
 	push %ecx
