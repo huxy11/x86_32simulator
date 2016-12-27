@@ -12,3 +12,4 @@
 
 #undef MSB
 #undef MOST_SIGNIFICANCE
+#undef MAX_SIGNED
