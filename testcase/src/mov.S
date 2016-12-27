@@ -5,6 +5,8 @@ _start:
 	movl $0x00, %ebp
 	movl $0x00, %esp
 	
+	call 0x100015
+
 	push %eax
 	push %ebx
 	push %ecx
@@ -31,7 +33,6 @@ _start:
 	test %eax, %ebx
 	
 
-	#call 0x100015
 	test %eax, %eax
 	test %ebx, %eax
 
