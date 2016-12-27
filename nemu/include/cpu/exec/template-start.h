@@ -80,7 +80,7 @@
 										if (src_h != dest_h) {				\
 											DATA_TYPE re_h = 				\
 												re & MOST_SIGNIFICANCE;		\
-											Log("re_h %d  dest_h %d\n", re_h, dest_h);\
+											Log("re_h %d  dest_h %d\n %d", re_h, dest_h, DATA_BYTE);\
 											if (re_h != dest_h)				\
 												cpu._of = 1;				\
 										}									\
