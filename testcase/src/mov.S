@@ -4,6 +4,20 @@
 _start:
 	movl $0x00, %ebp
 	movl $0x7fffff0, %esp
+	
+	push %eax
+	push %ebx
+	push %ecx
+	push %edx
+	push %ax
+
+	pop %eax
+	pop %eax
+	pop %ebx
+	pop %ecx
+	pop %eax
+
+
 	movl $0b11101110, %eax
 	movl $0b11111111, %ebx
 	test %eax, %ebx
@@ -23,12 +37,6 @@ _start:
 
 	cmp $0x1, %eax	
 	je 0x10006d
-	push %eax
-	push %ebx
-	push %ecx
-	push %edx
-	push %ax
-
 	movl $0, %eax
 	movw $2, %ax
 	movl $0, %ebx
