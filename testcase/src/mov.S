@@ -11,7 +11,7 @@ _start:
 	push %edx
 	push %ax
 
-	pop %eax
+	pop %ax
 	pop %eax
 	pop %ebx
 	pop %ecx
