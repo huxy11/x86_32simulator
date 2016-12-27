@@ -57,6 +57,7 @@
 						cpu._pf = 1;										\
 						for (iii = 0; iii < DATA_BYTE * 8; iii++) {			\
 							if (tmp & re) {									\
+								Log("no.%d is set!\n", iii);				\
 								cpu._pf = ~cpu._pf;							\
 							}												\
 						}													\
