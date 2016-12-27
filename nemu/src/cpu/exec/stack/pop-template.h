@@ -10,6 +10,7 @@ static void do_execute() {
 	op_src->reg = 2;
 	Log("op_src = %x\n", op_src->val);
 	Log("op_src->reg = %x\n", op_src->reg);
+	Log("op_src.addr = %p\t eax.add = %p\n", op_src, &REG(R_EAX));
 	print_asm_template1();
 }
 
