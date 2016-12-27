@@ -5,7 +5,7 @@ _start:
 	movl $0x00, %ebp
 	movl $0x00, %esp
 	cmp $0x1, %eax	
-	sub $0x10, %esp
+	sub $0x81, %esp
 	
 	movl $0b11101110, %eax
 	movl $0b11111111, %ebx
