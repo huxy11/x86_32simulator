@@ -42,7 +42,6 @@
 							cpu._sf = 1;									\
 						else												\
 							cpu._sf = 0;									\
-						Log("check_sf");									\
 					} while (0)
 
 #define check_zf(x) do {													\
@@ -55,10 +54,8 @@
 #define check_pf(x) do {													\
 						uint32_t tmp = 1, iii;								\
 						cpu._pf = 1;										\
-						for (iii = 0; iii < DATA_BYTE * 8; iii++) {			\
+						for (iii = 0; iii < 8; iii++) {						\
 							if (tmp & re) {									\
-								Log("no.%d is set!\n", iii);				\
-								Log("tmp = %x\n", tmp);						\
 								cpu._pf = ~cpu._pf;							\
 							}												\
 						tmp <<= 1;											\
