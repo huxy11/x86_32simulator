@@ -16,6 +16,7 @@ static void do_execute() {
 		cpu._sf = 0;
 	*/
 	check_sf(re);
+
 	if (re == 0)
 		cpu._zf = 1;
 	else 

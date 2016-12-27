@@ -42,4 +42,5 @@
 							cpu._sf = 1;									\
 						else												\
 							cpu._sf = 0;									\
+						Log("check_sf");									\
 					}
