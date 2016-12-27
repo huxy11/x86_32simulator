@@ -33,6 +33,6 @@ extern char assembly[];
 	print_asm(str(instr) str(SUFFIX) " %s,%s,%s", op_src->str, op_src2->str, op_dest->str)
 
 #define print_asm_template2src() \
-	print_asm(str(instr) str(SUFFIX) " %s,%s", op_src->str, op_src2->str)
+	print_asm(str(instr) str(SUFFIX) " %s,%s", op_src2->str, op_src->str)
 
 #endif
