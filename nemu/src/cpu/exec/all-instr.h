@@ -27,6 +27,7 @@
 #include "special/special.h"
 
 #include "stack/push.h"
+#include "stack/pop.h"
 
 #include "call/call.h"
 

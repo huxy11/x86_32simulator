@@ -61,3 +61,10 @@
 						tmp <<= 1;											\
 						}													\
 					} while(0)
+#define check_cf(x)	do {													\
+						if (x > UINT32_MAX)									\
+							cpu._cf = 1;									\
+						else 												\
+							cpu._cf = 0;									\
+					}
+

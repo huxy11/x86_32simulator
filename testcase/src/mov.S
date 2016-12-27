@@ -15,6 +15,7 @@ _start:
 	mov $0xffffffff, %eax
 	mov $0xffffffff, %ebx
 	test %eax, %ebx
+	
 
 	#call 0x100015
 	test %eax, %eax
