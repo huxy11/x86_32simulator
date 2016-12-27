@@ -3,8 +3,8 @@
 #define instr test
 
 static void do_execute() {
-	uint32_t tmp = 1,re = op_src->val & op_src2->val;
-	uint8_t i;
+	uint32_t re = op_src->val & op_src2->val;
+//	uint8_t i;
 	cpu._of = 0;
 	cpu._cf = 0;
 	//Log("%x\n", re & MS);
@@ -18,6 +18,9 @@ static void do_execute() {
 	check_sf(re);
 
 	check_zf(re);
+
+	check_pf(re);
+	/*
 	cpu._pf = 1;
 	for (i = 0; i < DATA_BYTE * 8; i++) {
 		if (tmp & re) {
@@ -26,6 +29,7 @@ static void do_execute() {
 		}
 		tmp <<= 1;
 	}
+*/
 	Log("src = %x\tstr = %s\n", op_src->val, op_src->str);
 	Log("src2 = %x\tstr = %s\n", op_src2->val, op_src2->str);
 	Log("re = %x\n", re);

@@ -52,3 +52,13 @@
 							cpu._zf = 0;									\
 					}while (0)
 					
+#define check_pf(x) do {													\
+						uint32_t tmp = 1, iii;								\
+						cpu._pf = 1;										\
+						for (iii = 0; iii < DATA_BYTE * 8; iii++) {			\
+							if (tmp & re) {									\
+								cpu._pf = ~cpu._pf;							\
+							}												\
+						}													\
+						tmp <<= 1;											\
+					} while(0)
