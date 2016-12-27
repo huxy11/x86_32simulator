@@ -5,7 +5,7 @@ _start:
 	movl $0x00, %ebp
 	movl $0x00, %esp
 	
-	call 0x100015
+	call 0x100025
 
 	
 	movl $0b11101110, %eax
