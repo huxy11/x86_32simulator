@@ -66,7 +66,7 @@
 					} while(0)
 
 #define check_cf(src, dest) do {											\
-								if ((MAX_UVAL - src) < dest)				\
+								if ((MAX_UVAL - src->val) < dest->val)				\
 									cpu._cf = 1;							\
 								else 										\
 									cpu._cf = 0;							\
