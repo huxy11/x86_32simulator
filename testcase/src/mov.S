@@ -3,7 +3,7 @@
 .globl _start
 _start:
 	movl $0x00, %ebp
-	movl $0x7fffff0, %esp
+	movl $0x00, %esp
 	
 	push %eax
 	push %ebx
