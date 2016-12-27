@@ -69,5 +69,4 @@
 							cpu._cf = 1;									\
 						else 												\
 							cpu._cf = 0;									\
-					}
-
+					} while(0)
