@@ -37,10 +37,18 @@
 
 #define MSB(n) ((DATA_TYPE)(n) >> ((DATA_BYTE << 3) - 1))
 /* EFLAGS */
-#define check_sf(x) do {												\
+#define check_sf(x) do {													\
 						if((x & MOST_SIGNIFICANCE) == MOST_SIGNIFICANCE) 	\
 							cpu._sf = 1;									\
 						else												\
 							cpu._sf = 0;									\
 						Log("check_sf");									\
+					} while (0)
+
+#define check_zf(x) do {													\
+						if(x == 0)											\
+							cpu._zf = 1;									\
+						else 												\
+							cpu._zf = 0;									\
 					}while (0)
+					

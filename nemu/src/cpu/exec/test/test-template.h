@@ -17,11 +17,7 @@ static void do_execute() {
 	*/
 	check_sf(re);
 
-	if (re == 0)
-		cpu._zf = 1;
-	else 
-		cpu._zf = 0;
-
+	check_zf(re);
 	cpu._pf = 1;
 	for (i = 0; i < DATA_BYTE * 8; i++) {
 		if (tmp & re) {
