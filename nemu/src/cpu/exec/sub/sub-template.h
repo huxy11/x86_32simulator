@@ -13,6 +13,7 @@ static void do_execute() {
 	check_sf(re);
 	check_zf(re);
 	check_cf(op_src->val, op_dest->val);
+	check_sub_of(op_src->val, op_dest->val, re);
 	
 	Log("\nof = %d\nsf = %d\nzf = %d\naf =%d\npf = %d\ncf =%d\n",		\
 		 cpu._of, cpu._sf, cpu._zf, cpu._af, cpu._pf, cpu._cf);

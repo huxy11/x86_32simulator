@@ -71,14 +71,17 @@
 								else 										\
 									cpu._cf = 0;							\
 							} while(0)
-#define check_sub_of(src, dest, re) do {
-								cpu._of = 0;
-								DATA_TYPE src_h, dest_h;
-								src_h =	src & MOST_SIGNIFICANCE;
-								dest_h = dest & MOST_SIGNIFICANCE;
-								if (src_h != dest_h) {
-									DATA_TYPE re_h = re & MOST_SIGNIFICANCE;	
-									if (re_h )
-							
-								}	
+
+#define check_sub_of(src, dest, re) do {									\
+										cpu._of = 0;						\
+										DATA_TYPE src_h, dest_h;			\
+										src_h =	src & MOST_SIGNIFICANCE;	\
+										dest_h = dest & MOST_SIGNIFICANCE;	\
+										if (src_h != dest_h) {				\
+											DATA_TYPE re_h = 				\
+												re & MOST_SIGNIFICANCE;		\
+											if (re_h != dest_h)				\
+												cpu._of = 1;				\
+										}									\
+									} while(0)
 									
