@@ -44,6 +44,7 @@ extern FILE* log_fp;
 			fprintf(stderr, "\33[1;31m"); \
 			fprintf(stderr, __VA_ARGS__); \
 			fprintf(stderr, "\33[0m\n"); \
+			fprintf(stderr, "%s,%d,%s\n", __FILE__, __LINE__, __func__);\
 			assert(cond); \
 		} \
 	} while(0)
