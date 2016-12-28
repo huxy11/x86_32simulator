@@ -28,14 +28,15 @@ make_helper(concat(decode_si_, SUFFIX)) {
 
 	op_src->type = OP_TYPE_IMM;
 	op_src->val = instr_fetch(eip, DATA_BYTE);
-	//Log("op_src->val = %d  %x\nMAX = %d\n", op_src->val, op_src->val, MOST_SIGNIFICANCE);
+	Log("op_src->val = %d  %x\nMAX = %d\n", op_src->val, op_src->val, MOST_SIGNIFICANCE);
 
+	Log("op_src->simm = %x\n", op_src->simm);
 	if (op_src->val < MOST_SIGNIFICANCE)
 		op_src->simm = op_src->val;
 	else
 		op_src->simm = op_src->val - 2 * MOST_SIGNIFICANCE;	
 
-	//Log("op_src->simm = %d\n", op_src->simm);
+	Log("op_src->simm = %x\n", op_src->simm);
 	op_src->val = op_src->simm;
 
 #ifdef DEBUG

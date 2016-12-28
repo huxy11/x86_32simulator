@@ -36,6 +36,7 @@
 
 #include "jcc/je.h"
 #include "jcc/jbe.h"
+#include "jcc/jle.h"
 #include "jmp/jmp.h"
 
 #include "cmp/cmp.h"
