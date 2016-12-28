@@ -42,7 +42,7 @@ extern FILE* log_fp;
 		if(!(cond)) { \
 			fflush(stdout); \
 			fprintf(stderr, "\33[1;31m"); \
-			fprintf(stderr, "%s,%d,%s\n", __FILE__, __LINE__, __func__);\
+			fprintf(stderr, "[%s,%d,%s]\n", __FILE__, __LINE__, __func__);\
 			fprintf(stderr, __VA_ARGS__); \
 			fprintf(stderr, "\33[0m\n"); \
 			assert(cond); \
