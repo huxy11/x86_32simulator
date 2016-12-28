@@ -90,17 +90,6 @@ static int cmd_x(char *args) {
 	for(; cnt >= 0; cnt--, add++) 
 		printf("add:%x->val:%02x\n", add, swaddr_read(add, 1));
 	return 0;	
-	add = 0x10001f;
-	int re;
-	re = swaddr_read(add, cnt);
-	printf("%x\n", re);
-	cnt = 2;
-	re = swaddr_read(add, cnt);
-	printf("%x\n", re);
-	cnt = 1;
-	re = swaddr_read(add, cnt);
-	printf("%x\n", re);
-	return 0;
 }
 static int cmd_write(char *args) {
 	char *str = strtok(args, " ");
@@ -108,7 +97,7 @@ static int cmd_write(char *args) {
 		Warn("Wrong input arguments!\n");
 		return 0;
 	}
-	int cnt = atoi(str) - 1;
+	int cnt = atoi(str);
 	str = strtok(NULL, " ");
 	if (!str) {
 		Warn("Wrong input arguments!\n");
