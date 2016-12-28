@@ -17,7 +17,7 @@ static void do_execute() {
 	check_sub_af(op_src->val, op_dest->val);
 	print_asm_template1();
 }
-
 make_instr_helper(si2rm)
+make_instr_helper(i2rm)
 
 #include "cpu/exec/template-end.h"
