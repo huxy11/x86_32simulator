@@ -108,7 +108,7 @@ static int cmd_x(char *args) {
 
 	for(; cnt >= 0; cnt--, add++) { 
 		printf("add:%x->val:%02x\n", add, swaddr_read(add, 1));
-		if (cnt % 4 == 3) 
+		if (cnt % 4 == 0) 
 			printf("\n");
 	}
 	return 0;	
