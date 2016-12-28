@@ -86,3 +86,9 @@
 										}									\
 									} while(0)
 									
+#define check_sub_af(src, dest) do {									\
+										if ((dest & 0xf) < (src & 0xf)) 	\
+											cpu._af = 1;					\
+										else								\
+											cpu._af = 0;					\
+									} while(0)
