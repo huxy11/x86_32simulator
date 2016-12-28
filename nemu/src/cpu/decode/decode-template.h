@@ -25,10 +25,9 @@ make_helper(concat(decode_i_, SUFFIX)) {
 /* sign immediate */
 make_helper(concat(decode_si_, SUFFIX)) {
 	op_src->type = OP_TYPE_IMM;
-
-	op_src->type = OP_TYPE_IMM;
 	op_src->val = instr_fetch(eip, DATA_BYTE);
 
+/* somtimes we get a one-byte signed data but four-byte signed is needed so.. */
 	if (op_src->val < MOST_SIGNIFICANCE)
 		op_src->simm = op_src->val;
 	else
