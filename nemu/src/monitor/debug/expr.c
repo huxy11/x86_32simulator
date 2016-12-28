@@ -190,6 +190,11 @@ static int eval(int p, int q)
 	int r = 0,dmnt_op = 0, i = p, cnt;
 	for (; i <= q; i++) 
 		switch (tokens[i].type) {
+		case EQ:
+			dmnt_op = tokens[i].type;
+			r = i;
+			level = 5;
+			break;
 		case '+':
 		case '-':
 			dmnt_op = tokens[i].type;
@@ -239,6 +244,8 @@ static int eval(int p, int q)
 		return -eval(p + 1, q);	
 	case DRF:
 		return swaddr_read(eval(p+1, q), 4);
+	case EQ:
+		return eval(p, r-1) == eval(r+1, q);
 	}
 	return 0; 
 }
