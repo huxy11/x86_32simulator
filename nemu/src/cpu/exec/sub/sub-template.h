@@ -18,6 +18,8 @@ static void do_execute() {
 	
 	Log("\nof = %d\nsf = %d\nzf = %d\naf =%d\npf = %d\ncf =%d\n",		\
 		 cpu._of, cpu._sf, cpu._zf, cpu._af, cpu._pf, cpu._cf);
+
+	OPERAND_W(op_dest, re);
 	print_asm_template2();
 }
 
