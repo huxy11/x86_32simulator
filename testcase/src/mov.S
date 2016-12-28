@@ -6,8 +6,8 @@ _start:
 	movl $0x80000000, %esp
 
 	
-	mov $0x80000000, %eax
-	cmp $-99, %eax
+	mov $0, %eax
+	cmp $99, %eax
 
 	cmp $0x1, %eax	
 	sub $-0x1, %esp
