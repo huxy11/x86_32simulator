@@ -102,6 +102,22 @@ static int cmd_x(char *args) {
 	printf("%x\n", re);
 	return 0;
 }
+static int cmd_write(char *args) {
+	char *str = strtok(args, " ");
+	if (!str) {
+		Warn("Wrong input arguments!\n");
+		return 0;
+	}
+	int cnt = atoi(str) - 1;
+	str = strtok(NULL, " ");
+	if (!str) {
+		Warn("Wrong input arguments!\n");
+		return 0;
+	}
+	int add = htoi(str);
+	swaddr_write(add, cnt, 0xff);
+	return 0;
+}
 static int cmd_w(char *args) {
 	new_wp(args);
 	return 0;	
@@ -162,7 +178,8 @@ static struct {
 	{ "test", "Test examples", cmd_test},
 	{ "w", "Set watch point", cmd_w},
 	{ "d", "Delete watch point", cmd_d},
-	{ "r", "Check the specified register", cmd_r}
+	{ "r", "Check the specified register", cmd_r},
+	{ "write", "Write a 0xff to memory", cmd_write},
 	/* TODO: Add more commands */
 
 };
