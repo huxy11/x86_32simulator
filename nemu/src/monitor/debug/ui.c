@@ -47,7 +47,7 @@ static int cmd_n(char *args) {
 static int cmd_info(char *args) {
 	int i = 0;
 	if(!args) {
-		Warn("No info argument!\nw:watchpoints r:registers\n");
+		Warn("No info argument!\nw:watchpoints\tr:registers\tf:flags\n");
 		return 0;
 	}
 	switch (args[0]) {
@@ -58,11 +58,13 @@ static int cmd_info(char *args) {
 		for (;i < 8; i++) 
 			printf("%s:%#-8x\t", regsl[i], cpu.gpr[i]._32);
 		printf("\n");
+		printf("\n");
 		for (i = 0; i < 4; i++)
 			printf("%s:%#-8x\t", regsw[i], cpu.gpr[i]._16);
 		printf("\n");
 		for (; i < 8; i++)
 			printf("%s:%#-8x\t", regsw[i], cpu.gpr[i]._16);
+		printf("\n");
 		printf("\n");
 		for (i = 0; i < 4; i++)
 			printf("%s:%#-8x\t", regsb[i], reg_b(i));
@@ -70,10 +72,18 @@ static int cmd_info(char *args) {
 		for (; i < 8; i++)
 			printf("%s:%#-8x\t", regsb[i], reg_b(i));
 		printf("\n");
-		printf("EFLAGS = 0x%08x\n", cpu.eflags);
 		break;
 	case 'w':
 		show_all_wp();
+		break;
+	case 'f':
+		printf("EFLAGS = 0x%08x\n", cpu.eflags);
+		if (cpu._of) printf("OF is set\n");
+		if (cpu._sf) printf("SF is set\n");
+		if (cpu._zf) printf("ZF is set\n");
+		if (cpu._af) printf("AF is set\n");
+		if (cpu._pf) printf("PF is set\n");
+		if (cpu._cf) printf("CF is set\n");
 		break;
 	default:
 		Warn("Wrong info argument\n");
