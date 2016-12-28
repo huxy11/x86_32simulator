@@ -39,38 +39,38 @@
 #define OPERAND_W(op, src) concat(write_operand_, SUFFIX) (op, src)
 
 #define MSB(n) ((DATA_TYPE)(n) >> ((DATA_BYTE << 3) - 1))
-/* EFLAGS */
+	/* EFLAGS */
 #define check_sf(x) do {													\
-						if((x & MOST_SIGNIFICANCE) == MOST_SIGNIFICANCE) 	\
-							cpu._sf = 1;									\
-						else												\
-							cpu._sf = 0;									\
-					} while (0)
+							if((x & MOST_SIGNIFICANCE) == MOST_SIGNIFICANCE) 	\
+								cpu._sf = 1;									\
+							else												\
+								cpu._sf = 0;									\
+						} while (0)
 
 #define check_zf(x) do {													\
-						if(x == 0)											\
-							cpu._zf = 1;									\
-						else 												\
-							cpu._zf = 0;									\
-					}while (0)
-					
+							if(x == 0)											\
+								cpu._zf = 1;									\
+							else 												\
+								cpu._zf = 0;									\
+						}while (0)
+						
 #define check_pf(x) do {													\
-						uint32_t tmp = 1, iii;								\
-						cpu._pf = 1;										\
-						for (iii = 0; iii < 8; iii++) {						\
-							if (tmp & re) {									\
-								cpu._pf = ~cpu._pf;							\
-							}												\
-						tmp <<= 1;											\
-						}													\
-					} while(0)
+							uint32_t tmp = 1, iii;								\
+							cpu._pf = 1;										\
+							for (iii = 0; iii < 8; iii++) {						\
+								if (tmp & re) {									\
+									cpu._pf = ~cpu._pf;							\
+								}												\
+							tmp <<= 1;											\
+							}													\
+						} while(0)
 
 #define check_cf(src, dest) do {											\
-								if ((MAX_UVAL - src) < dest)				\
-									cpu._cf = 1;							\
-								else 										\
-									cpu._cf = 0;							\
-							} while(0)
+									if ((MAX_UVAL - src) < dest)				\
+										cpu._cf = 1;							\
+									else 										\
+										cpu._cf = 0;							\
+								} while(0)
 
 #define check_sub_of(src, dest, re) do {									\
 										cpu._of = 0;						\
@@ -80,7 +80,7 @@
 										if (src_h != dest_h) {				\
 											DATA_TYPE re_h = 				\
 												re & MOST_SIGNIFICANCE;		\
-											Log("re_h %d  dest_h %d\n %d", re_h, dest_h, DATA_BYTE);\
+											Log("re_h %d  dest_h %d\n %d\t%d\n", re_h, dest_h, DATA_BYTE, MOST_SIGNIFICANCE);\
 											if (re_h != dest_h)				\
 												cpu._of = 1;				\
 										}									\
