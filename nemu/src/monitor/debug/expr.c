@@ -116,8 +116,8 @@ static bool make_token(char *e) {
 			return false;
 		}
 	}
-	for (i = 0; i <= nr_token; i++) 
-		Log("%d ",tokens[i].type);
+	//for (i = 0; i <= nr_token; i++) 
+	//	Log("%d ",tokens[i].type);
 	return true; 
 }
 static bool check_parentheses(int p, int q) 
@@ -229,7 +229,7 @@ static int eval(int p, int q)
 			i--;
 			break;
 		}
-	Log("dominant operator is %c, p = %d, q = %d, r = %d\n", dmnt_op, p, q, r);
+	//Log("dominant operator is %c, p = %d, q = %d, r = %d\n", dmnt_op, p, q, r);
 
 	switch (dmnt_op) {
 	case '+':
