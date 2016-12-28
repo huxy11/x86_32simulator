@@ -2,8 +2,13 @@
 
 .globl _start
 _start:
-	movl $0x00, %ebp
+	movl $0x80000000, %ebp
 	movl $0x80000000, %esp
+
+	
+	mov $98, %eax
+	cmp $-99, %eax
+
 	cmp $0x1, %eax	
 	sub $-0x1, %esp
 	sub $0x1, %esp
