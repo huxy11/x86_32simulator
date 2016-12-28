@@ -106,8 +106,11 @@ static int cmd_x(char *args) {
 		return 0;
 	}int add = htoi(str);
 
-	for(; cnt >= 0; cnt--, add++) 
+	for(; cnt >= 0; cnt--, add++) { 
 		printf("add:%x->val:%02x\n", add, swaddr_read(add, 1));
+		if (cnt % 4 == 3) 
+			printf("\n");
+	}
 	return 0;	
 }
 static int cmd_write(char *args) {
