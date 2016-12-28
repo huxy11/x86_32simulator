@@ -104,7 +104,7 @@ static bool make_token(char *e) {
 					tokens[nr_token].str[substr_len] = 0;
 					break;
 				default: 
-					//Log("Nothing have to do for this type:%s\n", substr);
+//					Log("Nothing have to do for this type:%s\n", substr);
 					break;
 				}
 				break;
@@ -116,8 +116,8 @@ static bool make_token(char *e) {
 			return false;
 		}
 	}
-//	for (i = 0; i <= nr_token; i++) 
-//		Log("%d ",tokens[i].type);
+	for (i = 0; i <= nr_token; i++) 
+		Log("%d ",tokens[i].type);
 	return true; 
 }
 static bool check_parentheses(int p, int q) 
