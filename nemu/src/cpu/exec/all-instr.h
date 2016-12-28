@@ -31,6 +31,7 @@
 
 #include "call/call.h"
 #include "call/ret.h"
+#include "leave/leave.h"
 
 #include "test/test.h"
 
