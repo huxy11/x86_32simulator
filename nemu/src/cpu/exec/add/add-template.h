@@ -9,6 +9,8 @@ static void do_execute() {
 	check_sf(re);
 	check_zf(re);
 	check_add_cf(op_src->val, op_dest->val);
+	check_add_of(op_src->val, op_dest->val, re);
+
 	OPERAND_W(op_dest, re);
 	print_asm_template2();
 }
