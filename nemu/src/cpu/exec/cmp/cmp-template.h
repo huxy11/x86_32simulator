@@ -3,7 +3,7 @@
 #define instr cmp
 
 static void do_execute() {
-	Log("src->val = %x\t src->str = %s\n", op_src->val, op_src->str);
+	Log("src->val = %x\tsrc->simm = %d\tsrc->str = %s\n", op_src->val, op_src->simm, op_src->str);
 	Log("dest->val = %x\t dest->str = %s\n", op_dest->val, op_dest->str);
 	uint32_t re = op_dest->val - op_src->val;
 	Log("result = %x\n", re);

@@ -26,23 +26,16 @@ make_helper(concat(decode_i_, SUFFIX)) {
 make_helper(concat(decode_si_, SUFFIX)) {
 	op_src->type = OP_TYPE_IMM;
 
-	/* TODO: Use instr_fetch() to read `DATA_BYTE' bytes of memory pointed
-	 * by `eip'. Interpret the result as an signed immediate, and assign
-	 * it to op_src->simm.
-	 *
-	op_src->simm = ???
-	 */
-	
 	op_src->type = OP_TYPE_IMM;
 	op_src->val = instr_fetch(eip, DATA_BYTE);
-	Log("op_src->val = %d  %x\nMAX = %d\n", op_src->val, op_src->val, MOST_SIGNIFICANCE);
+	//Log("op_src->val = %d  %x\nMAX = %d\n", op_src->val, op_src->val, MOST_SIGNIFICANCE);
 
 	if (op_src->val < MOST_SIGNIFICANCE)
 		op_src->simm = op_src->val;
 	else
 		op_src->simm = op_src->val - 2 * MOST_SIGNIFICANCE;	
 
-	Log("op_src->simm = %d\n", op_src->simm);
+	//Log("op_src->simm = %d\n", op_src->simm);
 	op_src->val = op_src->simm;
 
 #ifdef DEBUG
