@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "nemu.h"
+#include "cpu/reg.h"
 
 const int BIT[9] = {1, 2, 4, 8, 16, 32, 64, 128, 256};
 
@@ -35,6 +36,8 @@ int regtoi(char *reg)
 {
 	reg++;
 	int i = 0;
+	if(!strcmp(reg, "eip"))
+		return cpu.eip;
 	for (;i < 8; i++) {
 		if (!strcmp(reg, regsl[i]))
 			return reg_l(i);
