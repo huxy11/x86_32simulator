@@ -7,6 +7,9 @@ _start:
 
 	mov $0x80000000, %eax
 	add $0x02, %eax
+	
+	mov $0xffffffff, %eax
+	add $0x02, %eax
 
 	
 	mov $0, %eax
