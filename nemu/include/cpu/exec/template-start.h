@@ -93,23 +93,30 @@
 										}										\
 									} while(0)
 
-#define check_sub_of(src, dest, re) do {									\
-										cpu._of = 0;						\
-										DATA_TYPE src_h, dest_h;			\
-										src_h =	src & MOST_SIGNIFICANCE;	\
-										dest_h = dest & MOST_SIGNIFICANCE;	\
-										if (src_h != dest_h) {				\
-											DATA_TYPE re_h = 				\
-												re & MOST_SIGNIFICANCE;		\
+#define check_sub_of(src, dest, re) do {										\
+										cpu._of = 0;							\
+										DATA_TYPE src_h, dest_h;				\
+										src_h =	src & MOST_SIGNIFICANCE;		\
+										dest_h = dest & MOST_SIGNIFICANCE;		\
+										if (src_h != dest_h) {					\
+											DATA_TYPE re_h = 					\
+												re & MOST_SIGNIFICANCE;			\
 											Log("re_h %d  dest_h %d  src_h %d\n %d\t%x\n", re_h, dest_h, src_h, DATA_BYTE, MOST_SIGNIFICANCE);\
-											if (re_h != dest_h)				\
-												cpu._of = 1;				\
-										}									\
+											if (re_h != dest_h)					\
+												cpu._of = 1;					\
+										}										\
 									} while(0)
 									
-#define check_sub_af(src, dest) do {									\
-										if ((dest & 0xf) < (src & 0xf)) 	\
-											cpu._af = 1;					\
-										else								\
-											cpu._af = 0;					\
-									} while(0)
+#define check_add_af(src, dest) do {											\
+									if ((0xff - (src & 0xff)) < (dest & 0xff))	\
+										cpu._af = 1;							\
+									else 										\
+										cpu._af = 0;							\
+								} while(0)
+
+#define check_sub_af(src, dest) do {											\
+									if ((dest & 0xff) < (src & 0xff)) 			\
+										cpu._af = 1;							\
+									else										\
+										cpu._af = 0;							\
+								} while(0)
