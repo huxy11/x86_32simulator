@@ -52,11 +52,20 @@ static int cmd_info(char *args) {
 	}
 	switch (args[0]) {
 	case 'r':
+		for (;i < 3; i++) 
+			printf("%s:%#-8x\t", regsl[i], cpu.gpr[i]._32);
+		printf("\n");
 		for (;i < 8; i++) 
 			printf("%s:%#-8x\t", regsl[i], cpu.gpr[i]._32);
 		printf("\n");
+		for (i = 0; i < 3; i++)
+			printf("%s:%#-8x\t", regsw[i], cpu.gpr[i]._16);
+		printf("\n");
 		for (i = 0; i < 8; i++)
 			printf("%s:%#-8x\t", regsw[i], cpu.gpr[i]._16);
+		printf("\n");
+		for (i = 0; i < 3; i++)
+			printf("%s:%#-8x\t", regsb[i], reg_b(i));
 		printf("\n");
 		for (i = 0; i < 8; i++)
 			printf("%s:%#-8x\t", regsb[i], reg_b(i));
