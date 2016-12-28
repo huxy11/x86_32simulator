@@ -12,6 +12,9 @@ static void do_execute() {
 	check_sf(re);
 	check_zf(re);
 	check_pf(re);
+	check_sub_cf(op_dest->val, op_src->val);
+	check_sub_of(op_src->val, op_dest->val, re);
+	check_sub_af(op_src->val, op_dest->val);
 	print_asm_template1();
 }
 

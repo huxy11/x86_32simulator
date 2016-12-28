@@ -12,7 +12,7 @@ static void do_execute() {
 	check_pf(re);
 	check_sf(re);
 	check_zf(re);
-	check_cf(op_src->val, op_dest->val);
+	check_sub_cf(op_src->val, op_dest->val);
 	check_sub_of(op_src->val, op_dest->val, re);
 	check_sub_af(op_src->val, op_dest->val);
 	

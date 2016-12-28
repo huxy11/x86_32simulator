@@ -65,12 +65,20 @@
 							}													\
 						} while(0)
 
-#define check_cf(src, dest) do {											\
+#define check_add_cf(src, dest) do {											\
 									if ((MAX_UVAL - src) < dest)				\
 										cpu._cf = 1;							\
 									else 										\
 										cpu._cf = 0;							\
 								} while(0)
+
+#define check_sub_cf(src, dest) do {											\
+									if (src > dest)								\
+										cpu._cf = 1;							\
+									else										\
+										cpu._cf = 0;							\
+								} while(0)		
+
 
 #define check_sub_of(src, dest, re) do {									\
 										cpu._of = 0;						\
