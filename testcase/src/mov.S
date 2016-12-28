@@ -4,6 +4,9 @@
 _start:
 	mov $0x80000000, %ebp
 	mov $0x80000000, %esp
+	mov $0x000000ff, %eax
+	add $0x0, %eax
+	add $0x1, %eax
 
 	mov $0x7fffffff, %eax
 	add $0x02, %eax
