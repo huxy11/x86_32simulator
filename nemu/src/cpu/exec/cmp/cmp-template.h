@@ -13,6 +13,6 @@ static void do_execute() {
 	print_asm_template1();
 }
 
-make_instr_helper(rm_imm)
+make_instr_helper(si2rm)
 
 #include "cpu/exec/template-end.h"
