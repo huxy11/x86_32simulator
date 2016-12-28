@@ -3,11 +3,11 @@
 .globl _start
 _start:
 	movl $0x00, %ebp
-	movl $0x70, %esp
+	movl $0xffffff70, %esp
 	cmp $0x1, %eax	
 	sub $-0x1, %esp
 	sub $0x1, %esp
-	sub $-0x80, %esp
+	sub $0x7F, %esp
 	
 	movl $0b11101110, %eax
 	movl $0b11111111, %ebx
