@@ -1,10 +1,10 @@
 #include "cpu/exec/helper.h"
 #include "cpu/decode/modrm.h"
-
+/*
 make_helper(nop) {
 	print_asm("nop");
 	return 1;
-}
+}*/
 
 make_helper(int3) {
 	void do_int3();
