@@ -2,7 +2,10 @@
 
 #define instr jmp
 static void do_execute() {
-	cpu.eip += op_src->val;
+	if (op_code == 0xff)
+		cpu.eip = op_src->val;
+	else
+		cpu.eip += op_src->val;
 	Log("src = %s %d 0x%x\n", op_src->str, op_src->val, op_src->val);
 	Log("src = %x\n", op_code);
 	
