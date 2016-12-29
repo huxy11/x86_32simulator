@@ -3,7 +3,7 @@
 #define instr setne
 
 static void do_execute() {
-	OPERAND_W(op_src, ~cpu._zf);	
+	OPERAND_W(op_src, !cpu._zf);	
 	print_asm_template1();
 }
 
