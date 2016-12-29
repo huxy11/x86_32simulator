@@ -17,7 +17,7 @@ static void do_execute() {
 	Log("re = %x\n", re);
 	Log("sf = %x\nzf = %x\npf = %x\n", cpu._sf, cpu._zf, cpu._pf);
 	*/
-	print_asm_template2src();
+	print_asm_template2();
 }
 
 make_instr_helper(r2rm)
