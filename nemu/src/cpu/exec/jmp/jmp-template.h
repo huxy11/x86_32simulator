@@ -4,6 +4,7 @@
 static void do_execute() {
 	cpu.eip += op_src->val;
 	Log("src = %s %d 0x%x\n", op_src->str, op_src->val, op_src->val);
+	OPERAND_W(op_dest, op_src->val);
 	print_asm_template1();
 }
 
