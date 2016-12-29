@@ -45,9 +45,10 @@
 
 #include "sub/sub.h"
 #include "add/add.h"
+#include "add/adc.h"
 
 #include "lea/lea.h"
 
 #include "nop/nop.h"
 
-//#include "shift/shl.h"
+
