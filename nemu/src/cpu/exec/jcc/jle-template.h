@@ -3,7 +3,7 @@
 #define instr jle
 
 static void do_execute() {
-	if ((cpu._zf == 1) && (cpu._sf != cpu._of))
+	if ((cpu._zf == 1) || (cpu._sf != cpu._of))
 		cpu.eip += op_src->val;
 	print_asm_template1();
 }
