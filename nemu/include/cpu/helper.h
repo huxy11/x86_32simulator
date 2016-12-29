@@ -26,5 +26,6 @@ extern Operands ops_decoded;
 #define op_src (&ops_decoded.src)
 #define op_src2 (&ops_decoded.src2)
 #define op_dest (&ops_decoded.dest)
+#define op_code (ops_decoded.opcode)
 
 #endif
