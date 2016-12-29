@@ -3,10 +3,10 @@
 #define instr pop
 
 static void do_execute() {
-	uint32_t re = swaddr_read(REG(R_ESP), 4);
+	uint32_t re = swaddr_read(reg_l(R_ESP), 4);
 	OPERAND_W(op_src, re);
 	//Log("re = %x\n", re);
-	REG(R_ESP) += 4;
+	reg_l(R_ESP) += 4;
 	print_asm_template1();
 }
 
