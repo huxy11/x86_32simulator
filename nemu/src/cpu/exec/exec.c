@@ -123,6 +123,7 @@ helper_fun opcode_table [256] = {
 /* 0x68 */	inv, inv, push_i_b, inv,
 /* 0x6c */	inv, inv, inv, inv,
 /* 0x70 */	inv, inv, inv, inv,
+			//TODO: confirm whick is correct 
 /* 0x74 */	je_si_b, jne_i_b, jbe_si_b, ja_si_b,
 /* 0x78 */	inv, inv, inv, inv,
 /* 0x7c */	inv, inv, jle_si_b, inv,
