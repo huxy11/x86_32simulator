@@ -17,6 +17,7 @@ _start:
 	
 	mov $0, %eax
 	cmp $99, %eax
+	je 0x100004
 
 	cmp $0x1, %eax	
 	sub $-0x1, %esp
