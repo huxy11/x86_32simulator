@@ -41,6 +41,7 @@
 #include "jcc/jbe.h"
 #include "jcc/jle.h"
 #include "jcc/ja.h"
+#include "jcc/jg.h"
 #include "jmp/jmp.h"
 
 #include "cmp/cmp.h"
