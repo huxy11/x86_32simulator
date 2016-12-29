@@ -8,4 +8,4 @@
 #include "shl-template.h"
 #undef DATA_BYTE
 
-make_helper_v(shl_si2rm)
+make_helper_v(shl_rm_imm)
