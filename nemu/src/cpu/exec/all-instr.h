@@ -44,3 +44,6 @@
 
 #include "sub/sub.h"
 #include "add/add.h"
+
+#include "lea/lea.h"
+
