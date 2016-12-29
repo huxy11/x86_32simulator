@@ -8,7 +8,7 @@ static void do_execute() {
 	Log("dest = %s %x\n", op_dest->str, op_dest->val);
 }
 
-make_instr_helper(i2rm)
+make_instr_helper(rm2r)
 
 #include "cpu/exec/template-end.h"
 
