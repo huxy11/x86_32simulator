@@ -4,7 +4,7 @@
 
 static void do_execute() {
 
-	Log("src = %s %x\n", op_src->str, op_src->val);
+	Log("src = %s %x\n", op_src->str, op_src->addr);
 	Log("dest = %s %x\n", op_dest->str, op_dest->val);
 	print_asm_template2();
 }
