@@ -49,3 +49,5 @@
 #include "lea/lea.h"
 
 #include "nop/nop.h"
+
+#include "shift/shl.h"
