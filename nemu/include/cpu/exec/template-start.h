@@ -58,7 +58,7 @@
 							uint32_t tmp = 1, iii;								\
 							cpu._pf = 1;										\
 							for (iii = 0; iii < 8; iii++) {						\
-								if (tmp & re) {									\
+								if (tmp & x) {									\
 									cpu._pf = ~cpu._pf;							\
 								}												\
 							tmp <<= 1;											\
