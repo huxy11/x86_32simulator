@@ -15,7 +15,7 @@ static void do_execute() {
 	check_sub_cf(op_src->val, op_dest->val);
 	check_sub_of(op_src->val, op_dest->val, re);
 	check_sub_af(op_src->val, op_dest->val);
-	print_asm_template1();
+	print_asm_template2();
 }
 make_instr_helper(si2rm)
 make_instr_helper(i2rm)
