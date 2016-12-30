@@ -64,12 +64,12 @@ make_group(group2_cl_v,
 
 /* 0xf6 */
 make_group(group3_b,
-	inv, inv, not_rm_b, inv, 
+	test_i2rm_b, inv, not_rm_b, inv, 
 	inv, inv, div_rm_b, idiv_rm_b)
 
 /* 0xf7 */
 make_group(group3_v,
-	inv, inv, not_rm_v, inv, 
+	test_i2rm_v, inv, not_rm_v, inv, 
 	inv, inv, div_rm_v, idiv_rm_b)
 
 /* 0xfe */

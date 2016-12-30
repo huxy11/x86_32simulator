@@ -10,7 +10,6 @@ static void do_execute() {
 	check_sf(re);
 	check_zf(re);
 	check_pf(re);
-
 	/*
 	Log("src = %x\tstr = %s\n", op_src->val, op_src->str);
 	Log("dest = %x\tstr = %s\n", op_dest->val, op_dest->str);
@@ -21,5 +20,6 @@ static void do_execute() {
 }
 
 make_instr_helper(r2rm)
+make_instr_helper(i2rm)
 
 #include "cpu/exec/template-end.h"
