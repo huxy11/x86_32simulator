@@ -3,9 +3,15 @@
 #define instr adc
 
 static void do_execute() {
-	DATA_TYPE re = op_src->val + op_dest->val + cpu._cf;
+	op_src->val += cpu._cf;
+	DATA_TYPE re = op_src->val + op_dest->val;
 	OPERAND_W(op_dest, re);
-	//TODO:set EFLAGS
+	check_pf(re);
+	check_sf(re);
+	check_zf(re);
+	check_add_of(op_src->val, op_dest->val, re);
+	check_add_af(op_src->val, op_dest->val);
+	check_add_cf(op_src->val, op_dest->val);
 	print_asm_template2();
 }
 

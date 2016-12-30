@@ -32,8 +32,7 @@ make_helper(concat(decode_si_, SUFFIX)) {
 		op_src->simm = op_src->val;
 	else
 		op_src->simm = op_src->val - 2 * MOST_SIGNIFICANCE;	
-
-	Log("op_src->simm = 0x%x\top_src->val = 0x%x\n", op_src->simm, op_src->val);
+	//Log("op_src->simm = 0x%x\top_src->val = 0x%x\n", op_src->simm, op_src->val);
 	op_src->val = op_src->simm;
 
 #ifdef DEBUG

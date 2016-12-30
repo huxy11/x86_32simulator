@@ -3,12 +3,12 @@
 #define instr cmp
 
 static void do_execute() {
-	Log("src->val = %x\tsrc->simm = %d\tsrc->str = %s\n", op_src->val, op_src->simm, op_src->str);
-	Log("dest->val = %x\t dest->str = %s\n", op_dest->val, op_dest->str);
+//	Log("src->val = %x\tsrc->simm = %d\tsrc->str = %s\n", op_src->val, op_src->simm, op_src->str);
+//	Log("dest->val = %x\t dest->str = %s\n", op_dest->val, op_dest->str);
 	//op_src->val = ~op_src->val + 1;
-	Log("src->val = %x\tsrc->simm = %d  %x\tsrc->str = %s\n", op_src->val, op_src->simm, op_src->simm, op_src->str);
+//	Log("src->val = %x\tsrc->simm = %d  %x\tsrc->str = %s\n", op_src->val, op_src->simm, op_src->simm, op_src->str);
 	uint32_t re = op_dest->val - op_src->val;
-	Log("result = %x  %d\n", re, re);
+//	Log("result = %x  %d\n", re, re);
 	check_sf(re);
 	check_zf(re);
 	check_pf(re);
