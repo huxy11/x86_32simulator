@@ -257,7 +257,7 @@ uint32_t expr(char *e, bool *success) {
 	}
 	//Log("nr_token = %d\n", nr_token);
 	int re = eval(0, nr_token);
-	printf("the result is %d\n", re);
+	//printf("the result is %d\n", re);
 	*success = true;
 	return re;
 }
