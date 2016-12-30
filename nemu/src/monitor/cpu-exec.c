@@ -65,14 +65,14 @@ void cpu_exec(volatile uint32_t n) {
 		cpu.eip += instr_len;
 		//Log("Now eip = 0x%x\n", cpu.eip);
 
-#ifdef DEBUG
+//#ifdef DEBUG
 		print_bin_instr(eip_temp, instr_len);
 		strcat(asm_buf, assembly);
 		Log_write("%s\n", asm_buf);
 		if(n_temp < MAX_INSTR_TO_PRINT) {
 			printf("%s\n", asm_buf);
 		}
-#endif
+//#endif
 		/* check watch points */
 		bool wp_change;
 		wp_change = check_wp();
