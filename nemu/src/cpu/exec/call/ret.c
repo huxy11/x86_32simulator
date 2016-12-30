@@ -1,3 +1,5 @@
+#include "cpu/exec/helper.h"
+#include "cpu/reg.h"
 #include "ret.h"
 
 make_helper(ret) {
