@@ -101,7 +101,6 @@
 										if (src_h != dest_h) {					\
 											DATA_TYPE re_h = 					\
 												re & MOST_SIGNIFICANCE;			\
-											Log("re_h %d  dest_h %d  src_h %d\n %d\t%x\n", re_h, dest_h, src_h, DATA_BYTE, MOST_SIGNIFICANCE);\
 											if (re_h != dest_h)					\
 												cpu._of = 1;					\
 										}										\
