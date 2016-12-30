@@ -8,7 +8,8 @@ _start:
 	add $0x0, %eax
 	add $0x1, %eax
 	mov $0x2000000, %edi
-	stos %eax, %es:(%edi)
+	mov $0x3, %edi
+	rep stos %eax, %es:(%edi)
 
 	mov $0x7fffffff, %eax
 	add $0x02, %eax
