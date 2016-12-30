@@ -39,7 +39,11 @@ static int cmd_c(char *args) {
 static int cmd_q(char *args) {
 	return -1;
 }
-//TODO:implement multiple executions
+
+static int cmd_nn(char *args) {
+	cpu_exec(100);
+	return 0;
+}
 static int cmd_n(char *args) {
 	if (!args) 
 		cpu_exec(1);
@@ -189,6 +193,7 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
+	{ "nn", "Execute 100 instruction", cmd_nn },
 	{ "n", "Next step", cmd_n },
 	{ "info", "Show w:watchpoints r:registers", cmd_info},
 	{ "x", "Examine memory", cmd_x},
