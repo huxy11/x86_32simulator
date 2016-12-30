@@ -7,7 +7,7 @@ _start:
 	mov $0x000000ff, %eax
 	add $0x0, %eax
 	add $0x1, %eax
-	mov $0x20000000, %edi
+	mov $0x2000000, %edi
 	stos %eax, %es:(%edi)
 
 	mov $0x7fffffff, %eax
