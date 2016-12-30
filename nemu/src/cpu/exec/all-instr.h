@@ -56,5 +56,6 @@
 #include "nop/nop.h"
 
 #include "set/setne.h"
+#include "set/sete.h"
 
 #include "cltd/cltd.h"
