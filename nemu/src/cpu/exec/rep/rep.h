@@ -1,5 +1,5 @@
-#ifndef __REP_my_H__
-#define __REP_my_H__
+#ifndef __REP__H__
+#define __REP__H__
 
 make_helper(rep_my);
 
