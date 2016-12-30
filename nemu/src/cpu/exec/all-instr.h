@@ -59,3 +59,5 @@
 #include "set/sete.h"
 
 #include "cltd/cltd.h"
+
+#include "stos/stos.h"
