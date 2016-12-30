@@ -41,7 +41,13 @@ static int cmd_q(char *args) {
 }
 //TODO:implement multiple executions
 static int cmd_n(char *args) {
-	cpu_exec(1);
+	if (!args) 
+		cpu_exec(1);
+	else {
+		int cnt = atoi(args);
+		cpu_exec(cnt);
+	}
+		
 	return 0;
 }
 static int cmd_info(char *args) {
