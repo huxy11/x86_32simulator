@@ -4,7 +4,7 @@
 
 static void do_execute() {
 	if (cpu._sf != cpu._of)
-		cpu.eip += op_src->simm;
+		cpu.eip += (DATA_TYPE_S)op_src->simm;
 	print_asm_template1();
 }
 
