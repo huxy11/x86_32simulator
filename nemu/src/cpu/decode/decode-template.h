@@ -92,13 +92,12 @@ make_helper(concat(decode_rm2r_, SUFFIX)) {
 }
 
 make_helper(concat(decode_rmb2r_, SUFFIX)) {
-	Operand rm, reg;
-	rm.size = 1;
-	int len = read_ModR_M(eip, &rm, &reg);
-	reg.val = REG(reg.reg);
-	Log("rm %s\n", rm.str);
+	op_src->size = 1;
+	int len = read_ModR_M(eip, op_src, op_dest);
+	op_dest->val = REG(op_dest->reg);
+	Log("rm %s\n", op_src->str);
 #ifdef DEBUG
-	snprintf(reg.str, OP_STR_SIZE, "%%%s", REG_NAME(reg.reg));
+	snprintf(op_dest->str, OP_STR_SIZE, "%%%s", REG_NAME(op_dest->reg));
 #endif
 	return len;
 }
