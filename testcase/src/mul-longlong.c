@@ -10,7 +10,12 @@ long long ans[] = { 1860719719092984036LL, -1579188499418773362LL, 2758992986934
 
 #define NR_DATA (sizeof(test_data) / sizeof(test_data[0]))
 
+int test(int a,int b) {
+	return a * b;
+}
+
 int main() {
+	test(15, 100);
 	int i,j,ans_idx = 0;
 	int loop = 0;
 	for (i = 0;i < NR_DATA;i++) {
