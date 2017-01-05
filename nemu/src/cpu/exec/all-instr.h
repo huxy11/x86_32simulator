@@ -39,6 +39,7 @@
 
 #include "jcc/je.h"
 #include "jcc/js.h"
+#include "jcc/jns.h"
 #include "jcc/jne.h"
 #include "jcc/jbe.h"
 #include "jcc/jle.h"
