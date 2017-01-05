@@ -96,6 +96,7 @@ make_helper(concat(decode_rmb2r_, SUFFIX)) {
 	rm.size = 1;
 	int len = read_ModR_M(eip, &rm, &reg);
 	reg.val = REG(reg.reg);
+	Log("rm %s\n", rm.str);
 #ifdef DEBUG
 	snprintf(reg.str, OP_STR_SIZE, "%%%s", REG_NAME(reg.reg));
 #endif
