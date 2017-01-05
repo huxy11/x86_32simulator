@@ -1,4 +1,5 @@
 #include "cpu/exec/helper.h"
+#include "cpu/decode/decode.h"
 //#define DATA_BYTE 1
 //#include "movsx-template.h"
 //#undef DATA_BYTE
