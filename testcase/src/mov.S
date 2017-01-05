@@ -5,6 +5,10 @@ _start:
 	mov $0x80000000, %ebp
 	mov $0x80000000, %esp
 	mov $0x000000ff, %eax
+	
+	mov %edi, %eax
+	mov (%edi), %eax
+
 	add $0x0, %eax
 	add $0x1, %eax
 	mov $0x2000000, %edi
