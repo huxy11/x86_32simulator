@@ -95,9 +95,9 @@ make_helper(concat(decode_rmb2r_, SUFFIX)) {
 	op_src->size = 1;
 	int len = read_ModR_M(eip, op_src, op_dest);
 	op_src->simm = (int8_t)op_src->val;
-	Log("op_src->simm = %d\n", op_src->simm);
+	//Log("op_src->simm = %d\n", op_src->simm);
 	op_dest->val = REG(op_dest->reg);
-	Log("rm %s\n", op_src->str);
+	//Log("rm %s\n", op_src->str);
 #ifdef DEBUG
 	snprintf(op_dest->str, OP_STR_SIZE, "%%%s", REG_NAME(op_dest->reg));
 #endif
