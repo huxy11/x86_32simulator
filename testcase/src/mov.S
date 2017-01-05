@@ -15,6 +15,8 @@ _start:
 	mov $0x3, %ecx
 	rep stos %eax, %es:(%edi)
 
+	jmp $0x10001f
+
 	mov $0x7fffffff, %eax
 	add $0x02, %eax
 	
