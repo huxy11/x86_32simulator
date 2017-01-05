@@ -13,6 +13,7 @@
 #if DATA_BYTE == 2 || DATA_BYTE == 4
 static void do_execute() {
 	RET_DATA_TYPE result = (RET_DATA_TYPE)op_src->val * (RET_DATA_TYPE)op_src2->val;
+	Log("%ld\n", (long)result);
 	OPERAND_W(op_dest, result);
 
 	/* There is no need to update EFLAGS, since no other instructions 
