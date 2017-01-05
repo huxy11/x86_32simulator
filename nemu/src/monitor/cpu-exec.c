@@ -78,7 +78,7 @@ void cpu_exec(volatile uint32_t n) {
 		wp_change = check_wp();
 		if (wp_change){
 			nemu_state = STOP;
-			Warn("eip = 0x%x\n", eip_temp);
+			Greenp("at eip = 0x%x\n", eip_temp);
 		}	
 #ifdef HAS_DEVICE
 		extern void device_update();
