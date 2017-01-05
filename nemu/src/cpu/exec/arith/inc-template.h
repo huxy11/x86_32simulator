@@ -6,9 +6,12 @@ static void do_execute () {
 	DATA_TYPE result = op_src->val + 1;
 	OPERAND_W(op_src, result);
 
-	/* TODO: Update EFLAGS. */
-	panic("please implement me");
-
+	check_zf(result);
+	check_sf(result);
+	check_pf(result);
+	check_add_of(1, op_src->val, result);
+	check_add_cf(1, op_src->val);
+	check_add_af(1, op_src->val);
 	print_asm_template1();
 }
 

@@ -11,6 +11,7 @@ static void do_execute () {
 	check_pf(result);
 	check_sub_of(1, op_src->val, result);
 	check_sub_cf(1, op_src->val);
+	check_sub_af(1, op_src->val);
 	print_asm_template1();
 }
 
