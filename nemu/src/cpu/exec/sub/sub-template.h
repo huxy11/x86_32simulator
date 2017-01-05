@@ -21,9 +21,12 @@ static void do_execute() {
 	OPERAND_W(op_dest, re);
 	print_asm_template2();
 }
-
+#if DATA_BYTE != 1
 make_instr_helper(si2rm)
+#endif
 make_instr_helper(rm2r)
 make_instr_helper(i2rm)
+make_instr_helper(r2rm)
+make_instr_helper(i2a)
 
 #include "cpu/exec/template-end.h"
