@@ -50,6 +50,7 @@
 #include "cmp/cmp.h"
 
 #include "sub/sub.h"
+#include "sub/sbb.h"
 #include "add/add.h"
 #include "add/adc.h"
 
