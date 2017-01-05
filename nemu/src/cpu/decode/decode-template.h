@@ -103,8 +103,18 @@ make_helper(concat(decode_rmb2r_, SUFFIX)) {
 #endif
 	return len;
 }
-
-
+#if DATA_TYPE == 2
+make_helper(decode_rmw2r_w) {
+	op_src->size = 2;
+	int len = read_ModR_M(eip, op_src, op_dest);
+	op_src->simm = (int16_t)op_src->val;
+	op_dest->val = reg_l(op_dest->reg);
+#ifdef DEBUG
+	snprintf(op_dest->str, OP_STR_SIZE, "%%%s", REG_NAME(op_dest->reg));
+#endif
+	return len;
+}
+#endif 
 
 
 /* AL <- Ib

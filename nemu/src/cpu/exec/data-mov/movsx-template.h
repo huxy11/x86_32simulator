@@ -8,5 +8,8 @@ static void do_execute() {
 	print_asm_template2();
 }
 make_instr_helper(rmb2r)
+#if DATA_TYPE == 2
+make_instr_helper(rmw2r)
+#endif
 
 #include "cpu/exec/template-end.h"
