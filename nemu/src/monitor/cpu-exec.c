@@ -76,8 +76,10 @@ void cpu_exec(volatile uint32_t n) {
 		/* check watch points */
 		bool wp_change;
 		wp_change = check_wp();
-		if (wp_change) nemu_state = STOP;
-
+		if (wp_change){
+			nemu_state = STOP;
+			Warn("eip = 0x%x\n", cpu.eip);
+		}	
 #ifdef HAS_DEVICE
 		extern void device_update();
 		device_update();
