@@ -55,6 +55,7 @@ void write_operand_w(Operand *, uint16_t);
 void write_operand_l(Operand *, uint32_t);
 
 make_helper(decode_rmb2r_w);
+make_helper(decode_rmw2r_w);
 make_helper(decode_rmb2r_l);
 
 #endif
