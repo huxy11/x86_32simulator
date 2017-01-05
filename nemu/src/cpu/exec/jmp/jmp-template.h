@@ -5,7 +5,7 @@ static void do_execute() {
 	if (op_code == 0xff)
 		cpu.eip = op_src->val - 2;
 	else
-		cpu.eip += op_src->simm;
+		cpu.eip += (DATA_TYPE_S)op_src->simm;
 	//Log("src = %s %d 0x%x\n", op_src->str, op_src->val, op_src->val);
 	//Log("src = %x\n", op_code);
 	//OPERAND_W(op_dest, op_src->val - 2);
