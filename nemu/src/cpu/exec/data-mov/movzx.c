@@ -8,4 +8,4 @@
 #include "movzx-template.h"
 #undef DATA_BYTE
 
-make_helper_v(movzx_rm2r)
+make_helper_v(movzx_rmb2r)
