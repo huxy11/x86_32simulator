@@ -55,7 +55,6 @@ make_helper(repnz) {
 		Log("cpu.ecx = %d\n", cpu.ecx);
 		if (cpu._zf == 1)
 			break;
-		/* TODO: Jump out of the while loop if necessary. */
 	}
 
 #ifdef DEBUG
