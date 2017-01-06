@@ -68,3 +68,6 @@
 #include "stos/stos.h"
 
 #include "rep/rep.h"
+
+#include "scas/scas.h"
+
