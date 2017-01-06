@@ -3,6 +3,7 @@
 #define instr ret
 
 static void do_execute() {
+	Log("cpu.eip = 0x%x\n", cpu.eip);
 	swaddr_t re = swaddr_read(reg_l(R_ESP), 4);
 	Log("cpu.eip = 0x%x op_src->val = 0x%x\n", cpu.eip, op_src->val);
 	cpu.eip = re + op_src->val;
