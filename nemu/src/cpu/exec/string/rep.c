@@ -52,8 +52,10 @@ make_helper(repnz) {
 				|| ops_decoded.opcode == 0xaf	// scasw
 			  );
 
+		Log("cpu.ecx = %d\n", cpu.ecx);
+		if (cpu._zf == 1)
+			break;
 		/* TODO: Jump out of the while loop if necessary. */
-
 	}
 
 #ifdef DEBUG
