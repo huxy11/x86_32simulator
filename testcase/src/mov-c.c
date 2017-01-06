@@ -1,4 +1,5 @@
 #include "trap.h"
+#include "FLOAT.h"
 
 int A[10];
 int b;
