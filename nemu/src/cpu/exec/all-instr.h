@@ -67,8 +67,10 @@
 #include "cltd/cltd.h"
 
 #include "stos/stos.h"
+#include "scas/scas.h"
+#include "lods/lods.h"
+
 
 #include "rep/rep.h"
 
-#include "scas/scas.h"
 
