@@ -5,8 +5,8 @@ _start:
 	mov $0x80000000, %ebp
 	mov $0x80000000, %esp
 	mov $0x000000ff, %eax
+//	mov $0x01, (%edi)	
 	mov %eax, (%edi)
-	mov $0x000000fe, %eax
 	scas %es:(%edi), %eax
 	mov %edi, %eax
 	mov (%edi), %eax
