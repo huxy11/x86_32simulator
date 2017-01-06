@@ -3,6 +3,7 @@
 #define instr lods
 
 static void do_execute() {
+	Log("0x%x\n", cpu.eip);
 	DATA_TYPE src = swaddr_read(REG(R_ESI), DATA_BYTE);
 	REG(R_EAX) = src;
 	REG(R_ESI) += DATA_BYTE;
