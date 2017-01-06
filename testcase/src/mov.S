@@ -5,7 +5,8 @@ _start:
 	mov $0x80000000, %ebp
 	mov $0x80000000, %esp
 	mov $0x000000ff, %eax
-	
+	mov %eax, (%edi)
+	scas %es:(%edi), %eax
 	mov %edi, %eax
 	mov (%edi), %eax
 
@@ -15,7 +16,6 @@ _start:
 	mov $0x3, %ecx
 	rep stos %eax, %es:(%edi)
 
-	jmp $0x10001f
 
 	mov $0x7fffffff, %eax
 	add $0x02, %eax
