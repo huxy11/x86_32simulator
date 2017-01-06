@@ -5,9 +5,17 @@ _start:
 	mov $0x80000000, %ebp
 	mov $0x80000000, %esp
 	mov $0x000000ff, %eax
-//	mov $0x01, (%edi)	
 	mov %eax, (%edi)
-	scas %es:(%edi), %eax
+	mov $0x01, %eax
+	mov %eax, 0x4(%edi)
+	mov $0x02, %eax
+	mov %eax, 0x8(%edi)
+	mov $0x05, %eax
+	mov %eax, 0xc(%edi)
+	mov $0x02, %eax
+
+	repnz scas %es:(%edi), %eax
+
 	mov %edi, %eax
 	mov (%edi), %eax
 
