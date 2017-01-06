@@ -1,3 +1,3 @@
 include Makefile.part
 a:
-	@echo $(FLOAT)
+	@echo $(FLOAT_A_OBJ)
