@@ -55,9 +55,6 @@ clean: clean-cpp
 
 USERPROG := obj/testcase/hello-str
 
-
-
-
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
@@ -77,3 +74,6 @@ test: $(nemu_BIN) $(testcase_BIN) entry
 
 submit: clean
 	cd .. && tar cvj $(shell pwd | grep -o '[^/]*$$') > $(STU_ID).tar.bz2
+##### for debug #####
+a:
+	echo $(1)
