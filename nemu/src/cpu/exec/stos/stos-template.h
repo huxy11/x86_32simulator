@@ -4,11 +4,11 @@
 
 static void do_execute() {
 	//DATA_TYPE re = swaddr_read(REG(R_EDI), DATA_BYTE);
-	swaddr_write(REG(R_EDI), DATA_BYTE, REG(R_EAX));
+	swaddr_write(reg_l(R_EDI), DATA_BYTE, REG(R_EAX));
 	if (cpu._df == 0)
-		REG(R_EDI) += DATA_BYTE;
+		reg_l(R_EDI) += DATA_BYTE;
 	else
-		REG(R_EDI) -= DATA_BYTE;
+		reg_l(R_EDI) -= DATA_BYTE;
 	print_asm("stos");
 }
 
