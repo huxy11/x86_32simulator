@@ -11,7 +11,7 @@ static inline int F2int(FLOAT a) {
 
 static inline FLOAT int2F(int a) {
 	int b = a * 65535;
-
+	Log("int = %d 0x%x\t\tFLOAT = 0x%x\n", a, a, b);
 	return 0;
 }
 
