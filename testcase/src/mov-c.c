@@ -9,7 +9,9 @@ int main() {
 
 	
 	FLOAT c = f2F(5.5);
-	A[0] = c;
+	
+	f2F(c);
+
 	/*
 	A[0] = 0;
 	A[1] = 1;
