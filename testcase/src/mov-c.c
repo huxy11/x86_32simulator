@@ -8,7 +8,7 @@ int main() {
 
 
 	
-	FLOAT c = f2F(6.2);
+	FLOAT c = f2F(5.5);
 	A[0] = c;
 	/*
 	A[0] = 0;
