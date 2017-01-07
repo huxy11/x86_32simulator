@@ -5,14 +5,6 @@ int A[10];
 int b;
 
 int main() {
-
-
-	
-	FLOAT c = f2F(5.5);
-	
-	f2F(c);
-
-	/*
 	A[0] = 0;
 	A[1] = 1;
 	A[2] = 2;
@@ -30,7 +22,5 @@ int main() {
 	nemu_assert(A[4] == 4);
 	nemu_assert(b == 3);
 	nemu_assert(A[5] == 3);
-	*/
-
 	return 0;
 }
