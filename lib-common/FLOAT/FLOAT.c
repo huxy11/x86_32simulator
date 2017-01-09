@@ -48,7 +48,7 @@ FLOAT f2F(float a) {
 
 	re <<= ex + 1;
 	re >>= 8;
-	re &= sign;
+	re |= sign;
 
 	return re;
 }

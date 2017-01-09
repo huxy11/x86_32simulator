@@ -15,7 +15,6 @@ int main() {
 	A[5] = b;
 
 	FLOAT f = f2F(1.2);
-	A[9] = f;
 	nemu_assert(f == 0x13333);
 
 	nemu_assert(A[0] == 0);
