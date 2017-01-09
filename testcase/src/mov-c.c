@@ -16,6 +16,9 @@ int main() {
 
 	FLOAT f = f2F(-1.2);
 	nemu_assert(f == 0xfffecccd);
+	
+	f = f2F(0.214285714);
+	nemu_assert(f == 0x36db);
 
 	f = int2F(1);
 	nemu_assert(f == 0x10000);

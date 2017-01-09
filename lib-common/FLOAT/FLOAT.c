@@ -39,9 +39,10 @@ FLOAT f2F(float a) {
 	int re = *f & 0x7fffff | 0x800000;
 
 	ex >>= 23;
-	ex -= 127;
-
-	re <<= ex + 1;
+	if (ex >= 127)
+		re <<= ex - 126;
+	else 
+		re >>= 126 - ex;
 	re >>= 8;
 	if (sign)
 		re = ~re + 1;
