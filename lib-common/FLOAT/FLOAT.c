@@ -38,10 +38,10 @@ FLOAT f2F(float a) {
 	 * stack. How do you retrieve it to another variable without
 	 * performing arithmetic operations on it directly?
 	 */
-	uint32_t f = (int *) &a;
-	uint32_t sign = f & 0x80000000;
-	uint32_t ex = f & 0x7f800000;
-	uint32_t re = f & 0x7fffff | 0x800000;
+	int f = (int *) &a;
+	int sign = f & 0x80000000;
+	int ex = f & 0x7f800000;
+	int re = f & 0x7fffff | 0x800000;
 
 	ex >>= 23;
 	ex -= 127;
