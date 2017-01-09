@@ -45,6 +45,7 @@ FLOAT f2F(float a) {
 
 	ex >>= 23;
 	ex -= 127;
+	nemu_assert(ex == 0);
 
 	re <<= ex + 1;
 	re >>= 8;
