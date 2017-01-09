@@ -50,8 +50,6 @@ FLOAT f2F(float a) {
 	re >>= 8;
 	re &= sign;
 
-	Log("re = 0x%x\n", re);
-
 	return re;
 }
 
