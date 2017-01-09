@@ -35,6 +35,9 @@ int main() {
 	f = F_mul_F(0xfffecccd, 0x59999);
 	nemu_assert(f == 0xfff947af);
 
+	f = F_div_F(0x13333, 0x59999);
+	nemu_assert(f == 0x36db);
+
 	nemu_assert(A[0] == 0);
 	nemu_assert(A[1] == 1);
 	nemu_assert(A[2] == 2);
