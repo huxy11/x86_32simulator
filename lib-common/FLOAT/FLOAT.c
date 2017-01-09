@@ -1,7 +1,14 @@
 #include "FLOAT.h"
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
-	nemu_assert(0);
+	int sign = (a & 0x8000000) * (b & 0x80000000);
+	a &= 0x67ffffff;
+	b &= 0x67ffffff;
+	long long rel = (long long)a * (long long)b;
+	int *re1 = (int *) &rel;
+	int *re2 = re1 + 1;
+
+	int re = ((*re1 & 0xFFFF0000) >> 16) | ((*re2 & 0xFFFF) << 16) | sign;
 	return 0;
 }
 
@@ -23,21 +30,12 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 * It is OK not to use the template above, but you should figure
 	 * out another way to perform the division.
 	 */
-
+	long long 
 	nemu_assert(0);
 	return 0;
 }
 
 FLOAT f2F(float a) {
-	/* You should figure out how to convert `a' into FLOAT without
-	 * introducing x87 floating point instructions. Else you can
-	 * not run this code in NEMU before implementing x87 floating
-	 * point instructions, which is contrary to our expectation.
-	 *
-	 * Hint: The bit representation of `a' is already on the
-	 * stack. How do you retrieve it to another variable without
-	 * performing arithmetic operations on it directly?
-	 */
 	int* f = (int*) &a;
 	int sign = *f & 0x80000000;
 	int ex = *f & 0x7f800000;
@@ -48,8 +46,8 @@ FLOAT f2F(float a) {
 
 	re <<= ex + 1;
 	re >>= 8;
-	re |= sign;
-
+	if (sign)
+		re = ~re + 1;
 	return re;
 }
 
