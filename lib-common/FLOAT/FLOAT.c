@@ -27,9 +27,9 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 * It is OK not to use the template above, but you should figure
 	 * out another way to perform the division.
 	 */
-	 
-	nemu_assert(0);
-	return 0;
+	long long rel = ((longlong)a1 << 16) / (long long)b1;
+	int *re1 = (int*) &rel
+	return *re1;
 }
 
 FLOAT f2F(float a) {
