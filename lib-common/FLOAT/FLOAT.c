@@ -1,14 +1,6 @@
 #include "FLOAT.h"
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
-	int sign = (a & 0x8000000) * (b & 0x80000000);
-	a &= 0x67ffffff;
-	b &= 0x67ffffff;
-	long long rel = (long long)a * (long long)b;
-	int *re1 = (int *) &rel;
-	int *re2 = re1 + 1;
-
-	int re = ((*re1 & 0xFFFF0000) >> 16) | ((*re2 & 0xFFFF) << 16) | sign;
 	return 0;
 }
 
@@ -30,7 +22,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 * It is OK not to use the template above, but you should figure
 	 * out another way to perform the division.
 	 */
-	long long 
+	 
 	nemu_assert(0);
 	return 0;
 }
