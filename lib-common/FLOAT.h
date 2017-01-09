@@ -6,12 +6,12 @@
 typedef int FLOAT;
 
 static inline int F2int(FLOAT a) {
-	return 0;
+	int b = a >> 16;
+	return b;
 }
 
 static inline FLOAT int2F(int a) {
-	FLOAT b = a * 65536;
-	//printf("int = %d 0x%x\t\tFLOAT = 0x%x\n", a, a, b);
+	FLOAT b = a << 16;
 	return b;
 }
 
