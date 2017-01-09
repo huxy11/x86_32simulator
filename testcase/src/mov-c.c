@@ -26,7 +26,7 @@ int main() {
 	f = F_mul_int(0xfffecccd, 3);
 	nemu_assert(f == 0xfffc6667);
 
-	f = F_mul_F(0xfffecccd, 0x599990);
+	f = F_mul_F(0xfffecccd, 0x59999);
 	nemu_assert(f == 0xfff947af);
 
 	nemu_assert(A[0] == 0);
