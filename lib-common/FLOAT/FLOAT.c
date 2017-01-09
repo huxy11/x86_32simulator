@@ -5,7 +5,7 @@ FLOAT F_mul_F(FLOAT a, FLOAT b) {
 	int *re1 = (int*) &rel;
 	int *re2 = re1 + 1;
 	nemu_assert(re2 != 0);
-	int res = ((*re1 & 0xffff0000) >> 16) | ((*re2 & 0xffff) >> 16);
+	int res = ((*re1 & 0xffff0000) >> 16) | ((*re2 & 0xffff) << 16);
 	return res;
 }
 
