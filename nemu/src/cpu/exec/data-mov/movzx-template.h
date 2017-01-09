@@ -12,6 +12,9 @@ static void do_execute() {
 }
 
 make_instr_helper(rmb2r)
+#if DATA_BYTE == 4
+make_instr_helper(rmw2r)
+#endif
 
 
 #include "cpu/exec/template-end.h"
