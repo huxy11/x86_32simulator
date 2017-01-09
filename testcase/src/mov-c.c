@@ -23,6 +23,12 @@ int main() {
 	int i = F2int(0x50000);
 	nemu_assert(i == 5);
 
+	f = F_mul_int(0xfffecccd, 3);
+	nemu_assert(f == 0xfffc6667);
+
+	f = F_mul_F(0xfffecccd, 0x599990);
+	nemu_assert(f == 0xfff947af);
+
 	nemu_assert(A[0] == 0);
 	nemu_assert(A[1] == 1);
 	nemu_assert(A[2] == 2);
