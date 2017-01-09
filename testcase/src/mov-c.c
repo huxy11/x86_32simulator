@@ -20,6 +20,9 @@ int main() {
 	f = int2F(1);
 	nemu_assert(f == 0x10000);
 
+	int i = F2int(0x50000);
+	nemu_assert(i == 5);
+
 	nemu_assert(A[0] == 0);
 	nemu_assert(A[1] == 1);
 	nemu_assert(A[2] == 2);
