@@ -11,21 +11,17 @@ FLOAT F_mul_F(FLOAT a, FLOAT b) {
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
 	long long rel = 0;
-    long long al = (long long)a;
-	nemu_assert(a == 0x13333);
-	int *a1 = (int*)&al;
-	int *a2 = a1 + 1;
-	nemu_assert(*a1 == 0x13333);
-	nemu_assert(*a2 == 0x0);
+	int a1 = (a & 0xffff) << 16;
+	int a2 = (a & 0xffff0000) >> 16;
 
 	int *re1 = (int*)&rel;
 	int *re2 = re1 + 1;
-	nemu_assert(*a1 == 0x33330000);
-	nemu_assert(*a2 == 0x1);
+	nemu_assert(a1 == 0x33330000);
+	nemu_assert(a2 == 0x1);
 	nemu_assert(b == 0x59999);
 	nemu_assert(*re2 = 0);
 
-	asm volatile ("idiv %2" : "=a"(*re1), "=d"(*re2): "r"(b), "a"(*a1), "d"(*a2));
+	asm volatile ("idiv %2" : "=a"(*re1), "=d"(*re2): "r"(b), "a"(a1), "d"(a2));
 	
 	return *re1;
 }
