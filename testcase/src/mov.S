@@ -14,7 +14,7 @@ _start:
 	mov %eax, 0xc(%edi)
 	mov $0x02, %eax
 
-	idvid %ecx
+	idiv %ecx
 
 	repnz scas %es:(%edi), %eax
 
