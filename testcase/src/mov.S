@@ -16,6 +16,8 @@ _start:
 
 	idiv %ecx
 
+	idiv %cx
+
 	repnz scas %es:(%edi), %eax
 
 	mov %edi, %eax
