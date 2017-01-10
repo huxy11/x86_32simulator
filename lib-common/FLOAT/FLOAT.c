@@ -11,6 +11,7 @@ FLOAT F_mul_F(FLOAT a, FLOAT b) {
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
 	long long rel = 0, al = (long long)a << 16;
+	nemu_assert(a == 0x13333);
 	int *a1 = (int*)&al;
 	int *a2 = a1 + 1;
 
