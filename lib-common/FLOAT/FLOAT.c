@@ -26,12 +26,17 @@ FLOAT f2F(float a) {
 	int ex = *f & 0x7f800000;
 	int re = *f & 0x7fffff | 0x800000;
 
+	//float:23.24----0
+	//FLOAT:30----16.15----0
+	//134 = 127 + 7
 	ex >>= 23;
-	if (ex >= 127)
-		re <<= ex - 126;
-	else 
-		re >>= 126 - ex;
-	re >>= 8;
+	ex -= 134;
+	nemu_assert(ex > -24 && ex < 8);
+	if (ex < 0)
+		re >>= -ex;
+	else
+		re <<= ex;
+
 	if (sign)
 		re = ~re + 1;
 	return re;

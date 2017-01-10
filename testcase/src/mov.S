@@ -14,6 +14,7 @@ _start:
 	mov %eax, 0xc(%edi)
 	mov $0x02, %eax
 
+
 	idiv %ecx
 
 	idiv %cx
