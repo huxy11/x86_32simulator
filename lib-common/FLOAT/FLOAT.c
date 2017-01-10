@@ -43,8 +43,9 @@ FLOAT f2F(float a) {
 }
 
 FLOAT Fabs(FLOAT a) {
-
-	return 0;
+	if ((a & 0x80000000) == 0x80000000)
+	   a = ~(a - 1);	
+	return a;
 }
 
 /* Functions below are already implemented */
