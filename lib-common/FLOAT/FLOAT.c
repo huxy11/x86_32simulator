@@ -14,11 +14,12 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	int *a1 = (int*)&al;
 	int *a2 = a1 + 1;
 
-	nemu_assert( *a1 == 0x33330000);
-	nemu_assert( *a2 == 0x1);
-
 	int *re1 = (int*)&rel;
 	int *re2 = re1 + 1;
+	nemu_assert(*a1 == 0x33330000);
+	nemu_assert(*a2 == 0x1);
+	nemu_assert(b == 0x59999);
+	nemu_assert(*re2 = 0);
 
 	asm volatile ("idiv %2" : "=a"(*re1), "=d"(*re2): "r"(b), "a"(*a1), "d"(*a2));
 	
