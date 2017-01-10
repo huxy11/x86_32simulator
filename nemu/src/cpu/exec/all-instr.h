@@ -33,6 +33,7 @@
 #include "stack/pop.h"
 
 #include "call/call.h"
+#include "call/calldir.h"
 #include "call/ret.h"
 #include "leave/leave.h"
 
