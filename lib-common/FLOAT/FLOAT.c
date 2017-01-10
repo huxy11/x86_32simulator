@@ -37,7 +37,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	int *re1 = (int*)&rel;
 	int *re2 = re1 + 1;
 
-	asm volatile ("idiv %2" : "=a"(*re1), "=d"(*re2): "r"(b1), "a"(*a1), "d"(*a2));
+	asm volatile ("idiv %2" : "=a"(*re1), "=d"(*re2): "r"(b), "a"(*a1), "d"(*a2));
 	
 	return *re1;
 }
