@@ -11,10 +11,12 @@ FLOAT F_mul_F(FLOAT a, FLOAT b) {
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
 	long long rel = 0;
-    long long al = ((long long)a) << 16;
+    long long al = (long long)a;
 	nemu_assert(a == 0x13333);
 	int *a1 = (int*)&al;
 	int *a2 = a1 + 1;
+	nemu_assert(*a1 == 0x13333);
+	nemu_assert(*a2 == 0x0);
 
 	int *re1 = (int*)&rel;
 	int *re2 = re1 + 1;
