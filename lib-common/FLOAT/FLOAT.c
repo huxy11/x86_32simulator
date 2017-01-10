@@ -27,10 +27,18 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 * It is OK not to use the template above, but you should figure
 	 * out another way to perform the division.
 	 */
-	long long rel = ((long long)a << 16) / (long long)b;
+//	long long rel = ((long long)a << 16) / (long long)b;
 //	long long rel = 0;
 
-	int *re1 = (int*) &rel;
+	long long rel = 0, al = (long long)a << 16;
+	int *a1 = (int*)&al;
+	int *a2 = a1 + 1;
+
+	int *re1 = (int*)&rel;
+	int *re2 = re1 + 1;
+
+	asm volatile ("idiv %2" : "=a"(*re1), "=d"(*re2): "r"(b1), "a"(*a1), "d"(*a2));
+	
 	return *re1;
 }
 
