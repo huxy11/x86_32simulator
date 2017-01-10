@@ -27,8 +27,8 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 * It is OK not to use the template above, but you should figure
 	 * out another way to perform the division.
 	 */
-//	long long rel = ((long long)a << 16) / (long long)b;
-	long long rel = 0;
+	long long rel = ((long long)a << 16) / (long long)b;
+//	long long rel = 0;
 
 	int *re1 = (int*) &rel;
 	return *re1;
