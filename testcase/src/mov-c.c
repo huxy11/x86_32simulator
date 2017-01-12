@@ -4,6 +4,11 @@
 int A[10];
 int b;
 
+int test_a(int a,int b, int c,int d, int e, int f, int g)
+{
+	return a+b+c+d+e+f+g;
+}
+
 int main() {
 	A[0] = 0;
 	A[1] = 1;
@@ -14,6 +19,7 @@ int main() {
 	b = A[3];
 	A[5] = b;
 
+	test_a(1,2,3,4,5,6,7);
 
 	FLOAT f = f2F(-1.2);
 	nemu_assert(f == 0xfffecccd);
