@@ -7,11 +7,18 @@ char *exec_file = NULL;
 static char *strtab = NULL;
 static Elf32_Sym *symtab = NULL;
 static int nr_symtab_entry;
+static int nr_objtab_entry;
+static struct objtab {
+	swaddr_t addr;
+	char *name;
+}*objtab;
 
 void load_elf_tables(int argc, char *argv[]) {
 	int ret;
 	Assert(argc == 2, "run NEMU with format 'nemu [program]'");
 	exec_file = argv[1];
+
+	//Log("exec_file = %s\n", exec_file);
 
 	FILE *fp = fopen(exec_file, "rb");
 	Assert(fp, "Can not open '%s'", exec_file);
@@ -36,6 +43,7 @@ void load_elf_tables(int argc, char *argv[]) {
 	assert(elf->e_machine == EM_386);					// Intel 80386 architecture
 	assert(elf->e_version == EV_CURRENT);				// current version
 
+	objtab = malloc(4 * sizeof(struct objtab));
 
 	/* Load symbol table and string table for future use */
 
@@ -72,12 +80,34 @@ void load_elf_tables(int argc, char *argv[]) {
 			assert(ret == 1);
 		}
 	}
-
 	free(sh);
 	free(shstrtab);
 
-	assert(strtab != NULL && symtab != NULL);
+	//TODO:optimize this
+	objtab = malloc(nr_symtab_entry * sizeof(struct objtab));
+	int j;
+	for (j = 0;j < nr_symtab_entry; j++) {
+		//Log("name offset = %#x\n", symtab[j].st_name);
+		//Log("info = %#x\n", symtab[j].st_info);
+		//Log("name = %s\n", &strtab[symtab[j].st_name]);
 
+		if (symtab[j].st_info == 0x11) {
+			objtab[nr_objtab_entry].name = (strtab + symtab[j].st_name);
+			objtab[nr_objtab_entry].addr = symtab[j].st_value;
+			//Log("objtab[nr_objtab_entry].name = %s\n", objtab[nr_objtab_entry].name);
+			//Log("objtab[nr_objtab_entry].addr = %#x\n", objtab[nr_objtab_entry].addr);
+			nr_objtab_entry++;
+		}
+	}		
+	assert(strtab != NULL && symtab != NULL);
 	fclose(fp);
 }
 
+swaddr_t sym_eval(char* sym) {
+	int i = 0;
+	for(; i < nr_objtab_entry; i++) 
+		if (strcmp(objtab[i].name, sym) == 0)
+			return objtab[i].addr;
+	Warn("Incorrect var name!\n");
+	return 0;
+}

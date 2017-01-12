@@ -4,7 +4,7 @@
 
 CC := gcc
 LD := ld
-CFLAGS := -MMD -Wall  -c
+CFLAGS := -MMD -Wall -Werror -c
 
 LIB_COMMON_DIR := lib-common
 LIBC_INC_DIR := $(LIB_COMMON_DIR)/uclibc/include
@@ -12,7 +12,6 @@ LIBC_LIB_DIR := $(LIB_COMMON_DIR)/uclibc/lib
 LIBC := $(LIBC_LIB_DIR)/libc.a
 FLOAT := obj/$(LIB_COMMON_DIR)/FLOAT/FLOAT.a
 
-include config/Makefile.git
 include config/Makefile.build
 
 all: nemu 
@@ -61,15 +60,12 @@ entry: $(ENTRY)
 	objcopy -S -O binary $(ENTRY) entry
 
 run: $(nemu_BIN) $(USERPROG) entry
-	$(call git_commit, "run")
 	$(nemu_BIN) $(USERPROG)
 
 gdb: $(nemu_BIN) $(USERPROG) entry
-	$(call git_commit, "gdb")
 	gdb -s $(nemu_BIN) --args $(nemu_BIN) $(USERPROG)
 
 test: $(nemu_BIN) $(testcase_BIN) entry
-	$(call git_commit, "test")
 	bash test.sh $(testcase_BIN)
 
 submit: clean

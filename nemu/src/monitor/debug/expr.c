@@ -6,23 +6,16 @@
 #include <sys/types.h>
 #include <regex.h>
 #include <stdlib.h>
+static bool _success = true;
 
 enum {
-	NOTYPE = 256, EQ, NUM, NEG, DRF, HEX, REG
-
-	/* TODO: Add more token types */
-
+	NOTYPE = 256, EQ, NUM, NEG, DRF, HEX, REG, VAR,
 };
 
 static struct rule {
 	char *regex;
 	int token_type;
 } rules[] = {
-
-	/* TODO: Add more rules.
-	 * Pay attention to the precedence level of different rules.
-	 */
-
 	{" +",	NOTYPE},				// spaces
 	{"\\+", '+'},					// plus
 	{"==", EQ},						// equal
@@ -34,6 +27,7 @@ static struct rule {
 	{"0[xX][0-9a-fA-F]+", HEX}, 
 	{"\\$[a-z]+", REG},
 	{"[0-9]+", NUM},
+	{"[a-zA-Z_][a-zA-Z0-9]*", VAR},
 	{"", NEG},
 	{"", DRF},
 };
@@ -41,7 +35,6 @@ static struct rule {
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) ) - 2
 
 static regex_t re[NR_REGEX];
-
 /* Rules are used for many times.
  * Therefore we compile them(by using regcomp) only once before any usage.
  */
@@ -75,10 +68,8 @@ static bool make_token(char *e) {
 	regmatch_t pmatch;//store start end position
 	
 	nr_token = -1;
-	//Log("str = %s", e);
-	
-	
 	while(e[position] != '\0') {
+		//Log("NR_REGEX = %d\n", NR_REGEX);
 		/* Try all rules one by one. */
 		for(i = 0; i < NR_REGEX; i ++) {
 			if(regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
@@ -90,13 +81,22 @@ static bool make_token(char *e) {
 				if (rules[i].token_type == NOTYPE)
 					break;
 				/* detect the negative */
-				if ((rules[i].token_type == '-') && (tokens[nr_token].type != REG) && (tokens[nr_token].type != HEX) && (tokens[nr_token].type != NUM) && (tokens[nr_token].type != ')'))
+				if ((rules[i].token_type == '-') && \
+					(tokens[nr_token].type != REG) && \
+					(tokens[nr_token].type != HEX) && \
+					(tokens[nr_token].type != NUM) && \
+					(tokens[nr_token].type != ')'))
 					tokens[++nr_token].type = NEG;
 				/* detect the dereference */
-				else if ((rules[i].token_type == '*') && (tokens[nr_token].type != REG) && (tokens[nr_token].type != HEX) && (tokens[nr_token].type != NUM) && (tokens[nr_token].type != ')'))
+				else if ((rules[i].token_type == '*') && \
+						(tokens[nr_token].type != REG) && \
+						(tokens[nr_token].type != HEX) && \
+						(tokens[nr_token].type != NUM) && \
+						(tokens[nr_token].type != ')'))
 					tokens[++nr_token].type = DRF;	
 				else tokens[++nr_token].type = rules[i].token_type;
 				switch(rules[i].token_type) {
+				case VAR:
 				case NUM:
 				case HEX:
 				case REG:
@@ -104,7 +104,7 @@ static bool make_token(char *e) {
 					tokens[nr_token].str[substr_len] = 0;
 					break;
 				default: 
-//					Log("Nothing have to do for this type:%s\n", substr);
+					//Warn("Nothing have to do for this type:%s\n", substr);
 					break;
 				}
 				break;
@@ -176,6 +176,12 @@ static int eval(int p, int q)
 			return htoi(tokens[p].str);
 		case REG:
 			return regtoi(tokens[p].str);
+		case VAR: {
+			int _re = sym_eval(tokens[p].str);
+			if (!_re)
+				_success = false;
+			return swaddr_read(_re, 4);
+			}
 		}
 		if (tokens[p].type == NUM)
 			return atoi(tokens[p].str); 
@@ -225,7 +231,7 @@ static int eval(int p, int q)
 				else if (tokens[i].type == ')')
 					cnt--;
 			}
-			Log("i = %d\n", i);
+	//		Log("i = %d\n", i);
 			i--;
 			break;
 		}
@@ -258,7 +264,7 @@ uint32_t expr(char *e, bool *success) {
 	//Log("nr_token = %d\n", nr_token);
 	int re = eval(0, nr_token);
 	//printf("the result is %d\n", re);
-	*success = true;
+	*success = _success;
 	return re;
 }
 

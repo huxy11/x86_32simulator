@@ -36,6 +36,7 @@ static int cmd_c(char *args) {
 	cpu_exec(-1);
 	return 0;
 }
+
 static int cmd_q(char *args) {
 	return -1;
 }
@@ -54,6 +55,7 @@ static int cmd_n(char *args) {
 		
 	return 0;
 }
+
 static int cmd_info(char *args) {
 	int i = 0;
 	if(!args) {
@@ -152,14 +154,28 @@ static int cmd_r(char *args) {
 	}
 	return 0;
 }
+
+static int cmd_p(char *args) {
+	char* str = strtok(args, " ");
+	if (!str) {
+		Warn("Wrong input arguments!\n");
+		return 0;
+	}
+	bool success;
+	int re = expr(str, &success);
+	if (success)
+		printf("%s = %d\t\t%#x\n", str, re, re);
+	return 0;
+}
+
 static int cmd_test(char *args) {
 	/* colorful print */
 	Redp("this is red!\n");
 	Greenp("this is green!\n");
 	Yellowp("this is yellow!\n");
 	Bluep("this is blue\n");
-	bool success;
 #if 0
+	bool success;
 	char e[32] = "0xFF + 32 * 7";
 	expr(e, &success);	
 
@@ -171,7 +187,6 @@ static int cmd_test(char *args) {
 	init_wp_pool();
 	show_all_wp();
 	wp = new_wp("1+213");
-	Log("expr = %d\n", expr(wp->expr, &success));
 	show_all_wp();
 	free_wp(wp);
 	show_all_wp();
@@ -201,6 +216,7 @@ static struct {
 	{ "w", "Set watch point", cmd_w},
 	{ "d", "Delete watch point", cmd_d},
 	{ "r", "Check the specified register", cmd_r},
+	{ "p", "Print the value", cmd_p},
 	{ "write", "Write a 0xff to memory", cmd_write},
 	/* TODO: Add more commands */
 
