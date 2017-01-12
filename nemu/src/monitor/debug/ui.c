@@ -184,7 +184,6 @@ static int cmd_bt(char *args)
 		for (; ebp != esp; esp += 4) {
 			printf("0x%08x|\n%*.s\n", swaddr_read(esp, 4), 10, "-");
 		}
-		printf("!!\n");
 		printf("%*.s\n", 10, "+");
 		ebp = swaddr_read(ebp, 4);
 	} while(ebp);
