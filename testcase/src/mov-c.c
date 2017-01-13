@@ -19,7 +19,8 @@ int main() {
 	b = A[3];
 	A[5] = b;
 
-	test_a(1,2,3,4,5,6,7);
+
+//	test_a(1,2,3,4,5,6,7);
 
 	FLOAT f = f2F(-1.2);
 	nemu_assert(f == 0xfffecccd);
@@ -47,6 +48,7 @@ int main() {
 
 	f = F_div_F(0x13333, 0x59999);
 	nemu_assert(f == 0x36db);
+
 
 	nemu_assert(A[0] == 0);
 	nemu_assert(A[1] == 1);

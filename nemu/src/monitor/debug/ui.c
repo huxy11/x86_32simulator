@@ -259,6 +259,7 @@ static struct {
 	{ "bt", "Backtrace stack frame", cmd_bt},
 	{ "write", "Write a 0xff to memory", cmd_write},
 	{ "test", "Test examples", cmd_test},
+	{ "", "Next", cmd_n},
 	/* TODO: Add more commands */
 
 };

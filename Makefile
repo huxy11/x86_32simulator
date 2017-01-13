@@ -55,6 +55,7 @@ clean: clean-cpp
 
 USERPROG := obj/testcase/mov-c
 
+#ENTRY := $(USERPROG)
 ENTRY := $(kernel_BIN)
 
 entry: $(ENTRY)
