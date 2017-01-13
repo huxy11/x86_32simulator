@@ -5,7 +5,7 @@
 static void do_execute() {
 	DATA_TYPE src = swaddr_read(reg_l(R_ESI), DATA_BYTE);
 	swaddr_write(reg_l(R_EDI), DATA_BYTE, src);
-	Log("DATA_BYTE = %d\tsrc = 0x%x\n", DATA_BYTE, src);
+	//Log("DATA_BYTE = %d\tsrc = 0x%x\n", DATA_BYTE, src);
 	reg_l(R_EDI) += DATA_BYTE;
 	reg_l(R_ESI) += DATA_BYTE;
 }
