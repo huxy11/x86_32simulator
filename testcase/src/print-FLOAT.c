@@ -7,6 +7,7 @@
 char buf[128];
 
 int main() {
+	printf("printf begin!\n");
 	init_FLOAT_vfprintf();
 
 #ifdef LINUX_RT

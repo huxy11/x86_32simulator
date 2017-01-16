@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "FLOAT.h"
+#include <sys/mman.h>
 
 extern char _vfprintf_internal;
 extern char _fpmaxtostr;
@@ -21,6 +22,19 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 }
 
 static void modify_vfprintf() {
+	uint8_t *vfp = &_vfprintf_internal;
+	uint8_t *fts = &_fpmaxtostr;
+	printf("_fpmaxtostr addr = %p\tvalue = %#x\n", fts, _fpmaxtostr);
+	printf("format_FLOAT = %p\n", format_FLOAT);
+	int32_t offset = (int)fts - (int)format_FLOAT;
+	printf("offset = %d, %#x\n", offset, offset);
+	vfp += 0x307;
+	printf("_vfprintf_internal + offset (rel32) addr = %p\tvalue = %#x\t%d\n", \
+			vfp, *(uint32_t*)vfp, *(int32_t *)vfp); 
+	mprotect((void *)((0x8048DF4) & 0xFFFFF000), 4096 * 2, \
+						PROT_READ | PROT_WRITE | PROT_EXEC);
+	*(int32_t*)vfp -= offset;
+	printf("jmp to %d\n", *(int32_t *)vfp);
 	/* TODO: Implement this function to hijack the formating of "%f"
 	 * argument during the execution of `_vfprintf_internal'. Below
 	 * is the code section in _vfprintf_internal() relative to the
