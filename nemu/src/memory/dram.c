@@ -30,7 +30,8 @@ typedef union {
 #define NR_RANK (1 << RANK_WIDTH)
 
 //#define HW_MEM_SIZE (1 << (COL_WIDTH + ROW_WIDTH + BANK_WIDTH + RANK_WIDTH))
-#define HW_MEM_SIZE 0xffffffff
+//#define HW_MEM_SIZE 0xffffffff
+#define HW_MEM_SIZE 0xfffffffff
 
 uint8_t dram[NR_RANK][NR_BANK][NR_ROW][NR_COL];
 uint8_t *hw_mem = (void *)dram;

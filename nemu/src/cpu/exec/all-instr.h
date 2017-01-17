@@ -64,6 +64,7 @@
 
 #include "set/setne.h"
 #include "set/sete.h"
+#include "set/setge.h"
 
 #include "cltd/cltd.h"
 

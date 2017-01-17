@@ -15,8 +15,8 @@ make_helper(rep) {
 			exec(eip + 1);
 			count ++;
 			cpu.ecx --;
-			Log("cpu.ecx = %#x\n", cpu.ecx);
-			Log("ops_decoded.opcode == %#x\n", ops_decoded.opcode);
+			//Log("cpu.ecx = %#x\n", cpu.ecx);
+			//Log("ops_decoded.opcode == %#x\n", ops_decoded.opcode);
 			assert(ops_decoded.opcode == 0xa4	// movsb
 				|| ops_decoded.opcode == 0xa5	// movsw
 				|| ops_decoded.opcode == 0xaa	// stosb
@@ -55,7 +55,7 @@ make_helper(repnz) {
 				|| ops_decoded.opcode == 0xaf	// scasw
 			  );
 
-		Log("cpu.ecx = %d\n", cpu.ecx);
+		//Log("cpu.ecx = %d\n", cpu.ecx);
 		if (cpu._zf == 1)
 			break;
 	}

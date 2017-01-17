@@ -13,6 +13,12 @@ _start:
 	mov $0x05, %eax
 	mov %eax, 0xc(%edi)
 	mov $0x02, %eax
+	
+	push (%edx)
+	pop (%ecx)
+
+	nop
+	push (%edx)
 
 
 	idiv %ecx

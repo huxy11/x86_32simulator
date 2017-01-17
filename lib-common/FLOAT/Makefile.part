@@ -7,11 +7,11 @@ FLOAT_VFPRINTF_O := $(dir $(FLOAT))FLOAT_vfprintf.o
 FLOAT_A_OBJ := $(FLOAT_O) $(FLOAT_VFPRINTF_O)
 
 $(FLOAT): $(FLOAT_A_OBJ)
-	 ar r $@ $^
+	 ar r $@ $^ 
 
 $(FLOAT_O): 
 	mkdir -p obj/lib-common/FLOAT
-	gcc -o obj/lib-common/FLOAT/FLOAT.o lib-common/FLOAT/FLOAT.c -m32 -O2 -fno-builtin -c -I lib-common/
+	gcc -o  obj/lib-common/FLOAT/FLOAT.o lib-common/FLOAT/FLOAT.c -m32 -O2 -fno-builtin -c -I lib-common/ 
 $(FLOAT_VFPRINTF_O): 
 	mkdir -p obj/lib-common/FLOAT
-	gcc -o obj/lib-common/FLOAT/FLOAT_vfprintf.o lib-common/FLOAT/FLOAT_vfprintf.c -m32 -O2 -fno-builtin -c -I lib-common/ 
+	gcc -o  obj/lib-common/FLOAT/FLOAT_vfprintf.o lib-common/FLOAT/FLOAT_vfprintf.c -m32 -O2 -fno-builtin -c -I lib-common/ 
