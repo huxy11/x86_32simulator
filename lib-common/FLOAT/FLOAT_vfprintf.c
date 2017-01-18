@@ -9,7 +9,7 @@ extern char _fpmaxtostr;
 extern int __stdio_fwrite(char *buf, int len, FILE *stream);
 
 __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
-//	nemu_assert(f == 0x00001111);
+	//nemu_assert(f == 0x00001111);
 	uint32_t sign = f & 0x80000000;
 	if (sign)
 		f = ~f + 1;
@@ -17,10 +17,14 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	uint64_t decimal = f;
 	//decimal = (decimal & 0xffff) * 1000000 / 65536;
 	decimal &= 0xffff;
-	decimal *= (uint64_t)1000000;
-//	nemu_assert(decimal == 4369000000);
-	decimal /= 65536;
-	nemu_assert(decimal == 66665);
+	decimal *= 1000000;
+	//nemu_assert(decimal == 4369000000);
+	uint32_t *d1 = (int*)&decimal;
+	uint32_t *d2 = d1 + 1;
+	uint32_t d3 = 0x10000;
+	asm volatile ("idiv %2" : "=a"(*d1), "=d"(d3): "r"(d3), "a"(*d1), "d"(*d2));
+	*d2 = 0;
+	//nemu_assert(decimal == 66665);
 	char buf[80];
 	int len;
 	if (sign) 

@@ -23,7 +23,7 @@ int main() {
 #else
 	sprintf(buf, "%f", FLOAT_ARG(0x00001111));
 	nemu_assert(strcmp(buf, "0.666650") == 0);
-/*	
+	
 	sprintf(buf, "%f", FLOAT_ARG(0x00010000));
 	nemu_assert(strcmp(buf, "1.000000") == 0);
 
@@ -31,7 +31,7 @@ int main() {
 	nemu_assert(strcmp(buf, "32767.000000") == 0);
 
 	sprintf(buf, "%f", FLOAT_ARG(0x00001000));
-	nemu_assert(strcmp(buf, "0.150000") == 0);
+	nemu_assert(strcmp(buf, "0.625000") == 0);
 
 	sprintf(buf, "%f", FLOAT_ARG(0x00003333));
 	nemu_assert(strcmp(buf, "0.199996") == 0);
@@ -41,7 +41,7 @@ int main() {
 
 	sprintf(buf, "%f %d", FLOAT_ARG(0xfffecccd), 123456);
 	nemu_assert(strcmp(buf, "-1.199996 123456") == 0);
-	*/
+	
 #endif
 
 	return 0;
