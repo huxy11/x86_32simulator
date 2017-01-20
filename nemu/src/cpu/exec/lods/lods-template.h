@@ -3,11 +3,11 @@
 #define instr lods
 
 static void do_execute() {
-	Log("0x%x\n", cpu.eip);
+	//Log("0x%x\n", cpu.eip);
 	DATA_TYPE src = swaddr_read(reg_l(R_ESI), DATA_BYTE);
 	REG(R_EAX) = src;
 	reg_l(R_ESI) += DATA_BYTE;
-	Log("DATA_BYTE = %d\t src = 0x%x\n", DATA_BYTE, src);
+	//Log("DATA_BYTE = %d\t src = 0x%x\n", DATA_BYTE, src);
 	print_asm("lods");
 }
 

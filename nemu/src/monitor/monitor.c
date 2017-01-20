@@ -10,6 +10,7 @@ void load_elf_tables(int, char *[]);
 void init_regex();
 void init_wp_pool();
 void init_ddr3();
+void init_cache();
 
 FILE *log_fp = NULL;
 
@@ -29,6 +30,9 @@ void init_monitor(int argc, char *argv[]) {
 	/* Open the log file. */
 	init_log();
 
+	/* Init cache */
+	init_cache();
+	
 	/* Load the string table and symbol table from the ELF file for future use. */
 	load_elf_tables(argc, argv);
 
@@ -37,6 +41,7 @@ void init_monitor(int argc, char *argv[]) {
 
 	/* Initialize the watchpoint pool. */
 	init_wp_pool();
+
 
 	/* Display welcome message. */
 	welcome();

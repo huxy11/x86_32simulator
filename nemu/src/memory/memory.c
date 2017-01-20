@@ -1,12 +1,16 @@
 #include "common.h"
-
+#include "memory/cache.h"
 uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
 
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
+	/* if (len = 1) return dram_read(addr, len) & 1111b */
+	/* if (len = 2)....*/
 	return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
+	//int re = cache.read(addr, len) & (~0u >> ((4 - len) << 3));
+	//return re;
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {

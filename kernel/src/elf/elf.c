@@ -43,34 +43,13 @@ uint32_t loader() {
 		/* Scan the program header table, load each segment into memory */
 		//ph = (void *)(elf + elf->e_phoff + i * elf->e_phentsize); 
 		ph = (void *)(buf + elf->e_phoff + i * elf->e_phentsize);
-		//nemu_assert(ph->p_vaddr == 0x800000);
-		//nemu_assert(ph->p_memsz == 0x0066c);
-		//nemu_assert(ph->p_filesz == 0x0066c);
-
 				
 		if(ph->p_type == PT_LOAD) {
-			//nemu_assert(*p_magic == elf_magic);
-			//nemu_assert(ph->p_vaddr == 0x800000);
-			//nemu_assert(ph->p_memsz == 0x0066c);
-			//nemu_assert(ph->p_filesz == 0x0066c);
-	
 			int offset = ph->p_offset, filesz = ph->p_filesz;
 			ramdisk_read(tmp_buf, offset, filesz);
-			//ramdisk_read(tmp_buf, ph->p_offset, ph->p_filesz);
-			
-		//	nemu_assert(*p_magic == elf_magic);
-		
-			//nemu_assert(ph->p_vaddr == 0x800000);
-			//nemu_assert(ph->p_memsz == 0x0066c);
-			//nemu_assert(ph->p_filesz == 0x0066c);
 			memset((void*)ph->p_vaddr, 0, ph->p_memsz);
 			memcpy((void*)ph->p_vaddr, tmp_buf, ph->p_filesz);
 			 
-			/* TODO: zero the memory region 
-			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
-			 */
-
-
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
 			extern uint32_t cur_brk, max_brk;

@@ -13,7 +13,7 @@ static void do_execute() {
 	check_sub_of(src, dest, re);
 	check_sub_af(src, dest);
 	reg_l(R_EDI) += DATA_BYTE;
-	Log("src = %x\t dest = %x\t re = %x\n", src, dest, re);
+	//Log("src = %x\t dest = %x\t re = %x\n", src, dest, re);
 }
 
 make_helper(concat(scas_, SUFFIX)) {
