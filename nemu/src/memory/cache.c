@@ -3,21 +3,14 @@
 #include "memory/cache.h"
 cache_s cache;
 
-uint32_t cache_read(hwaddr_t, size_t);
-void cache_write(hwaddr_t, size_t, uint32_t);
-int ddr3_read(hwaddr_t, void*);
-static void cache_read_internel(hwaddr_t, void*);
-
 void init_cache()
 {
-	cache.read = cache_read;
-	cache.write = cache_write;
 	int i, j;
 	for (i = 0; i < 1024; i++)
 		for (j = 0; j < 8; j++)
 			cache.blk[i].way[j].valid = 0;
 }
-
+#if 0
 uint32_t cache_read(hwaddr_t addr, size_t len)
 {
 	uint32_t offset = addr & BLK_MASK;
@@ -56,3 +49,4 @@ void cache_write(hwaddr_t addr, size_t len, uint32_t data)
 {
 	return;
 }
+#endif

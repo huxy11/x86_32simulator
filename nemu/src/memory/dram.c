@@ -65,15 +65,33 @@ void ddr3_read(hwaddr_t addr, void *data) {
 	uint32_t row = temp.row;
 	uint32_t col = temp.col;
 
+	uint32_t blk_index = (addr & BLK_INDEX_MASK) >> 3;
+	uint32_t tag = (addr & TAG_MASK) >> 13;
+
+	int i;
+	/* search cache */
+	for (i = 0; i < 8; i++)
+		if (cache.blk[blk_index].way[i].valid \
+			&& cache.blk[blk_index].way[i].tag == tag) {
+			/* cache hit */
+			memcpy(data, cache.blk[blk_index].way[i].data, BLK_LEN);
+			return;
+		}
+	/* cache miss */
+
 	if(!(rowbufs[rank][bank].valid && rowbufs[rank][bank].row_idx == row) ) {
 		/* read a row into row buffer */
 		memcpy(rowbufs[rank][bank].buf, dram[rank][bank][row], NR_COL);
 		rowbufs[rank][bank].row_idx = row;
 		rowbufs[rank][bank].valid = true;
 	}
-
 	/* burst read */
 	memcpy(data, rowbufs[rank][bank].buf + col, BURST_LEN);
+	/* write into cache */
+	i = rand() % 8;
+	cache.blk[blk_index].way[i].valid = 1;
+	cache.blk[blk_index].way[i].tag = tag;
+	memcpy(cache.blk[blk_index].way[i].data, data, BLK_LEN);
 }
 
 void ddr3_write(hwaddr_t addr, void *data, uint8_t *mask) {
@@ -88,7 +106,6 @@ void ddr3_write(hwaddr_t addr, void *data, uint8_t *mask) {
 	
 	uint32_t blk_index = (temp.addr & BLK_INDEX_MASK) >> 3;
 	uint32_t tag = (temp.addr & TAG_MASK) >> 13;
-	//uint32_t offset = addr & BLK_MASK;
 	uint32_t col_offset = addr & 0x3f8;//0x3f8 = 11 1111 1000b
 	int i;
 	int j;
@@ -103,18 +120,11 @@ void ddr3_write(hwaddr_t addr, void *data, uint8_t *mask) {
 	cache.blk[blk_index].way[i].valid = 1;
 	cache.blk[blk_index].way[i].tag = tag;
 	memcpy(cache.blk[blk_index].way[i].data , dram[rank][bank][row] + col_offset, BLK_LEN);  
-	//Warn("Cache miss!\n");
 	for (j = 0; j < 8; j++)
-		//Warn("%#x", cache.blk[blk_index].way[i].data[j]);
 
 cache:
 	/* write cache */
-	for (j = 0; j < 8; j++)
-		//Warn("%#x", cache.blk[blk_index].way[i].data[j]);
 	memcpy_with_mask(cache.blk[blk_index].way[i].data, data, BLK_LEN, mask);
-	for (j = 0; j < 8; j++)
-		//Warn("%#x ===> %#x", ((uint8_t *)data)[j], cache.blk[blk_index].way[i].data[j]);
-	//Warn("\n");
 
 	
 	if (!(rowbufs[rank][bank].valid && rowbufs[rank][bank].row_idx == row) ) {
@@ -150,9 +160,6 @@ void dram_write(hwaddr_t addr, size_t len, uint32_t data) {
 	uint8_t mask[2 * BURST_LEN];
 	memset(mask, 0, 2 * BURST_LEN);
 
-	//Warn("data = %#x\n", data);
-	//Warn("offset = %#x\n", offset);
-	//Warn("len = %d\n", len);
 
 	*(uint32_t *)(temp + offset) = data;
 	memset(mask + offset, 1, len);

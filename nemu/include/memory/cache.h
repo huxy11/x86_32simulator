@@ -1,9 +1,9 @@
 #ifndef __CACHE_H__
 #define __CACHE_H__
 
-#define BLK_NR_XPNT 10	//2^10 = 1024
-#define BLK_OFFSET_BIT 3	//log2(BLK_SZ/WAY_NR) =  log2(64/8) = 3
-#define WAY_NR 8
+//#define BLK_NR_XPNT 10	//2^10 = 1024
+//#define BLK_OFFSET_BIT 3	//log2(BLK_SZ/WAY_NR) =  log2(64/8) = 3
+//#define WAY_NR 8
 
 #define BLK_LEN 8
 #define BLK_MASK (BLK_LEN - 1)
@@ -29,8 +29,4 @@ typedef struct cache_s {
 }cache_s;
 
 extern cache_s cache;
-
-//TODO:maybe this part can be deleted
-uint32_t cache_read(hwaddr_t, size_t);
-void cache_write(hwaddr_t, size_t, uint32_t);
 #endif
