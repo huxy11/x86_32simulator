@@ -41,7 +41,18 @@ typedef struct {
 			unsigned _vm:1;
 		};
 	};
-	swaddr_t eip;
+	uint32_t eip;
+	uint32_t gdtr;	
+	uint16_t gdtr_lmt;
+	uint32_t cr0;
+	uint16_t cs;
+	uint64_t cs_hidn;
+	uint16_t ss;
+	uint64_t ss_hidn;
+	uint16_t ds;
+	uint64_t ds_hidn;
+	uint16_t es;
+	uint64_t es_hidn;
 } CPU_state;
 
 extern CPU_state cpu;

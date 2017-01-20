@@ -2,6 +2,10 @@
 
 .globl _start
 _start:
+	mov %cr1, %eax
+	mov %cr0, %eax
+	mov %cr0, %ebx
+	mov %eax, %cr0
 	mov $0x80000000, %ebp
 	mov $0x80000000, %esp
 	mov $0x000000ff, %eax
