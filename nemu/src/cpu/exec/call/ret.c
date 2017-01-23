@@ -7,7 +7,7 @@
 #undef DATA_BYTE
 
 make_helper(ret) {
-	swaddr_t re = swaddr_read(reg_l(R_ESP), 4);
+	swaddr_t re = swaddr_read(reg_l(R_ESP), 4, 2);
 	cpu.eip = re;
 	reg_l(R_ESP) += 4;
 	print_asm("ret");

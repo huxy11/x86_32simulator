@@ -180,7 +180,7 @@ static int eval(int p, int q)
 			int _re = sym_eval(tokens[p].str);
 			if (!_re)
 				_success = false;
-			return swaddr_read(_re, 4);
+			return swaddr_read(_re, 4, 3);
 			}
 		}
 		if (tokens[p].type == NUM)
@@ -249,7 +249,7 @@ static int eval(int p, int q)
 	case NEG:
 		return -eval(p + 1, q);	
 	case DRF:
-		return swaddr_read(eval(p+1, q), 4);
+		return swaddr_read(eval(p+1, q), 4, 3);
 	case EQ:
 		return eval(p, r-1) == eval(r+1, q);
 	}

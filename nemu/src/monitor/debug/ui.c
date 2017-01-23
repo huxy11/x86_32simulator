@@ -70,32 +70,32 @@ static int cmd_n(char *args)
 
 static int cmd_info(char *args) 
 {
-	int i = 0;
+	int i;
 	if(!args) {
 		Warn("No info argument!\nw:watchpoints\tr:registers\tf:flags\n");
 		return 0;
 	}
 	switch (args[0]) {
 	case 'r':
-		for (;i < 4; i++) 
-			printf("%s:%#-8x\t", regsl[i], cpu.gpr[i]._32);
+		for (i = 0;i < 8; i++) 
+			printf("%%%s:%#-8x%s", regsl[i], cpu.gpr[i]._32,	\
+				   	i % 4 == 3 ? "\n" : "\t");
 		printf("\n");
-		for (;i < 8; i++) 
-			printf("%s:%#-8x\t", regsl[i], cpu.gpr[i]._32);
+		for (i = 0; i < 8; i++)
+			printf("%%%s:%#-8x%s", regsw[i], cpu.gpr[i]._16,	\
+					i % 4 == 3 ? "\n" : "\t");
 		printf("\n");
+		for (i = 0; i < 8; i++)
+			printf("%%%s:%#-8x%s", regsb[i], reg_b(i),			\
+					i % 4 == 3 ? "\n" : "\t");
+		printf("\n");
+		printf("%%gdtr = %#x\tgdtr_lmt = %#x\n", cpu.gdtr, cpu.gdtr_lmt);
+		printf("%%cr0 = %#x\n", cpu.cr0);
+		printf("%%eip = %#x\n", cpu.eip);
 		printf("\n");
 		for (i = 0; i < 4; i++)
-			printf("%s:%#-8x\t", regsw[i], cpu.gpr[i]._16);
-		printf("\n");
-		for (; i < 8; i++)
-			printf("%s:%#-8x\t", regsw[i], cpu.gpr[i]._16);
-		printf("\n");
-		printf("\n");
-		for (i = 0; i < 4; i++)
-			printf("%s:%#-8x\t", regsb[i], reg_b(i));
-		printf("\n");
-		for (; i < 8; i++)
-			printf("%s:%#-8x\t", regsb[i], reg_b(i));
+			printf("%%%s:%#-8x\tbase:%#-8x\tlimit:%#-8x\n",	\
+					sregs[i], cpu.sreg[i], cpu.sreg_base[i], cpu.sreg_lmt[i]); 		
 		printf("\n");
 		break;
 	case 'w':
@@ -134,7 +134,7 @@ static int cmd_x(char *args)
 	}int add = htoi(str);
 
 	for(; cnt >= 0; cnt--, add++) { 
-		printf("add:%x->val:%02x\n", add, swaddr_read(add, 1));
+		printf("add:%x->val:%02x\n", add, swaddr_read(add, 1, 3));
 		if (cnt % 4 == 0) 
 			printf("\n");
 	}
@@ -182,10 +182,10 @@ static int cmd_bt(char *args)
 	int ebp = cpu.ebp, esp = cpu.esp;
 	do {
 		for (; ebp != esp; esp += 4) {
-			printf("0x%08x|\n%*.s\n", swaddr_read(esp, 4), 10, "-");
+			printf("0x%08x|\n%*.s\n", swaddr_read(esp, 4, 2), 10, "-");
 		}
 		printf("%*.s\n", 10, "+");
-		ebp = swaddr_read(ebp, 4);
+		ebp = swaddr_read(ebp, 4, 2);
 	} while(ebp);
 	return 0;
 }
