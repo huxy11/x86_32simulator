@@ -11,6 +11,7 @@ static inline int F2int(FLOAT a) {
 }
 
 static inline FLOAT int2F(int a) {
+	nemu_assert(a < 32768 && a > -32769);
 	FLOAT b = a << 16;
 	return b;
 }

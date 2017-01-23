@@ -10,10 +10,16 @@
 
 void cpu_exec(uint32_t);
 CPU_state cpu;
+typedef struct {
+	swaddr_t prev_ebp;
+	swaddr_t ret_addr;
+	uint32_t *atgs;
+}stackFram;
 
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
-char* rl_gets() {
+char* rl_gets() 
+{
 	static char *line_read = NULL;
 
 	if (line_read) {
@@ -32,20 +38,26 @@ char* rl_gets() {
 }
 
 static int cmd_help(char *args);
-static int cmd_c(char *args) {
+
+static int cmd_c(char *args) 
+{
 	cpu_exec(-1);
 	return 0;
 }
 
-static int cmd_q(char *args) {
+static int cmd_q(char *args) 
+{
 	return -1;
 }
 
-static int cmd_nn(char *args) {
+static int cmd_nn(char *args) 
+{
 	cpu_exec(100);
 	return 0;
 }
-static int cmd_n(char *args) {
+
+static int cmd_n(char *args) 
+{
 	if (!args) 
 		cpu_exec(1);
 	else {
@@ -56,33 +68,34 @@ static int cmd_n(char *args) {
 	return 0;
 }
 
-static int cmd_info(char *args) {
-	int i = 0;
+static int cmd_info(char *args) 
+{
+	int i;
 	if(!args) {
 		Warn("No info argument!\nw:watchpoints\tr:registers\tf:flags\n");
 		return 0;
 	}
 	switch (args[0]) {
 	case 'r':
-		for (;i < 4; i++) 
-			printf("%s:%#-8x\t", regsl[i], cpu.gpr[i]._32);
+		for (i = 0;i < 8; i++) 
+			printf("%%%s:%#-8x%s", regsl[i], cpu.gpr[i]._32,	\
+				   	i % 4 == 3 ? "\n" : "\t");
 		printf("\n");
-		for (;i < 8; i++) 
-			printf("%s:%#-8x\t", regsl[i], cpu.gpr[i]._32);
+		for (i = 0; i < 8; i++)
+			printf("%%%s:%#-8x%s", regsw[i], cpu.gpr[i]._16,	\
+					i % 4 == 3 ? "\n" : "\t");
 		printf("\n");
+		for (i = 0; i < 8; i++)
+			printf("%%%s:%#-8x%s", regsb[i], reg_b(i),			\
+					i % 4 == 3 ? "\n" : "\t");
+		printf("\n");
+		printf("%%gdtr = %#x\tgdtr_lmt = %#x\n", cpu.gdtr, cpu.gdtr_lmt);
+		printf("%%cr0 = %#x\n", cpu.cr0);
+		printf("%%eip = %#x\n", cpu.eip);
 		printf("\n");
 		for (i = 0; i < 4; i++)
-			printf("%s:%#-8x\t", regsw[i], cpu.gpr[i]._16);
-		printf("\n");
-		for (; i < 8; i++)
-			printf("%s:%#-8x\t", regsw[i], cpu.gpr[i]._16);
-		printf("\n");
-		printf("\n");
-		for (i = 0; i < 4; i++)
-			printf("%s:%#-8x\t", regsb[i], reg_b(i));
-		printf("\n");
-		for (; i < 8; i++)
-			printf("%s:%#-8x\t", regsb[i], reg_b(i));
+			printf("%%%s:%#-8x\tbase:%#-8x\tlimit:%#-8x\n",	\
+					sregs[i], cpu.sreg[i], cpu.sreg_base[i], cpu.sreg_lmt[i]); 		
 		printf("\n");
 		break;
 	case 'w':
@@ -102,7 +115,9 @@ static int cmd_info(char *args) {
 	}
 	return 0;
 } 
-static int cmd_x(char *args) {
+
+static int cmd_x(char *args) 
+{
 	char *str;
 	/* extract count */
 	str = strtok(args, " ");
@@ -119,13 +134,64 @@ static int cmd_x(char *args) {
 	}int add = htoi(str);
 
 	for(; cnt >= 0; cnt--, add++) { 
-		printf("add:%x->val:%02x\n", add, swaddr_read(add, 1));
+		printf("add:%x->val:%02x\n", add, swaddr_read(add, 1, 3));
 		if (cnt % 4 == 0) 
 			printf("\n");
 	}
 	return 0;	
 }
-static int cmd_write(char *args) {
+
+
+static int cmd_w(char *args) 
+{
+	new_wp(args);
+	return 0;	
+}
+
+static int cmd_d(char *args) 
+{
+	del_wp(args);
+	return 0;
+}
+
+static int cmd_r(char *args) 
+{
+	if (!args) {
+	}
+	return 0;
+}
+
+static int cmd_p(char *args) 
+{
+	char* str = strtok(args, " ");
+	if (!str) {
+		Warn("Wrong input arguments!\n");
+		return 0;
+	}
+	bool success;
+	int re = expr(str, &success);
+	if (success)
+		printf("%s = %d\t\t%#x\n", str, re, re);
+	return 0;
+}
+
+static int cmd_bt(char *args) 
+{
+	Log("cpu.ebp = %#x\n", cpu.ebp);
+	Log("cpu.esp = %#x\n", cpu.esp);
+	int ebp = cpu.ebp, esp = cpu.esp;
+	do {
+		for (; ebp != esp; esp += 4) {
+			printf("0x%08x|\n%*.s\n", swaddr_read(esp, 4, 2), 10, "-");
+		}
+		printf("%*.s\n", 10, "+");
+		ebp = swaddr_read(ebp, 4, 2);
+	} while(ebp);
+	return 0;
+}
+
+static int cmd_write(char *args) 
+{
 	char *str = strtok(args, " ");
 	if (!str) {
 		Warn("Wrong input arguments!\n");
@@ -139,32 +205,6 @@ static int cmd_write(char *args) {
 	}
 	int add = htoi(str);
 	swaddr_write(add, cnt, 0xff);
-	return 0;
-}
-static int cmd_w(char *args) {
-	new_wp(args);
-	return 0;	
-}
-static int cmd_d(char *args) {
-	del_wp(args);
-	return 0;
-}
-static int cmd_r(char *args) {
-	if (!args) {
-	}
-	return 0;
-}
-
-static int cmd_p(char *args) {
-	char* str = strtok(args, " ");
-	if (!str) {
-		Warn("Wrong input arguments!\n");
-		return 0;
-	}
-	bool success;
-	int re = expr(str, &success);
-	if (success)
-		printf("%s = %d\t\t%#x\n", str, re, re);
 	return 0;
 }
 
@@ -212,12 +252,14 @@ static struct {
 	{ "n", "Next step", cmd_n },
 	{ "info", "Show w:watchpoints r:registers", cmd_info},
 	{ "x", "Examine memory", cmd_x},
-	{ "test", "Test examples", cmd_test},
 	{ "w", "Set watch point", cmd_w},
 	{ "d", "Delete watch point", cmd_d},
 	{ "r", "Check the specified register", cmd_r},
 	{ "p", "Print the value", cmd_p},
+	{ "bt", "Backtrace stack frame", cmd_bt},
 	{ "write", "Write a 0xff to memory", cmd_write},
+	{ "test", "Test examples", cmd_test},
+	{ "", "Next", cmd_n},
 	/* TODO: Add more commands */
 
 };

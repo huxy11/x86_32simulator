@@ -8,15 +8,16 @@ int load_addr(swaddr_t eip, ModR_M *m, Operand *rm) {
 	int instr_len, disp_offset, disp_size = 4;
 	int base_reg = -1, index_reg = -1, scale = 0;
 	swaddr_t addr = 0;
-
-	if(m->R_M == R_ESP) {
+	
+	/* the place of ESP have been replaced with SIB */
+	if (m->R_M == R_ESP) {
 		SIB s;
 		s.val = instr_fetch(eip + 1, 1);
 		base_reg = s.base;
 		disp_offset = 2;
 		scale = s.ss;
 
-		if(s.index != R_ESP) { index_reg = s.index; }
+		if (s.index != R_ESP) { index_reg = s.index; }
 	}
 	else {
 		/* no SIB */
@@ -24,42 +25,50 @@ int load_addr(swaddr_t eip, ModR_M *m, Operand *rm) {
 		disp_offset = 1;
 	}
 
-	if(m->mod == 0) {
-		if(base_reg == R_EBP) { base_reg = -1; }
-		else { disp_size = 0; }
+	if (m->mod == 0) {
+		/* the place of EBP have been replaced with disp32 when mod == 0*/
+		if (base_reg == R_EBP)
+			base_reg = -1; 
+		else
+			disp_size = 0;
 	}
-	else if(m->mod == 1) { disp_size = 1; }
+	else if (m->mod == 1) { disp_size = 1; }
+	// else dips_size = 4;(default)
 
 	instr_len = disp_offset;
-	if(disp_size != 0) {
+	if (disp_size != 0) {
 		/* has disp */
 		disp = instr_fetch(eip + disp_offset, disp_size);
-		if(disp_size == 1) { disp = (int8_t)disp; }
+		if (disp_size == 1) { disp = (int8_t)disp; }
 
 		instr_len += disp_size;
 		addr += disp;
 	}
 
-	if(base_reg != -1) {
+	if (base_reg != -1) { 
 		addr += reg_l(base_reg);
+		/* segment register */
+		if (base_reg == R_EBP)
+			rm->sreg = 2;
+		else
+			rm->sreg = 3;
 	}
 
-	if(index_reg != -1) {
+	if (index_reg != -1) 
 		addr += reg_l(index_reg) << scale;
-	}
 
 #ifdef DEBUG
 	char disp_buf[16];
 	char base_buf[8];
 	char index_buf[8];
 
-	if(disp_size != 0) {
+	if (disp_size != 0) {
 		/* has disp */
 		sprintf(disp_buf, "%s%#x", (disp < 0 ? "-" : ""), (disp < 0 ? -disp : disp));
 	}
 	else { disp_buf[0] = '\0'; }
 
-	if(base_reg == -1) { base_buf[0] = '\0'; }
+	if (base_reg == -1) { base_buf[0] = '\0'; }
 	else { 
 		sprintf(base_buf, "%%%s", regsl[base_reg]); 
 	}
@@ -109,7 +118,7 @@ int read_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
 	}
 	else {
 		int instr_len = load_addr(eip, &m, rm);
-		rm->val = swaddr_read(rm->addr, rm->size);
+		rm->val = swaddr_read(rm->addr, rm->size, rm->sreg);
 		return instr_len;
 	}
 }

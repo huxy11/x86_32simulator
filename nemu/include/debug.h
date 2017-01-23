@@ -26,7 +26,7 @@ extern FILE* log_fp;
 	printf("\33[1;34m" format "\33[0m\n", ## __VA_ARGS__)
 
 #define Warn(format, ...) \
-	printf("\33[1;33m" format "\33[0m\n", ## __VA_ARGS__)
+	printf("\33[1;33m[%s, %d, %s]" format "\33[0m\n", __FILE__, __LINE__, __func__, ## __VA_ARGS__)
 
 #define Log(format, ...) \
 	do { \

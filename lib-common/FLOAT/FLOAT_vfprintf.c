@@ -1,29 +1,76 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "FLOAT.h"
+#include <sys/mman.h>
 
 extern char _vfprintf_internal;
+extern char _ppfs_setargs;
 extern char _fpmaxtostr;
 extern int __stdio_fwrite(char *buf, int len, FILE *stream);
 
 __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
-	/* TODO: Format a FLOAT argument `f' and write the formating
-	 * result to `stream'. Keep the precision of the formating
-	 * result with 6 by truncating. For example:
-	 *              f          result
-	 *         0x00010000    "1.000000"
-	 *         0x00013333    "1.199996"
-	 */
-
+	//nemu_assert(f == 0x00001111);
+	uint32_t sign = f & 0x80000000;
+	if (sign)
+		f = ~f + 1;
+	int16_t integer = (f & 0xffff0000) >> 16;
+	uint64_t decimal = f;
+	//decimal = (decimal & 0xffff) * 1000000 / 65536;
+	decimal &= 0xffff;
+	decimal *= 1000000;
+	//nemu_assert(decimal == 4369000000);
+	uint32_t *d1 = (int*)&decimal;
+	uint32_t *d2 = d1 + 1;
+	uint32_t d3 = 0x10000;
+	asm volatile ("idiv %2" : "=a"(*d1), "=d"(d3): "r"(d3), "a"(*d1), "d"(*d2));
+	*d2 = 0;
+	//nemu_assert(decimal == 66665);
 	char buf[80];
-	int len = sprintf(buf, "0x%08x", f);
+	int len;
+	if (sign) 
+		len = sprintf(buf, "-%d.%-06d", integer, decimal);
+	else 
+		len = sprintf(buf, "%d.%-06d", integer, decimal);
+
+	/* TODO: improve this */
+	/* replace ' ' with '0' */
+	int j = 2;
+	for (;j < len; j++)
+		if (buf[j] == 0x20)
+			buf[j] = 0x30;
+		
 	return __stdio_fwrite(buf, len, stream);
 }
 
 static void modify_vfprintf() {
-	/* TODO: Implement this function to hijack the formating of "%f"
-	 * argument during the execution of `_vfprintf_internal'. Below
-	 * is the code section in _vfprintf_internal() relative to the
+	uint8_t *vfp = &_vfprintf_internal;
+	uint8_t *fts = &_fpmaxtostr;
+	/* Calculate the address of call(_fpmaxtostr) */
+	int32_t offset = (int)fts - (int)format_FLOAT;
+	vfp += 0x307;
+	/* Modify the destiantion address*/
+	//mprotect((void *)((uint32_t)(vfp - 0x64) & 0xFFFFF000), 4096 * 2, \
+						PROT_READ | PROT_WRITE | PROT_EXEC);
+	*(int32_t*)vfp -= offset;
+	/* Rectify the stack size */
+	vfp -= 12;
+	vfp[0] = 0x8;
+	/* Change the arguments */
+	vfp[1] = 0xff;
+	vfp[2] = 0x32;
+	vfp[3] = 0x90;
+	/* Clean the float instrucion */
+	vfp[-18] = 0x90;
+	vfp[-19] = 0x90;
+	vfp[-22] = 0x90;
+	vfp[-23] = 0x90;
+
+	return;
+	
+
+	
+	/* 
+	 * Below is the code section in _vfprintf_internal() relative to the
 	 * hijack.
 	 */
 
@@ -67,8 +114,14 @@ static void modify_vfprintf() {
 }
 
 static void modify_ppfs_setargs() {
-	/* TODO: Implement this function to modify the action of preparing
-	 * "%f" arguments for _vfprintf_internal() in _ppfs_setargs().
+	uint8_t *mps = &_ppfs_setargs;
+	mps[111] = 0x74;
+	mps[112] = 0x32;
+	//mprotect((void *)((uint32_t)mps), 4096 * 2, \
+		PROT_READ | PROT_WRITE | PROT_EXEC);
+	
+
+	/*
 	 * Below is the code section in _vfprintf_internal() relative to
 	 * the modification.
 	 */

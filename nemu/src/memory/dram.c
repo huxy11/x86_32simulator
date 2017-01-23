@@ -1,6 +1,8 @@
+#include <stdlib.h>
 #include "common.h"
 #include "burst.h"
 #include "misc.h"
+#include "memory/cache.h"
 
 /* Simulate the (main) behavor of DRAM.
  * Although this will lower the performace of NEMU, it makes
@@ -31,6 +33,7 @@ typedef union {
 
 //#define HW_MEM_SIZE (1 << (COL_WIDTH + ROW_WIDTH + BANK_WIDTH + RANK_WIDTH))
 #define HW_MEM_SIZE 0xffffffff
+//#define HW_MEM_SIZE 0xfffffffff
 
 uint8_t dram[NR_RANK][NR_BANK][NR_ROW][NR_COL];
 uint8_t *hw_mem = (void *)dram;
@@ -52,7 +55,7 @@ void init_ddr3() {
 	}
 }
 
-static void ddr3_read(hwaddr_t addr, void *data) {
+void ddr3_read(hwaddr_t addr, void *data) {
 	Assert(addr < HW_MEM_SIZE, "physical address %x is outside of the physical memory!", addr);
 
 	dram_addr temp;
@@ -61,6 +64,20 @@ static void ddr3_read(hwaddr_t addr, void *data) {
 	uint32_t bank = temp.bank;
 	uint32_t row = temp.row;
 	uint32_t col = temp.col;
+
+	uint32_t blk_index = (addr & BLK_INDEX_MASK) >> 3;
+	uint32_t tag = (addr & TAG_MASK) >> 13;
+
+	int i;
+	/* search cache */
+	for (i = 0; i < 8; i++)
+		if (cache.blk[blk_index].way[i].valid \
+			&& cache.blk[blk_index].way[i].tag == tag) {
+			/* cache hit */
+			memcpy(data, cache.blk[blk_index].way[i].data, BLK_LEN);
+			return;
+		}
+	/* cache miss */
 
 	if(!(rowbufs[rank][bank].valid && rowbufs[rank][bank].row_idx == row) ) {
 		/* read a row into row buffer */
@@ -68,12 +85,16 @@ static void ddr3_read(hwaddr_t addr, void *data) {
 		rowbufs[rank][bank].row_idx = row;
 		rowbufs[rank][bank].valid = true;
 	}
-
 	/* burst read */
 	memcpy(data, rowbufs[rank][bank].buf + col, BURST_LEN);
+	/* write into cache */
+	i = rand() % 8;
+	cache.blk[blk_index].way[i].valid = 1;
+	cache.blk[blk_index].way[i].tag = tag;
+	memcpy(cache.blk[blk_index].way[i].data, data, BLK_LEN);
 }
 
-static void ddr3_write(hwaddr_t addr, void *data, uint8_t *mask) {
+void ddr3_write(hwaddr_t addr, void *data, uint8_t *mask) {
 	Assert(addr < HW_MEM_SIZE, "physical address %x is outside of the physical memory!", addr);
 
 	dram_addr temp;
@@ -82,8 +103,31 @@ static void ddr3_write(hwaddr_t addr, void *data, uint8_t *mask) {
 	uint32_t bank = temp.bank;
 	uint32_t row = temp.row;
 	uint32_t col = temp.col;
+	
+	uint32_t blk_index = (temp.addr & BLK_INDEX_MASK) >> 3;
+	uint32_t tag = (temp.addr & TAG_MASK) >> 13;
+	uint32_t col_offset = addr & 0x3f8;//0x3f8 = 11 1111 1000b
+	int i;
+	int j;
+	
+	for (i = 0; i < 8; i++) 
+		if (cache.blk[blk_index].way[i].valid \
+				&& cache.blk[blk_index].way[i].tag == tag) 
+			goto cache;//cache hit
 
-	if(!(rowbufs[rank][bank].valid && rowbufs[rank][bank].row_idx == row) ) {
+	/* cache miss, relpace cache */
+	i = rand() % 8;
+	cache.blk[blk_index].way[i].valid = 1;
+	cache.blk[blk_index].way[i].tag = tag;
+	memcpy(cache.blk[blk_index].way[i].data , dram[rank][bank][row] + col_offset, BLK_LEN);  
+	for (j = 0; j < 8; j++)
+
+cache:
+	/* write cache */
+	memcpy_with_mask(cache.blk[blk_index].way[i].data, data, BLK_LEN, mask);
+
+	
+	if (!(rowbufs[rank][bank].valid && rowbufs[rank][bank].row_idx == row) ) {
 		/* read a row into row buffer */
 		memcpy(rowbufs[rank][bank].buf, dram[rank][bank][row], NR_COL);
 		rowbufs[rank][bank].row_idx = row;
@@ -98,16 +142,15 @@ static void ddr3_write(hwaddr_t addr, void *data, uint8_t *mask) {
 }
 
 uint32_t dram_read(hwaddr_t addr, size_t len) {
+
 	uint32_t offset = addr & BURST_MASK;
 	uint8_t temp[2 * BURST_LEN];
-	
+	/* ddr3 means BURST_LEN = 8 */
 	ddr3_read(addr, temp);
-
-	if(offset + len > BURST_LEN) {
+	if (offset + len > BURST_LEN) {
 		/* data cross the burst boundary */
 		ddr3_read(addr + BURST_LEN, temp + BURST_LEN);
 	}
-
 	return unalign_rw(temp + offset, 4);
 }
 
@@ -116,6 +159,7 @@ void dram_write(hwaddr_t addr, size_t len, uint32_t data) {
 	uint8_t temp[2 * BURST_LEN];
 	uint8_t mask[2 * BURST_LEN];
 	memset(mask, 0, 2 * BURST_LEN);
+
 
 	*(uint32_t *)(temp + offset) = data;
 	memset(mask + offset, 1, len);

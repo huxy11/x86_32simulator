@@ -5,6 +5,7 @@
 #include "data-mov/movzx.h"
 #include "data-mov/movsx.h"
 #include "data-mov/movs.h"
+#include "data-mov/movspecialreg.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
@@ -50,6 +51,7 @@
 #include "jcc/jl.h"
 #include "jcc/jge.h"
 #include "jmp/jmp.h"
+#include "jmp/ljmp.h"
 
 #include "cmp/cmp.h"
 
@@ -64,6 +66,7 @@
 
 #include "set/setne.h"
 #include "set/sete.h"
+#include "set/setge.h"
 
 #include "cltd/cltd.h"
 
@@ -71,7 +74,6 @@
 #include "scas/scas.h"
 #include "lods/lods.h"
 
-
 #include "rep/rep.h"
 
-
+#include "ldt/lgdt.h"

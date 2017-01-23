@@ -11,14 +11,14 @@
 
 #else
 
-	# To understand macros here, see i386 manual.
+	#each entry is 8-byte size
 	#define GDT_ENTRY(n) ((n) << 3)
 
 	#define MAKE_NULL_SEG_DESC   \
 		.word 0, 0;              \
 		.byte 0, 0, 0, 0
 
-	# The 0xC0 means the limit is in 4096-byte units
+	# The 0xC0 means the limit is in 4MB units
 	# and (for executable segments) 32-bit mode.
 	#define MAKE_SEG_DESC(type,base,lim)                        \
 		.word (((lim) >> 12) & 0xffff), ((base) & 0xffff);      \

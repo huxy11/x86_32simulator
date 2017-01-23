@@ -10,6 +10,7 @@ void load_elf_tables(int, char *[]);
 void init_regex();
 void init_wp_pool();
 void init_ddr3();
+void init_cache();
 
 FILE *log_fp = NULL;
 
@@ -37,6 +38,7 @@ void init_monitor(int argc, char *argv[]) {
 
 	/* Initialize the watchpoint pool. */
 	init_wp_pool();
+
 
 	/* Display welcome message. */
 	welcome();
@@ -76,16 +78,25 @@ static void load_entry() {
 
 void restart() {
 	/* Perform some initialization to restart a program */
+	/* Real model */
+	cpu.cr0 = 0;
 #ifdef USE_RAMDISK
 	/* Read the file with name `argv[1]' into ramdisk. */
 	init_ramdisk();
 #endif
+
+	/* Init cache */
+	init_cache();
 
 	/* Read the entry code into memory. */
 	load_entry();
 
 	/* Set the initial instruction pointer. */
 	cpu.eip = ENTRY_START;
+	
+	/* Set CS register */
+	cpu.cs_base = 0;
+	cpu.cs_lmt = 0xfffff;
 
 	/* Initialize the EFLAGS register */
 	cpu.eflags = 0x00000002;

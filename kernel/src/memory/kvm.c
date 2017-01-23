@@ -98,3 +98,7 @@ init_segment(void) {
 	write_gdtr(gdt, sizeof(gdt));
 }
 
+void init_gdt()
+{
+
+}

@@ -19,7 +19,7 @@ typedef struct {
 			uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 		};
 	};	
-	union{
+	union {
 		uint32_t eflags;
 		struct {
 			unsigned _cf:1;//carry 
@@ -41,7 +41,35 @@ typedef struct {
 			unsigned _vm:1;
 		};
 	};
-	swaddr_t eip;
+	union {
+		uint16_t sreg[4];
+		struct {
+			uint16_t es, cs, ss, ds;
+		};
+	};
+	union {
+		uint32_t sreg_base[4];
+		struct {
+			uint32_t es_base, cs_base, ss_base, ds_base;
+		};
+	};
+	union {
+		/* max(lmt) = 0xfffff (20bits) */
+		uint32_t sreg_lmt[4];
+		struct {
+			uint32_t es_lmt, cs_lmt, ss_lmt, ds_lmt;
+		};
+	};
+#if 0
+	union {
+		uint32_t sreg_hidn[4];
+		uint32_t cs_hidn, ss_hidn, ds_hidn, es_hidn;
+	};
+#endif
+	uint32_t eip;
+	uint32_t cr0;
+	uint32_t gdtr;
+	uint32_t gdtr_lmt;
 } CPU_state;
 
 extern CPU_state cpu;
@@ -58,5 +86,6 @@ static inline int check_reg_index(int index) {
 extern const char* regsl[];
 extern const char* regsw[];
 extern const char* regsb[];
+extern const char* sregs[];
 
 #endif
