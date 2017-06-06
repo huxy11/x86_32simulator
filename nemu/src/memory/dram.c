@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "common.h"
-#include "burst.h"
+#include "memory/burst.h"
 #include "misc.h"
 #include "memory/cache.h"
 
@@ -65,8 +65,12 @@ void ddr3_read(hwaddr_t addr, void *data) {
 	uint32_t row = temp.row;
 	uint32_t col = temp.col;
 
-	uint32_t blk_index = (addr & BLK_INDEX_MASK) >> 3;
+	uint32_t blk_index = (addr & BLK_INDEX_MASK) >> 6;
 	uint32_t tag = (addr & TAG_MASK) >> 13;
+	uint32_t offset = (addr & OFFSET_MASK);
+	//Log("addr =0x%x\n", addr);
+	//Log("blk_indec = 0x%x\n", blk_index);
+	//Log("tag = 0x%x\n", tag);
 
 	int i;
 	/* search cache */
@@ -74,11 +78,11 @@ void ddr3_read(hwaddr_t addr, void *data) {
 		if (cache.blk[blk_index].way[i].valid \
 			&& cache.blk[blk_index].way[i].tag == tag) {
 			/* cache hit */
-			memcpy(data, cache.blk[blk_index].way[i].data, BLK_LEN);
+		//	Log("cache hit @ addr = 0x%x tag = 0x%x\n", addr, tag);
+			memcpy(data, cache.blk[blk_index].way[i].data+offset, BURST_LEN);
 			return;
 		}
 	/* cache miss */
-
 	if(!(rowbufs[rank][bank].valid && rowbufs[rank][bank].row_idx == row) ) {
 		/* read a row into row buffer */
 		memcpy(rowbufs[rank][bank].buf, dram[rank][bank][row], NR_COL);
@@ -91,7 +95,7 @@ void ddr3_read(hwaddr_t addr, void *data) {
 	i = rand() % 8;
 	cache.blk[blk_index].way[i].valid = 1;
 	cache.blk[blk_index].way[i].tag = tag;
-	memcpy(cache.blk[blk_index].way[i].data, data, BLK_LEN);
+	memcpy(cache.blk[blk_index].way[i].data + offset, data, BURST_LEN);
 }
 
 void ddr3_write(hwaddr_t addr, void *data, uint8_t *mask) {
