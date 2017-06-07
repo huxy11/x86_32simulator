@@ -228,8 +228,7 @@ static int cmd_cache(char *args)
 				int j = 0,k;
 				for (;j < 8;j++) {
 					for (k = 0; k < 8; k++) 
-						Log("0x%x  ", \
-							cache.blk[blk_index].way[i].data[j*8 + k]);
+						Log("tag = 0x%x : 0x%x  ", cache.blk[blk_index].way[i].tag, cache.blk[blk_index].way[i].data[j*8 + k]);
 				}
 				return 0;
 			}

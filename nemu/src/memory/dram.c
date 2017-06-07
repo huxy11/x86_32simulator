@@ -78,7 +78,7 @@ void ddr3_read(hwaddr_t addr, void *data) {
 		if (cache.blk[blk_index].way[i].valid \
 			&& cache.blk[blk_index].way[i].tag == tag) {
 			/* cache hit */
-		//	Log("cache hit @ addr = 0x%x tag = 0x%x\n", addr, tag);
+			Log("cache hit @ addr = 0x%x tag = 0x%x\n", addr, tag);
 			memcpy(data, cache.blk[blk_index].way[i].data+offset, BURST_LEN);
 			return;
 		}
@@ -108,8 +108,8 @@ void ddr3_write(hwaddr_t addr, void *data, uint8_t *mask) {
 	uint32_t row = temp.row;
 	uint32_t col = temp.col;
 	
-	uint32_t blk_index = (temp.addr & BLK_INDEX_MASK) >> 3;
-	uint32_t tag = (temp.addr & TAG_MASK) >> 13;
+	uint32_t blk_index = (addr & BLK_INDEX_MASK) >> 6;
+	uint32_t tag = (addr & TAG_MASK) >> 13;
 	uint32_t col_offset = addr & 0x3f8;//0x3f8 = 11 1111 1000b
 	int i;
 	int j;
@@ -146,6 +146,7 @@ cache:
 }
 
 uint32_t dram_read(hwaddr_t addr, size_t len) {
+	Log("read in 0x%x\n", addr);
 
 	uint32_t offset = addr & BURST_MASK;
 	uint8_t temp[2 * BURST_LEN];
@@ -159,6 +160,7 @@ uint32_t dram_read(hwaddr_t addr, size_t len) {
 }
 
 void dram_write(hwaddr_t addr, size_t len, uint32_t data) {
+	Log("write 0x%x into 0x%x\n", data, addr);
 	uint32_t offset = addr & BURST_MASK;
 	uint8_t temp[2 * BURST_LEN];
 	uint8_t mask[2 * BURST_LEN];
