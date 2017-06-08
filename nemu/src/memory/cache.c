@@ -1,12 +1,13 @@
 #include <stdlib.h>
 #include "common.h"
 #include "memory/cache.h"
+
 cache_s cache;
 
 void init_cache()
 {
 	int i, j;
-	for (i = 0; i < 1024; i++)
+	for (i = 0; i < 128; i++)
 		for (j = 0; j < 8; j++)
 			cache.blk[i].way[j].valid = 0;
 }

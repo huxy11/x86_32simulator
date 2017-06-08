@@ -19,6 +19,8 @@ typedef struct {
 			uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 		};
 	};	
+	//CPU.eax share the same memory with cpu.gpr[0]._32
+	
 	union {
 		uint32_t eflags;
 		struct {

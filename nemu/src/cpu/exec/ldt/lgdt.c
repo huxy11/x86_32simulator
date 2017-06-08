@@ -8,10 +8,10 @@
 
 make_helper(lgdt) {
 	decode_i_w(eip + 1);
-	Log("op->src = %#x\n", op_src->val);
+	//Log("op->src = %#x\n", op_src->val);
 	cpu.gdtr_lmt = op_src->val;
 	decode_i_l(eip + 3);
-	Log("op->src = %#x\n", op_src->val);
+	//i//ddLog("op->src = %#x\n", op_src->val);
 	cpu.gdtr = op_src->val;
 	print_asm("lgdt");
 	return 6;

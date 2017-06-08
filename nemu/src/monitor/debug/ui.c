@@ -3,6 +3,7 @@
 #include "monitor/watchpoint.h"
 #include "nemu.h"
 #include "myfunc.h"
+#include "memory/cache.h"
 
 #include <stdlib.h>
 #include <readline/readline.h>
@@ -207,6 +208,53 @@ static int cmd_write(char *args)
 	swaddr_write(add, cnt, 0xff);
 	return 0;
 }
+static int cmd_show_cache(char *args)
+{
+	int i, j;
+	cache_addr addr;
+	for (i = 0; i < 128; i++)
+		for (j = 0; j < 8; j++)
+			if (cache.blk[i].way[j].valid) {
+				addr.tag = cache.blk[i].way[j].tag;
+				addr.idx = i;
+				addr.ofs = 0;
+				Log("addr = 0x%x", addr.addr);
+				uint8_t k;
+				for (k = 0; k < 64; k++)
+					Log("data = 0x%x", cache.blk[i].way[j].data[k]);
+				Log("cache end\n");
+			}
+	return 0;
+}
+
+static int cmd_cache(char *args) 
+{
+	char *str = strtok(args, " ");
+	if (!str) {
+		Warn("Wrong input arguments!\n");
+		return 0;
+	}
+	int addr = htoi(str);
+	uint32_t blk_index = (addr & BLK_INDEX_MASK) >> 6;
+	uint32_t tag = (addr & TAG_MASK) >> 13;
+	uint32_t offset = (addr & OFFSET_MASK);
+	int i = 0;
+	for(;i < 8; i++) {
+		if (cache.blk[blk_index].way[i].valid == 1)
+			if (cache.blk[blk_index].way[i].tag == tag) {
+				Log("cache hit!base = 0x%x offset = %d\n", addr - offset, offset);
+				int j = 0,k;
+				for (;j < 8;j++) {
+					for (k = 0; k < 8; k++) 
+						Log("tag = 0x%x : 0x%x  ", cache.blk[blk_index].way[i].tag, cache.blk[blk_index].way[i].data[j*8 + k]);
+				}
+				return 0;
+			}
+	}
+	Log("cache miss!\n");
+	return 0;
+	
+}
 
 static int cmd_test(char *args) {
 	/* colorful print */
@@ -240,6 +288,7 @@ static int cmd_test(char *args) {
 	show_all_wp();
 	return 0;
 }
+
 static struct {
 	char *name;
 	char *description;
@@ -250,7 +299,8 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 	{ "nn", "Execute 100 instruction", cmd_nn },
 	{ "n", "Next step", cmd_n },
-	{ "info", "Show w:watchpoints r:registers", cmd_info},
+	{ "", "Next step(if no argu)", cmd_n},
+	{ "info", "Show w:watchpoints r:registers f:flags", cmd_info},
 	{ "x", "Examine memory", cmd_x},
 	{ "w", "Set watch point", cmd_w},
 	{ "d", "Delete watch point", cmd_d},
@@ -258,8 +308,9 @@ static struct {
 	{ "p", "Print the value", cmd_p},
 	{ "bt", "Backtrace stack frame", cmd_bt},
 	{ "write", "Write a 0xff to memory", cmd_write},
+	{ "showcache", "Show all the cache", cmd_show_cache},
+	{ "cache", "Examine cache", cmd_cache},
 	{ "test", "Test examples", cmd_test},
-	{ "", "Next", cmd_n},
 	/* TODO: Add more commands */
 
 };
@@ -287,7 +338,6 @@ static int cmd_help(char *args) {
 	}
 	return 0;
 }
-
 
 void ui_mainloop() {
 	while(1) {

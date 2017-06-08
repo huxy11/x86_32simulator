@@ -1,8 +1,11 @@
 #include <stdlib.h>
 #include "common.h"
-#include "burst.h"
+#include "memory/burst.h"
 #include "misc.h"
 #include "memory/cache.h"
+void cache_add(uint32_t addr, uint32_t idx, uint32_t tag, uint8_t i);
+void cache_read(hwaddr_t addr, void *data);
+void cache_write(hwaddr_t addr, uint32_t len, void *data, uint8_t* mask);
 
 /* Simulate the (main) behavor of DRAM.
  * Although this will lower the performace of NEMU, it makes
@@ -24,6 +27,7 @@ typedef union {
 	};
 	uint32_t addr;
 } dram_addr;
+
 
 
 #define NR_COL (1 << COL_WIDTH)
@@ -65,33 +69,15 @@ void ddr3_read(hwaddr_t addr, void *data) {
 	uint32_t row = temp.row;
 	uint32_t col = temp.col;
 
-	uint32_t blk_index = (addr & BLK_INDEX_MASK) >> 3;
-	uint32_t tag = (addr & TAG_MASK) >> 13;
-
-	int i;
-	/* search cache */
-	for (i = 0; i < 8; i++)
-		if (cache.blk[blk_index].way[i].valid \
-			&& cache.blk[blk_index].way[i].tag == tag) {
-			/* cache hit */
-			memcpy(data, cache.blk[blk_index].way[i].data, BLK_LEN);
-			return;
-		}
-	/* cache miss */
-
 	if(!(rowbufs[rank][bank].valid && rowbufs[rank][bank].row_idx == row) ) {
 		/* read a row into row buffer */
 		memcpy(rowbufs[rank][bank].buf, dram[rank][bank][row], NR_COL);
 		rowbufs[rank][bank].row_idx = row;
 		rowbufs[rank][bank].valid = true;
 	}
+
 	/* burst read */
 	memcpy(data, rowbufs[rank][bank].buf + col, BURST_LEN);
-	/* write into cache */
-	i = rand() % 8;
-	cache.blk[blk_index].way[i].valid = 1;
-	cache.blk[blk_index].way[i].tag = tag;
-	memcpy(cache.blk[blk_index].way[i].data, data, BLK_LEN);
 }
 
 void ddr3_write(hwaddr_t addr, void *data, uint8_t *mask) {
@@ -103,29 +89,6 @@ void ddr3_write(hwaddr_t addr, void *data, uint8_t *mask) {
 	uint32_t bank = temp.bank;
 	uint32_t row = temp.row;
 	uint32_t col = temp.col;
-	
-	uint32_t blk_index = (temp.addr & BLK_INDEX_MASK) >> 3;
-	uint32_t tag = (temp.addr & TAG_MASK) >> 13;
-	uint32_t col_offset = addr & 0x3f8;//0x3f8 = 11 1111 1000b
-	int i;
-	int j;
-	
-	for (i = 0; i < 8; i++) 
-		if (cache.blk[blk_index].way[i].valid \
-				&& cache.blk[blk_index].way[i].tag == tag) 
-			goto cache;//cache hit
-
-	/* cache miss, relpace cache */
-	i = rand() % 8;
-	cache.blk[blk_index].way[i].valid = 1;
-	cache.blk[blk_index].way[i].tag = tag;
-	memcpy(cache.blk[blk_index].way[i].data , dram[rank][bank][row] + col_offset, BLK_LEN);  
-	for (j = 0; j < 8; j++)
-
-cache:
-	/* write cache */
-	memcpy_with_mask(cache.blk[blk_index].way[i].data, data, BLK_LEN, mask);
-
 	
 	if (!(rowbufs[rank][bank].valid && rowbufs[rank][bank].row_idx == row) ) {
 		/* read a row into row buffer */
@@ -142,6 +105,18 @@ cache:
 }
 
 uint32_t dram_read(hwaddr_t addr, size_t len) {
+	Log("read in 0x%x\n", addr);
+
+#if 1
+	uint32_t cache_offset = addr & CACHE_BURST_MASK;
+	/* cache line = 64B */
+	uint8_t cache_temp[2 * CACHE_BURST_LEN];
+	cache_read(addr, cache_temp);
+	if (cache_offset + len > CACHE_BURST_LEN)
+	/* data cross the burst boundary */
+		cache_read(addr + CACHE_BURST_LEN, cache_temp + CACHE_BURST_LEN);
+	return unalign_rw(cache_temp + cache_offset, 4);
+#endif
 
 	uint32_t offset = addr & BURST_MASK;
 	uint8_t temp[2 * BURST_LEN];
@@ -155,11 +130,30 @@ uint32_t dram_read(hwaddr_t addr, size_t len) {
 }
 
 void dram_write(hwaddr_t addr, size_t len, uint32_t data) {
+	Log("write 0x%x into 0x%x\n", data, addr);
+#if 1
+	uint32_t cache_offset = addr &CACHE_BURST_MASK;
+	uint8_t cache_temp[2 * CACHE_BURST_LEN];
+	uint8_t cache_mask[2 * CACHE_BURST_LEN];
+	memset(cache_temp, 0 ,2 * CACHE_BURST_LEN);
+	memset(cache_mask, 0, 2 * CACHE_BURST_LEN);
+	memset(cache_mask + cache_offset, 1, len);
+	*(uint32_t *)(cache_temp + cache_offset) = data;
+	
+	int k;
+	for (k = 0; k < 128; k++)
+		Log("%d:0x%x 0x%x", k, cache_temp[k], cache_mask[k]);
+	
+	cache_write(addr, CACHE_BURST_LEN, cache_temp, cache_mask);
+	if (cache_offset + len > CACHE_BURST_LEN) {
+		cache_write(addr +CACHE_BURST_LEN, CACHE_BURST_LEN, cache_temp + CACHE_BURST_LEN, cache_mask + CACHE_BURST_LEN);
+	}
+#endif
+
 	uint32_t offset = addr & BURST_MASK;
 	uint8_t temp[2 * BURST_LEN];
 	uint8_t mask[2 * BURST_LEN];
 	memset(mask, 0, 2 * BURST_LEN);
-
 
 	*(uint32_t *)(temp + offset) = data;
 	memset(mask + offset, 1, len);
@@ -170,4 +164,73 @@ void dram_write(hwaddr_t addr, size_t len, uint32_t data) {
 		/* data cross the burst boundary */
 		ddr3_write(addr + BURST_LEN, temp + BURST_LEN, mask + BURST_LEN);
 	}
+}
+
+void cache_read(hwaddr_t addr, void *data)
+{
+	cache_addr temp;
+	temp.addr = addr & ~CACHE_BURST_MASK;
+	uint32_t idx = temp.idx;
+	uint32_t tag = temp.tag;
+
+	int i;
+	for (i = 0; i < 8; i++)
+		if (cache.blk[idx].way[i].valid && cache.blk[idx].way[i].tag == tag)
+		{
+			/*cache hit*/
+			memcpy(data, cache.blk[idx].way[i].data, CACHE_BURST_LEN); 
+			return;
+		}
+	/*cache miss*/
+	int j = rand() % 8;
+	for (i = 0; i < 8; i++)
+		if (!cache.blk[idx].way[i].valid)
+			j = i;
+	cache_add(temp.addr, idx, tag, j);
+	memcpy(data, cache.blk[idx].way[j].data, CACHE_BURST_LEN); 
+	return;
+
+	for (i = 0; i <8; i++) 
+		ddr3_read(temp.addr + BURST_LEN * i, data + BURST_LEN * i);
+	/*write into cache*/
+	uint8_t cache_mask[2 * CACHE_BURST_LEN];
+	memset(cache_mask, 1, 2 * CACHE_BURST_LEN);
+	cache_write(temp.addr, CACHE_BURST_LEN, data, cache_mask);
+}
+
+void cache_write(hwaddr_t addr, uint32_t len, void *data, uint8_t* mask)
+{
+	cache_addr temp;
+	temp.addr = addr;
+	uint32_t idx = temp.idx;
+	uint32_t tag = temp.tag;
+	uint32_t ofs = temp.ofs;
+
+	int i;
+	for (i = 0; i < 8; i++)
+		if (cache.blk[idx].way[i].valid && cache.blk[idx].way[i].tag == tag)
+		{
+			memcpy_with_mask(cache.blk[idx].way[i].data, data, len, mask);
+			return;
+		}
+	/* addr is not in the cache */
+	Log("addr is not in the cache, add i\n");
+	int j = rand() % 8;
+	for (i = 0; i < 8; i++)
+		if (!cache.blk[idx].way[i].valid)
+			j = i;
+	cache_add(addr & ~CACHE_BURST_MASK, idx, tag, j);
+	Log("ofs = %d, len = %d\n", ofs, len);
+	memcpy_with_mask(cache.blk[idx].way[j].data, data, len, mask);
+}
+
+void cache_add(uint32_t addr, uint32_t idx, uint32_t tag, uint8_t i)
+{	
+	uint8_t temp[CACHE_BURST_LEN];
+	int j;
+	for (j = 0; j < 8; j++)
+		ddr3_read(addr + BURST_LEN * j, temp + BURST_LEN * j);
+	memcpy(cache.blk[idx].way[i].data, temp, CACHE_BURST_LEN);
+	cache.blk[idx].way[i].valid = true;
+	cache.blk[idx].way[i].tag = tag;
 }
