@@ -40,4 +40,22 @@ typedef struct cache_s {
 }cache_s;
 
 extern cache_s cache;
+
+/*
+ * Simulate the oppnents of the address for cache locating 
+ */
+#define TAG_WIDTH 19
+#define INDEX_WIDTH 7
+#define OFFSET_WIDTH 6
+#define CACHE_BURST_LEN 64
+#define CACHE_BURST_MASK (CACHE_BURST_LEN - 1)
+
+typedef union {
+	struct {
+		uint32_t ofs : OFFSET_WIDTH;
+		uint32_t tag : TAG_WIDTH;
+		uint32_t idx : INDEX_WIDTH;
+	};
+	uint32_t addr;
+} cache_addr;
 #endif

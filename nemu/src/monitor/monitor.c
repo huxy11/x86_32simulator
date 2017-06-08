@@ -85,8 +85,6 @@ void restart() {
 	init_ramdisk();
 #endif
 
-	/* Init cache */
-	init_cache();
 
 	/* Read the entry code into memory. */
 	load_entry();
@@ -103,4 +101,6 @@ void restart() {
 
 	/* Initialize DRAM. */
 	init_ddr3();
+	/* Init cache */
+	init_cache();
 }

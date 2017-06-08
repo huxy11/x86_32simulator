@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "common.h"
 #include "memory/cache.h"
+
 cache_s cache;
 
 void init_cache()

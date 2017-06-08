@@ -208,6 +208,24 @@ static int cmd_write(char *args)
 	swaddr_write(add, cnt, 0xff);
 	return 0;
 }
+static int cmd_show_cache(char *args)
+{
+	int i, j;
+	cache_addr addr;
+	for (i = 0; i < 128; i++)
+		for (j = 0; j < 8; j++)
+			if (cache.blk[i].way[j].valid) {
+				addr.tag = cache.blk[i].way[j].tag;
+				addr.idx = i;
+				addr.ofs = 0;
+				Log("addr = 0x%x", addr.addr);
+				uint8_t k;
+				for (k = 0; k < 64; k++)
+					Log("data = 0x%x", cache.blk[i].way[j].data[k]);
+				Log("cache end\n");
+			}
+	return 0;
+}
 
 static int cmd_cache(char *args) 
 {
@@ -290,6 +308,7 @@ static struct {
 	{ "p", "Print the value", cmd_p},
 	{ "bt", "Backtrace stack frame", cmd_bt},
 	{ "write", "Write a 0xff to memory", cmd_write},
+	{ "showcache", "Show all the cache", cmd_show_cache},
 	{ "cache", "Examine cache", cmd_cache},
 	{ "test", "Test examples", cmd_test},
 	/* TODO: Add more commands */
@@ -319,7 +338,6 @@ static int cmd_help(char *args) {
 	}
 	return 0;
 }
-
 
 void ui_mainloop() {
 	while(1) {
