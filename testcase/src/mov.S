@@ -2,7 +2,14 @@
 
 .globl _start
 _start:
-	mov $0x000000ff, %eax
+	mov $0x04030201, %eax
+	mov %eax, (%edi)
+	mov $0x08070605, %eax
+	mov %eax, 0x4(%edi)
+	lgdt (%edi)
+
+	lgdt (0x000000ff)
+
 	mov %eax, %cs
 	mov %eax, %ss
 	mov %eax, %ds
@@ -11,9 +18,6 @@ _start:
 	mov %eax, %gs
 	mov $0x80000000, %ebp
 	mov $0x80000000, %esp
-	mov %eax, (%edi)
-	mov $0x01, %eax
-	mov %eax, 0x4(%edi)
 	mov $0x02, %eax
 	mov %eax, 0x8(%edi)
 	mov $0x05, %eax

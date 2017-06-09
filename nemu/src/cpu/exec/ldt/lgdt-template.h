@@ -4,6 +4,7 @@
 
 static void do_execute() {
 	Log("op->src =%#x\n", op_src->val);
+	Log("1");
 	print_asm_template1();
 }
 
