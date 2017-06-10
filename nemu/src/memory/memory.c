@@ -6,6 +6,7 @@
 #define PAGE_MASK (PAGE_LEN - 1)
 
 uint32_t dram_read(hwaddr_t, size_t);
+uint32_t hwaddr_read(hwaddr_t addr, size_t len);
 void dram_write(hwaddr_t, size_t, uint32_t);
 
 static lnaddr_t seg_translate(swaddr_t addr, uint8_t sreg)
@@ -18,11 +19,63 @@ static lnaddr_t seg_translate(swaddr_t addr, uint8_t sreg)
 
 static hwaddr_t page_translate(lnaddr_t addr)
 {
+	union {
+		uint32_t val;
+		struct {
+			uint32_t offset	: 12;
+			uint32_t idx_2	: 10;
+			uint32_t idx_1	: 10;
+		};
+	} temp;
+	union {
+		uint32_t val;
+		struct {
+			uint32_t present			: 1;
+			uint32_t read_write			: 1;
+			uint32_t user_supervisor	: 1;
+			uint32_t page_write_through	: 1;
+			uint32_t page_cache_disable	: 1;
+			uint32_t accessed			: 1;
+			uint32_t pad0				: 6;
+			uint32_t page_frame			: 20;
+		};
+	} pde;
+	union {
+		uint32_t val;
+		struct {
+			uint32_t present             : 1;
+			uint32_t read_write          : 1;
+			uint32_t user_supervisor     : 1;
+			uint32_t page_write_through  : 1;
+			uint32_t page_cache_disable  : 1;
+			uint32_t accessed            : 1;
+			uint32_t dirty               : 1;
+			uint32_t pad0                : 1;
+			uint32_t global              : 1;
+			uint32_t pad1                : 3;
+			uint32_t page_frame          : 20;
+		};
+	} pte;
+	
+	temp.val = addr;
+//	Log("temp.val = %#-8x	idx_1 = %#-8x	idx_2 = %#-8x\n", temp.val, temp.idx_1, temp.idx_2);
+//	Log("cpu.cr3 = %#-8x\n", cpu.cr3);
+
+	pde.val = hwaddr_read((cpu.cr3 & ~PAGE_MASK) + temp.idx_1 * 4, 4);
+	Assert(pde.present, "this page director entry is not presented!");
+
+
+	pte.val = hwaddr_read((pde.val & ~PAGE_MASK) + temp.idx_2 * 4, 4);
+	Assert(pte.present, "this page table entry is not presented!");
+
+	return ((pte.page_frame << 12) + temp.offset);
+//	Log("temp.idx_2 = %#-8x\n", temp.idx_2);
+//	Log("pte = %#-8x\n", pte.page_frame);
+	
 	panic("To be completed");
 }
 
 /* Memory accessing interfaces */
-
 uint32_t hwaddr_read(hwaddr_t addr, size_t len)
 {
 	/* if (len = 1) return dram_read(addr, len) & 1111b */
@@ -51,6 +104,7 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len)
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data)
 {
 	hwaddr_write(addr, len, data);
+
 }
 
 uint32_t swaddr_read(swaddr_t addr, size_t len, uint8_t sreg)

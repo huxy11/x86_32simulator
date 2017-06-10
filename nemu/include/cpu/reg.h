@@ -76,7 +76,13 @@ typedef struct {
 			uint32_t _pg : 1;
 		} _cr0;
 	};
-	uint32_t cr3;
+	union {
+		uint32_t cr3;
+		struct {
+			uint32_t : 10;
+			uint32_t pdb : 22;
+		} _cr3;
+	};
 	struct {
 		uint32_t base;
 		uint16_t lmt;

@@ -78,6 +78,7 @@ static int cmd_info(char *args)
 	}
 	switch (args[0]) {
 	case 'r':
+		printf("%%eip = %#-8x \n\n", cpu.eip);
 		for (i = 0;i < 8; i++) 
 			printf("%%%s:%#-8x%s", regsl[i], cpu.gpr[i]._32,	\
 				   	i % 4 == 3 ? "\n" : "\t");
