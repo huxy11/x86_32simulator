@@ -7,6 +7,7 @@
 #define decode_i concat(decode_i_, SUFFIX)
 #define decode_a concat(decode_a_, SUFFIX)
 #define decode_r2rm concat(decode_r2rm_, SUFFIX)
+#define decode_rmaddr_internal concat3(decode_rmaddr_, SUFFIX, _internal)
 
 /* Ib, Iv */
 make_helper(concat(decode_i_, SUFFIX)) {
@@ -68,7 +69,18 @@ static int concat3(decode_r_, SUFFIX, _internal) (swaddr_t eip, Operand *op) {
 
 static int concat3(decode_rm_, SUFFIX, _internal) (swaddr_t eip, Operand *rm, Operand *reg) {
 	rm->size = DATA_BYTE;
-	int len = read_ModR_M(eip, rm, reg);
+	int len = read_ModR_M(eip, rm, reg, false);
+	reg->val = REG(reg->reg);
+
+#ifdef DEBUG
+	snprintf(reg->str, OP_STR_SIZE, "%%%s", REG_NAME(reg->reg));
+#endif
+	return len;
+}
+
+static int concat3(decode_rmaddr_, SUFFIX, _internal) (swaddr_t eip, Operand *rm, Operand *reg) {
+	rm->size = DATA_BYTE;
+	int len = read_ModR_M(eip, rm, reg, true);
 	reg->val = REG(reg->reg);
 
 #ifdef DEBUG
@@ -90,10 +102,13 @@ make_helper(concat(decode_r2rm_, SUFFIX)) {
 make_helper(concat(decode_rm2r_, SUFFIX)) {
 	return decode_rm_internal(eip, op_src, op_dest);
 }
+make_helper(concat(decode_rmaddr2r_, SUFFIX)) {
+	return decode_rmaddr_internal(eip, op_src, op_dest);	
+}
 
 make_helper(concat(decode_rmb2r_, SUFFIX)) {
 	op_src->size = 1;
-	int len = read_ModR_M(eip, op_src, op_dest);
+	int len = read_ModR_M(eip, op_src, op_dest, false);
 	op_src->simm = (int8_t)op_src->val;
 	//Log("op_src->simm = %d\n", op_src->simm);
 	op_dest->val = REG(op_dest->reg);
@@ -106,7 +121,7 @@ make_helper(concat(decode_rmb2r_, SUFFIX)) {
 #if DATA_BYTE == 4
 make_helper(decode_rmw2r_l) {
 	op_src->size = 2;
-	int len = read_ModR_M(eip, op_src, op_dest);
+	int len = read_ModR_M(eip, op_src, op_dest, false);
 	op_src->simm = (int16_t)op_src->val;
 	op_dest->val = reg_l(op_dest->reg);
 #ifdef DEBUG
@@ -205,7 +220,6 @@ make_helper(concat(decode_rm_imm_, SUFFIX)) {
 
 void concat(write_operand_, SUFFIX) (Operand *op, DATA_TYPE src) {
 	if(op->type == OP_TYPE_REG) {
-		//Log("op->reg = %d\n", op->reg);
 	   	REG(op->reg) = src; 
 	}
 	else if(op->type == OP_TYPE_MEM) { swaddr_write(op->addr, op->size, src); }

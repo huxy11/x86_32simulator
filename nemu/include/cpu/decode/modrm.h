@@ -29,7 +29,7 @@ typedef union {
 } SIB;
 
 int load_addr(swaddr_t, ModR_M *, Operand *);
-int read_ModR_M(swaddr_t, Operand *, Operand *);
+int read_ModR_M(swaddr_t, Operand *, Operand *, uint8_t addr_only);
 
 #define MODRM_ASM_BUF_SIZE 32
 extern char ModR_M_asm[];

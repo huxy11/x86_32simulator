@@ -3,7 +3,7 @@
 #include "cpu/reg.h"
 
 #define PAGE_LEN 4096		//4KB per page
-#define PAGE_MASK (PAGE_LEN - 1)
+#define PAGE_OFFSET_MASK (PAGE_LEN - 1)
 
 uint32_t dram_read(hwaddr_t, size_t);
 uint32_t hwaddr_read(hwaddr_t addr, size_t len);
@@ -58,14 +58,20 @@ static hwaddr_t page_translate(lnaddr_t addr)
 	} pte;
 	
 	temp.val = addr;
+	if (temp.idx_1 == 127) {
+		Log("eip == %#-8x\n", cpu.eip);
+		Log("addr = %#-8x\n", addr);
+	}
 //	Log("temp.val = %#-8x	idx_1 = %#-8x	idx_2 = %#-8x\n", temp.val, temp.idx_1, temp.idx_2);
-//	Log("cpu.cr3 = %#-8x\n", cpu.cr3);
+//	Log("cpu.cr3 = %#-8x\n", cpu.cr3 & ~PAGE_OFFSET_MASK);
 
-	pde.val = hwaddr_read((cpu.cr3 & ~PAGE_MASK) + temp.idx_1 * 4, 4);
-	Assert(pde.present, "this page director entry is not presented!");
+	pde.val = hwaddr_read((cpu.cr3 & ~PAGE_OFFSET_MASK) + temp.idx_1 * 4, 4);
+	Assert(pde.present, "this page director entry is not presented!\n\
+			addr = %#-8x  %%cr3=%#x  mask = %#x  %%cr3 & mask = %#x idx = %d",\
+		   	addr, cpu.cr3, ~PAGE_OFFSET_MASK, cpu.cr3 & ~PAGE_OFFSET_MASK, temp.idx_1);
 
 
-	pte.val = hwaddr_read((pde.val & ~PAGE_MASK) + temp.idx_2 * 4, 4);
+	pte.val = hwaddr_read((pde.val & ~PAGE_OFFSET_MASK) + temp.idx_2 * 4, 4);
 	Assert(pte.present, "this page table entry is not presented!");
 
 	return ((pte.page_frame << 12) + temp.offset);
@@ -93,8 +99,8 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len)
 	hwaddr_t hwaddr;
 	if (cpu._cr0._pg) {
 		hwaddr = page_translate(addr);
-		uint32_t offset = hwaddr & PAGE_MASK;
-		Assert (offset + len <= PAGE_LEN, "Cross the page boundary!\n");
+		uint32_t offset = hwaddr & PAGE_OFFSET_MASK;
+		Assert(offset + len <= PAGE_LEN, "Cross the page boundary!\n");
 	} else 
 		hwaddr = addr;
 		
@@ -103,8 +109,14 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len)
 
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data)
 {
-	hwaddr_write(addr, len, data);
-
+	hwaddr_t hwaddr;
+	if (cpu._cr0._pg) {
+		hwaddr = page_translate(addr);
+		uint32_t offset = hwaddr & PAGE_OFFSET_MASK;
+		Assert(offset + len <= PAGE_LEN, "Cross the page boundary!\n");
+	} else
+		hwaddr = addr;
+	hwaddr_write(hwaddr, len, data);
 }
 
 uint32_t swaddr_read(swaddr_t addr, size_t len, uint8_t sreg)

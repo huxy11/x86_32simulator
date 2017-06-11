@@ -78,7 +78,10 @@ static int cmd_info(char *args)
 	}
 	switch (args[0]) {
 	case 'r':
-		printf("%%eip = %#-8x \n\n", cpu.eip);
+		printf("%%cr3 = %#x\n", cpu.cr3);
+		printf("%%cr0 = %#x\n", cpu.cr0);
+		printf("%%eip = %#x\n", cpu.eip);
+		printf("\n");
 		for (i = 0;i < 8; i++) 
 			printf("%%%s:%#-8x%s", regsl[i], cpu.gpr[i]._32,	\
 				   	i % 4 == 3 ? "\n" : "\t");
@@ -90,9 +93,6 @@ static int cmd_info(char *args)
 		for (i = 0; i < 8; i++)
 			printf("%%%s:%#-8x%s", regsb[i], reg_b(i),			\
 					i % 4 == 3 ? "\n" : "\t");
-		printf("\n");
-		printf("%%cr0 = %#x\n", cpu.cr0);
-		printf("%%eip = %#x\n", cpu.eip);
 		printf("\n");
 		printf("%%gdtr.base = %#x\tgdtr.lmt = %#x\n", cpu.gdtr.base, cpu.gdtr.lmt);
 		for (i = 0; i < 4; i++)

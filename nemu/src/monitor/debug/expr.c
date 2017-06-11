@@ -9,7 +9,7 @@
 static bool _success = true;
 
 enum {
-	NOTYPE = 256, EQ, NUM, NEG, DRF, HEX, REG, VAR,
+	NOTYPE = 256, EQ, NUM, NEG, DRF, HEX, REG, VAR, MEM
 };
 
 static struct rule {
@@ -25,8 +25,9 @@ static struct rule {
 	{"\\(", '('},
 	{"\\)", ')'},
 	{"0[xX][0-9a-fA-F]+", HEX}, 
-	{"\\$[a-z]+", REG},
+	{"\\$[a-z0-9]+", REG},
 	{"[0-9]+", NUM},
+	{"[mM]\\:0[xX][0-9a-fA-F]+", MEM},
 	{"[a-zA-Z_][a-zA-Z0-9]*", VAR},
 	{"", NEG},
 	{"", DRF},
@@ -98,6 +99,7 @@ static bool make_token(char *e) {
 				switch(rules[i].token_type) {
 				case VAR:
 				case NUM:
+				case MEM:
 				case HEX:
 				case REG:
 					strncpy(tokens[nr_token].str, substr_start, substr_len);
@@ -174,6 +176,10 @@ static int eval(int p, int q)
 			return atoi(tokens[p].str);
 		case HEX:
 			return htoi(tokens[p].str);
+		case MEM: {
+			uint32_t addr = htoi(tokens[p].str + 2);
+			return swaddr_read(addr, 1, 3);
+		}
 		case REG:
 			return regtoi(tokens[p].str);
 		case VAR: {

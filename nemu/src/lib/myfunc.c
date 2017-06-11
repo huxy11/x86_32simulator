@@ -35,9 +35,13 @@ int htoi(char *h)
 int regtoi(char *reg)
 {
 	reg++;
-	int i = 0;
-	if(!strcmp(reg, "eip"))
+	if (!strcmp(reg, "cr0"))
+		return cpu.cr0;
+	if (!strcmp(reg, "cr3"))
+		return cpu.cr3;
+	if (!strcmp(reg, "eip"))
 		return cpu.eip;
+	int i = 0;
 	for (;i < 8; i++) {
 		if (!strcmp(reg, regsl[i]))
 			return reg_l(i);
