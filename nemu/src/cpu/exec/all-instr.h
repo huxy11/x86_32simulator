@@ -77,3 +77,6 @@
 #include "rep/rep.h"
 
 #include "ldt/lgdt.h"
+
+#include "std/std.h"
+#include "cld/cld.h"

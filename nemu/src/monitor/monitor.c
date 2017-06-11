@@ -80,6 +80,8 @@ void restart() {
 	/* Perform some initialization to restart a program */
 	/* Real model */
 	cpu.cr0 = 0;
+	cpu.gdtr.base = 0;
+	cpu.gdtr.lmt = 0xffff;
 #ifdef USE_RAMDISK
 	/* Read the file with name `argv[1]' into ramdisk. */
 	init_ramdisk();
@@ -92,9 +94,14 @@ void restart() {
 	/* Set the initial instruction pointer. */
 	cpu.eip = ENTRY_START;
 	
-	/* Set CS register */
+	/* Set Segment register */
+	int i;
+	for (i = 0; i < 4; i++) {
+		cpu.sreg_base[i] = 0;
+		cpu.sreg_lmt[i] = 0xffffffff;
+	}
 	cpu.cs_base = 0;
-	cpu.cs_lmt = 0xfffff;
+	cpu.cs_lmt = 0xffffffff;
 
 	/* Initialize the EFLAGS register */
 	cpu.eflags = 0x00000002;

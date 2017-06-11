@@ -105,7 +105,7 @@ void ddr3_write(hwaddr_t addr, void *data, uint8_t *mask) {
 }
 
 uint32_t dram_read(hwaddr_t addr, size_t len) {
-	Log("read in 0x%x\n", addr);
+	//Log("read in 0x%x\n", addr);
 
 #if 1
 	uint32_t cache_offset = addr & CACHE_BURST_MASK;
@@ -130,7 +130,7 @@ uint32_t dram_read(hwaddr_t addr, size_t len) {
 }
 
 void dram_write(hwaddr_t addr, size_t len, uint32_t data) {
-	Log("write 0x%x into 0x%x\n", data, addr);
+	//Log("write 0x%x into 0x%x\n", data, addr);
 #if 1
 	uint32_t cache_offset = addr &CACHE_BURST_MASK;
 	uint8_t cache_temp[2 * CACHE_BURST_LEN];
@@ -142,7 +142,7 @@ void dram_write(hwaddr_t addr, size_t len, uint32_t data) {
 	
 	int k;
 	for (k = 0; k < 128; k++)
-		Log("%d:0x%x 0x%x", k, cache_temp[k], cache_mask[k]);
+		//Log("%d:0x%x 0x%x", k, cache_temp[k], cache_mask[k]);
 	
 	cache_write(addr, CACHE_BURST_LEN, cache_temp, cache_mask);
 	if (cache_offset + len > CACHE_BURST_LEN) {
@@ -204,7 +204,7 @@ void cache_write(hwaddr_t addr, uint32_t len, void *data, uint8_t* mask)
 	temp.addr = addr;
 	uint32_t idx = temp.idx;
 	uint32_t tag = temp.tag;
-	uint32_t ofs = temp.ofs;
+	//uint32_t ofs = temp.ofs;
 
 	int i;
 	for (i = 0; i < 8; i++)
@@ -214,13 +214,13 @@ void cache_write(hwaddr_t addr, uint32_t len, void *data, uint8_t* mask)
 			return;
 		}
 	/* addr is not in the cache */
-	Log("addr is not in the cache, add i\n");
+	//Log("addr is not in the cache, add i\n");
 	int j = rand() % 8;
 	for (i = 0; i < 8; i++)
 		if (!cache.blk[idx].way[i].valid)
 			j = i;
 	cache_add(addr & ~CACHE_BURST_MASK, idx, tag, j);
-	Log("ofs = %d, len = %d\n", ofs, len);
+	//Log("ofs = %d, len = %d\n", ofs, len);
 	memcpy_with_mask(cache.blk[idx].way[j].data, data, len, mask);
 }
 

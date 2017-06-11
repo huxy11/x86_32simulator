@@ -56,7 +56,6 @@ typedef struct {
 		};
 	};
 	union {
-		/* max(lmt) = 0xfffff (20bits) */
 		uint32_t sreg_lmt[4];
 		struct {
 			uint32_t es_lmt, cs_lmt, ss_lmt, ds_lmt;
@@ -69,9 +68,25 @@ typedef struct {
 	};
 #endif
 	uint32_t eip;
-	uint32_t cr0;
-	uint32_t gdtr;
-	uint32_t gdtr_lmt;
+	union {
+		uint32_t cr0;
+		struct {
+			uint32_t _pe : 1;
+			uint32_t	 : 30;
+			uint32_t _pg : 1;
+		} _cr0;
+	};
+	union {
+		uint32_t cr3;
+		struct {
+			uint32_t : 10;
+			uint32_t pdb : 22;
+		} _cr3;
+	};
+	struct {
+		uint32_t base;
+		uint16_t lmt;
+	} gdtr;
 } CPU_state;
 
 extern CPU_state cpu;
